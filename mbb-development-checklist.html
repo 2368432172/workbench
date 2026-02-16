@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Develop Your Career Like an MBB Consultant — Alex's Workbench</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f6f1;
+      --bg-warm: #f2efe8;
+      --surface: #ffffff;
+      --border: #ddd9d0;
+      --border-light: #eae6de;
+      --text: #1e1e1e;
+      --text-mid: #505050;
+      --text-muted: #908a80;
+      --accent: #c2943a;
+      --accent-soft: #c2943a12;
+      --accent-border: #c2943a30;
+      --example-bg: #f4f1eb;
+      --section-num: #c2943a;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-md: 0 6px 24px rgba(0,0,0,0.06), 0 1px 5px rgba(0,0,0,0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: 0.01em;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 3rem;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(248, 246, 241, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .nav-logo:hover { opacity: 0.75; }
+
+    .nav-logo-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .nav-back {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+
+    .nav-back:hover {
+      background: var(--bg-warm);
+      color: var(--text);
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.35rem; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-trigger {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); background: transparent; border: none;
+      border-radius: var(--radius-sm); cursor: pointer;
+      transition: all 0.2s; font-family: inherit; letter-spacing: 0.01em;
+    }
+    .nav-dropdown-trigger:hover { background: var(--bg-warm); color: var(--text); }
+    .nav-dropdown-trigger .arrow { font-size: 0.55rem; transition: transform 0.25s; opacity: 0.45; }
+    .nav-dropdown.open .arrow { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute; top: calc(100% + 8px); right: 0; min-width: 250px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: 0 16px 48px rgba(0,0,0,0.07), 0 3px 12px rgba(0,0,0,0.04);
+      padding: 0.6rem; opacity: 0; visibility: hidden;
+      transform: translateY(-10px) scale(0.98); transition: all 0.22s ease; pointer-events: none;
+    }
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;
+    }
+    .dropdown-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 0.85rem; border-radius: var(--radius-sm);
+      text-decoration: none; color: var(--text); font-size: 0.88rem;
+      transition: background 0.15s; cursor: pointer;
+    }
+    .dropdown-item:hover { background: var(--bg); }
+    .dropdown-item .item-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .dropdown-item .item-text { display: flex; flex-direction: column; }
+    .dropdown-item .item-label { font-weight: 600; line-height: 1.35; font-size: 0.88rem; }
+    .dropdown-item .item-desc { font-size: 0.76rem; color: var(--text-muted); line-height: 1.35; }
+    .nav-link-simple {
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); text-decoration: none;
+      border-radius: var(--radius-sm); transition: all 0.2s;
+    }
+    .nav-link-simple:hover { background: var(--bg-warm); color: var(--text); }
+
+    /* Article container — wider */
+    .article {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 8.5rem 2.5rem 5rem;
+    }
+
+    /* Article header */
+    .article-tag {
+      display: inline-flex;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+      background: #3872b810;
+      color: #3872b8;
+      border: 1px solid #3872b825;
+      margin-bottom: 1.5rem;
+    }
+
+    .article h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3rem);
+      line-height: 1.25;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    .article-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding-bottom: 2.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Intro section */
+    .article-intro {
+      margin-bottom: 2.75rem;
+    }
+
+    .article-intro p {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Table of contents */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .toc-title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc-counter;
+    }
+
+    .toc li {
+      counter-increment: toc-counter;
+      margin-bottom: 0.5rem;
+    }
+
+    .toc li a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      color: var(--text-mid);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.3rem 0;
+      transition: color 0.2s;
+    }
+
+    .toc li a:hover { color: var(--text); }
+
+    .toc li a::before {
+      content: counter(toc-counter);
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 1.2rem;
+    }
+
+    /* Section headings */
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 3.5rem;
+      margin-bottom: 1.75rem;
+      padding-top: 1rem;
+    }
+
+    .section-number {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 2rem;
+      line-height: 1;
+    }
+
+    .section-heading h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    /* Sub-section heading with numbering */
+    .skill-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--accent);
+      min-width: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    .skill-heading h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    /* Body paragraphs */
+    .article p {
+      font-size: 1.08rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* Example boxes */
+    .example-box {
+      background: var(--example-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0 1.75rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    .example-box strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .example-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Context/intro boxes */
+    .context-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Why-it-matters boxes */
+    .why-box {
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.5rem;
+      margin: 0.75rem 0 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    /* Question items (section 7) */
+    .question-item {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* Sub-group heading (section 7) */
+    .subgroup-heading {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 2.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* Closing quote box */
+    .closing-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    .closing-box em {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Download CTA */
+    .download-section {
+      margin-top: 4rem;
+      padding: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .download-section h3 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+
+    .download-section p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .download-btn:hover {
+      background: #333;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .download-note {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 2.5rem;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--text-mid);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 0.85rem;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 999;
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.5rem; height: 66px; }
+      .article { padding: 7.5rem 1.5rem 4rem; }
+      .toc { padding: 1.5rem 1.75rem; }
+      .example-box, .why-box { padding: 1rem 1.25rem; }
+      .download-section { padding: 2rem 1.5rem; }
+      .article-meta { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .skill-heading { flex-direction: column; gap: 0.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
+      <span class="nav-logo-text">Alex's Workbench</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-dropdown" id="toolboxDropdown">
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'toolboxDropdown')">Toolbox <span class="arrow">▼</span></button>
+        <div class="nav-dropdown-menu">
+          <a class="dropdown-item" href="index.html#gadgets"><span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span><span class="item-text"><span class="item-label">All Gadgets</span><span class="item-desc">Mini tools and apps I've built</span></span></a>
+          <a class="dropdown-item" href="index.html#gadgets-calculator"><span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span><span class="item-text"><span class="item-label">Calculators</span><span class="item-desc">Number crunching made easy</span></span></a>
+          <a class="dropdown-item" href="index.html#gadgets-tool"><span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span><span class="item-text"><span class="item-label">Utilities</span><span class="item-desc">Handy tools for everyday tasks</span></span></a>
+        </div>
+      </div>
+      <div class="nav-dropdown" id="resourcesDropdown">
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'resourcesDropdown')">Resources <span class="arrow">▼</span></button>
+        <div class="nav-dropdown-menu">
+          <a class="dropdown-item" href="index.html#resources"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span><span class="item-text"><span class="item-label">All Resources</span><span class="item-desc">Checklists, guides, and frameworks</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-checklist"><span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span><span class="item-text"><span class="item-label">Checklists</span><span class="item-desc">Step-by-step action lists</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-framework"><span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span><span class="item-text"><span class="item-label">Frameworks</span><span class="item-desc">Mental models and thinking tools</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-template"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a>
+        </div>
+      </div>
+      <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank">LinkedIn</a>
+    </div>
+  </nav>
+
+  <article class="article">
+    <span class="article-tag">Checklist / Guide</span>
+    <h1>Develop Your Career Like an MBB Consultant</h1>
+    <p class="article-subtitle">A practical guide to building the professional skills that matter most in your first 1–2 years, with tangible examples of what "good" looks like for each.</p>
+
+    <div class="article-meta">
+      <span>✍️ Alex</span>
+      <span>📅 2026</span>
+      <span>⏱️ 15 min read</span>
+    </div>
+
+    <!-- Intro -->
+    <div class="article-intro">
+      <p>As an MBB consultant, I've watched the thing that once made us valuable — the ability to build complex models, crunch data, and synthesise research — get replicated by AI in a fraction of the time. The hard truth? The analytical edge that used to take years to develop is no longer a differentiator. What still separates the people who accelerate from those who plateau are the skills no tool can touch: how you communicate under pressure, how you manage someone senior to you, and how you make people want to work with you again.</p>
+      <p>This is the checklist I wish someone had handed me on day one. Each skill comes with a concrete example of what "good" actually looks like in practice — because I've never found vague advice like "be proactive" or "communicate well" useful, and I doubt you have either.</p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#s1">Communication & Presence</a></li>
+        <li><a href="#s2">Managing Up</a></li>
+        <li><a href="#s3">Managing Expectations & Pushing Back</a></li>
+        <li><a href="#s4">Working Effectively</a></li>
+        <li><a href="#s5">Working with Team Members & Stakeholders</a></li>
+        <li><a href="#s6">Managing a Remote, Senior Manager</a></li>
+        <li><a href="#s7">First Meeting with Your Manager: Setup Guide</a></li>
+        <li><a href="#s8">Self-Advocacy & Career Management</a></li>
+      </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-heading" id="s1">
+      <span class="section-number">1</span>
+      <h2>Communication & Presence</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.1</span>
+      <h3>Structured communication (answer-first)</h3>
+    </div>
+    <p>Lead with your recommendation, then the logic, then the data. In every format — emails, Slack, check-ins, presentations. Never bury the punchline.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Instead of: "I looked at market share data across 12 categories and found some interesting trends in snacking and beverages…" say: <strong>"We should prioritise snacking for private label expansion — it has the largest share gap versus competitors and the highest margin upside. Here's the data."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.2</span>
+      <h3>Calibrating detail to your audience</h3>
+    </div>
+    <p>Know when a Partner needs two sentences versus when a workstream lead needs the full analysis. Read what level of detail someone actually wants.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Partner asks "how's the pricing work going?" — they want: <strong>"We're landing on a 3–5% price increase in dairy, backed by elasticity analysis. I'll have the full recommendation Thursday."</strong> They don't want a 10-minute walkthrough of your spreadsheet.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.3</span>
+      <h3>Speaking up with a point of view</h3>
+    </div>
+    <p>Don't just report findings. Have a "so what" and be willing to say it, even when senior people are in the room.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Instead of: "Private label penetration is 12% vs. 25% at the competitor." Say: <strong>"Our private label penetration in snacking is half the competitor's. That tells me it's not a pricing issue — it's a range and perception issue. I think we should look at the assortment before we touch price."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.4</span>
+      <h3>Concise written updates</h3>
+    </div>
+    <p>Emails, case updates, and status notes should be tight and scannable. Don't make people work to find the point.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Weekly update to your manager: <strong>"On track for Friday delivery. Key finding: loyalty program benchmarking shows subscription models drive 2–3x higher retention than points-based. One blocker: waiting on client data for tier modelling — chasing today."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.5</span>
+      <h3>Active listening and confirming understanding</h3>
+    </div>
+    <p>Paraphrase back what someone asked for before going off to do it. This single habit prevents enormous amounts of rework.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      After a Partner gives you a task: <strong>"Just to make sure I'm aligned — you want a one-page view of the top 5 categories by margin gap, with a recommendation on where to prioritise private label investment. I'll aim to have a draft by Wednesday for your input. Does that sound right?"</strong>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-heading" id="s2">
+      <span class="section-number">2</span>
+      <h2>Managing Up</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.1</span>
+      <h3>Proactive alignment on expectations</h3>
+    </div>
+    <p>At the start of every task, explicitly clarify what "good" looks like — the output format, depth, and timeline — before you start working.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Before diving into analysis: <strong>"Before I start, can I check — are you looking for a quick directional chart I can share in tomorrow's check-in, or a full slide pack with the methodology? That'll help me scope the right level of detail."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.2</span>
+      <h3>Flagging early, not late</h3>
+    </div>
+    <p>Raise blockers, timeline risks, or scope concerns before they become problems. MBB rule of thumb: if you're stuck for more than 30–45 minutes, say something.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"Heads up — I'm 45 minutes into the elasticity modelling and the client data has major gaps in the beverage category. I have two options: proxy with syndicated data (faster, directional) or go back to the client for a clean pull (slower, precise). Which do you prefer?"</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.3</span>
+      <h3>Managing your manager's time</h3>
+    </div>
+    <p>Come to check-ins with a clear structure: here's where I am, here's where I'm stuck, here's what I need from you.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Start of a 15-minute check-in: <strong>"Three things. First, the competitive pricing deck is 80% done — I'll share a draft tonight. Second, I'm stuck on how to frame the loyalty benchmarking for the client — can I walk you through two options? Third, I need 5 minutes with the Partner before Thursday to align on the recommendation."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.4</span>
+      <h3>Asking for feedback explicitly and regularly</h3>
+    </div>
+    <p>Don't wait for formal reviews. Ask after key milestones, then visibly act on it.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      After delivering a workstream: <strong>"Now that we've wrapped the pricing piece, I'd love your honest feedback — what's one thing I could do differently on the next workstream to step up?"</strong> Then reference it later: "You mentioned I should tighten my storylines — I've restructured this deck with that in mind. Does this feel sharper?"
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.5</span>
+      <h3>Articulating what you want to learn</h3>
+    </div>
+    <p>Be specific about your development goals, not vague. Make it easy for your manager to help you.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Instead of: "I want more client exposure." Say: <strong>"I'd like to co-lead the next client workshop. I'm comfortable with the analysis but want to build my facilitation skills. Could we plan for me to run one section with your coaching beforehand?"</strong>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-heading" id="s3">
+      <span class="section-number">3</span>
+      <h2>Managing Expectations & Pushing Back</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.1</span>
+      <h3>Scoping before committing</h3>
+    </div>
+    <p>When someone asks you to do something, pause to understand scope before saying yes.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Partner says "can you pull together something on the competitive landscape?" Instead of immediately opening a blank slide: <strong>"Absolutely. Just to scope this — are you thinking a quick one-pager comparing the top 3 competitors on price and range, or a deeper analysis across all categories? And is this for internal discussion or client-facing?"</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.2</span>
+      <h3>Saying no constructively</h3>
+    </div>
+    <p>Frame pushback as trade-offs, not refusal. This is especially important if you come from a culture that emphasises deference — it's the most valuable skill to build.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"I can do the competitive analysis by Friday, or the competitive analysis plus the loyalty benchmarking by next Tuesday. Which would be more useful for where we are in the case?"</strong> This isn't saying no — it's helping the senior person make a better decision.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.3</span>
+      <h3>Negotiating timelines</h3>
+    </div>
+    <p>Offer alternatives rather than absorbing unrealistic deadlines silently.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"If we need this by tomorrow morning, I'd suggest we narrow to the top 3 categories and use directional data. If we want the comprehensive view with client data, Wednesday is more realistic. Happy to do either — what's more useful for the Partner meeting?"</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.4</span>
+      <h3>Protecting your development amidst delivery pressure</h3>
+    </div>
+    <p>Raise development goals in staffing conversations and with your career advisor. Don't just hope good projects come your way.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      In a staffing conversation: <strong>"I've done two pricing cases back-to-back and feel strong there. For my next case, I'd love exposure to a growth strategy or a digital topic — I think that would round out my profile for the next review cycle."</strong>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-heading" id="s4">
+      <span class="section-number">4</span>
+      <h2>Working Effectively</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.1</span>
+      <h3>80/20 thinking before diving in</h3>
+    </div>
+    <p>Spend 10–15 minutes structuring your approach before opening Excel or PowerPoint. Identify the one analysis that would actually move the answer.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Before building a 20-tab model: <strong>"The real question is whether the margin gap is driven by price, mix, or cost. Let me start with a simple bridge that isolates which lever matters most — then I'll only go deep on the one that moves the needle."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.2</span>
+      <h3>Iterating early with rough drafts</h3>
+    </div>
+    <p>Share a 60% version for direction before polishing to 100%. This is counterintuitive if you were taught to only show finished work, but it's essential.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Send your manager a rough slide with a hand-drawn chart and a sticky note saying: <strong>"This is the story I'm thinking — does the framing land before I build out the full analysis?"</strong> Getting alignment at 60% saves hours of rework at 100%.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.3</span>
+      <h3>Building efficient slides</h3>
+    </div>
+    <p>Learn the slide structure: action title (the so-what), governing thought, and supporting evidence. Your output should be Partner-ready with fewer revision cycles.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Slide title should NOT be: "Competitive Pricing Analysis." It SHOULD be: <strong>"Client is 8–12% above market in 3 of 5 key categories, suggesting targeted repricing could recover ~$15M in volume."</strong> The title alone should tell the story.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.4</span>
+      <h3>Time-boxing and knowing when to stop</h3>
+    </div>
+    <p>Recognise diminishing returns and move on. Perfecting something that's already good enough costs time you could spend on higher-impact work.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      You've spent 3 hours formatting a chart. Ask yourself: <strong>"If I showed this to the Partner right now, would they send me back to fix the formatting or ask about the insight?"</strong> If it's the insight, stop formatting and sharpen the so-what instead.
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section-heading" id="s5">
+      <span class="section-number">5</span>
+      <h2>Working with Team Members & Stakeholders</h2>
+    </div>
+
+    <div class="context-box">Context: Your team is small — you, one associate with IB experience, a support person, and a senior manager who is also your career advisor. In a team this size, every relationship is load-bearing. There's no structure to hide behind.</div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.1</span>
+      <h3>Building trust and rapport in a small team</h3>
+    </div>
+    <p>In a 3–4 person team, relationships are the operating system. Invest early in understanding your teammates' working styles, strengths, and communication preferences.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      First week with your IB-background colleague: <strong>"Hey, I come from a consulting background so I tend to think in frameworks and storylines. I know IB is more model-driven. I'd love to understand how you like to work — maybe we can find a rhythm where we play to each other's strengths."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.2</span>
+      <h3>Managing a peer relationship (not just a hierarchy)</h3>
+    </div>
+    <p>With one other associate, you need clear ownership, honest communication, and mutual support — without it turning competitive.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Proactively split work: <strong>"Let's divide this so we each own a clear piece. I'll take the market sizing and competitive analysis, you take the financial modelling and unit economics. We sync Wednesday to pressure-test each other's work before sharing with our manager."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.3</span>
+      <h3>Leveraging different backgrounds and perspectives</h3>
+    </div>
+    <p>Your colleague's IB experience means they'll think differently from you. That's an asset, not friction. Draw on each other's strengths deliberately.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      When building a business case together: <strong>"You're stronger on the financial structuring — can you pressure-test my assumptions on the revenue build? I'll stress-test your competitive positioning since I've done a lot of benchmarking work."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.4</span>
+      <h3>Navigating disagreements constructively</h3>
+    </div>
+    <p>In a small team, unresolved tension is immediately toxic. Address differences directly but without making it personal.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      If you and your peer disagree on an approach: <strong>"I see your point on going bottom-up for the forecast — the granularity is useful. My concern is the timeline. What if we start top-down to get a directional answer by Friday, then layer in the bottom-up detail next week?"</strong> Disagree on method, align on outcome.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.5</span>
+      <h3>Managing the support person effectively</h3>
+    </div>
+    <p>Delegating well is a skill. Be clear on what you need, when you need it, and what format — don't make them guess.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Instead of: "Can you pull some data on ad pricing?" Say: <strong>"Could you pull together a table showing ad CPM benchmarks by format for Australia, sourced from the latest industry reports? I need it by Thursday in a format I can drop into a slide."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5.6</span>
+      <h3>Creating visibility when your manager is remote and stretched</h3>
+    </div>
+    <p>Your manager won't have day-to-day context on your work. Proactively surface your output and impact — don't assume they'll notice.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      After completing a piece of analysis, send a brief async note: <strong>"Completed the competitive pricing benchmark this week. Key finding: our CPMs are 15–20% above Meta in the SMB segment, which flags a repricing opportunity. Full deck attached — happy to walk through it when useful."</strong>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section-heading" id="s6">
+      <span class="section-number">6</span>
+      <h2>Managing a Remote, Senior Manager</h2>
+    </div>
+
+    <div class="context-box">This is a unique dynamic: your manager and career advisor are the same person, they're remote, and they're senior with a lot on their plate. You need to make it easy for them to manage you, support you, and advocate for you — all in limited time.</div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.1</span>
+      <h3>Making every interaction count</h3>
+    </div>
+    <p>With limited face time, every check-in needs to be high-signal. Don't use precious minutes on status updates they could read async. Use live time for decisions, alignment, and feedback.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Before a check-in, send a 3-line async update an hour beforehand: <strong>"Status: pricing benchmark done, competitive analysis 70% complete. Blocker: need your input on scope for the SMB segment. Question for our call: how do you want me to frame the recommendation for the leadership review?"</strong> Now your call starts at the decision, not the update.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.2</span>
+      <h3>Adapting to their communication preferences</h3>
+    </div>
+    <p>Some managers want structured updates, others want a quick voice note. Figuring this out early saves friction.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      In your first meeting: <strong>"What's the best way to keep you in the loop — do you prefer a weekly written update, quick Slack messages as things progress, or should I save things for our catch-ups? I want to make sure I'm giving you visibility without adding noise."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.3</span>
+      <h3>Being your own narrator for career development</h3>
+    </div>
+    <p>They're the single most important person for your progression. But they're remote and busy. You need to explicitly frame your growth and contributions — they won't piece it together from context.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Before a review cycle: <strong>"Ahead of the review, I wanted to share a quick summary of what I've been focused on and where I think I've grown. I've also flagged one area I want to develop next. Would be great to get your perspective in our next catch-up."</strong> Attach a concise 1-page summary.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.4</span>
+      <h3>Proactively managing the dual relationship</h3>
+    </div>
+    <p>The risk of a combined manager/advisor is that all conversations default to delivery and development falls off. You need to actively carve out space for career conversations.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"I know we're deep in delivery right now, but could we use 10 minutes of our next call for a development check-in? I'd love to get your take on how I'm tracking and where I should focus for the next quarter."</strong> Explicitly asking for this signals maturity, not neediness.
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section-heading" id="s7">
+      <span class="section-number">7</span>
+      <h2>First Meeting with Your Manager: Setup Guide</h2>
+    </div>
+
+    <div class="context-box">Your first meeting sets the tone for the entire relationship. This conversation is your chance to establish how you'll work together, what "good" looks like, and how they'll evaluate you. Don't leave these things to chance — ask directly.</div>
+
+    <p>Frame the conversation upfront: "I'm really excited to be joining the team. I want to make sure I set myself up well from the start, so I'd love to use some of our time today to understand how you like to work and what success looks like in this role. I've got a few questions if that's okay."</p>
+
+    <div class="subgroup-heading">Understanding Their Working Style</div>
+
+    <p class="question-item">"What's the best way to keep you updated — do you prefer async written updates, quick Slack messages, or saving things for our catch-ups?"</p>
+    <div class="why-box">This prevents you from either over-communicating (annoying a busy manager) or under-communicating (making them feel out of the loop). It also shows you respect their time.</div>
+
+    <p class="question-item">"How often would you like us to have a regular check-in, and what format works best for you?"</p>
+    <div class="why-box">Establishes a cadence early. If they say "as needed," suggest a standing 20-minute slot anyway — it's easier to cancel than to constantly chase time.</div>
+
+    <p class="question-item">"When I'm stuck or need a decision, what's the best way to reach you quickly? Is there a channel you're most responsive on?"</p>
+    <div class="why-box">Critical for a remote relationship. You need to know whether to Slack, email, or text when something is urgent versus when to batch it.</div>
+
+    <p class="question-item">"What's your preferred level of detail? Do you want to see the workings, or just the conclusions and recommendations?"</p>
+    <div class="why-box">Some managers want to see the sausage being made; others just want the answer. Getting this wrong wastes both your time.</div>
+
+    <div class="subgroup-heading">Understanding Expectations & What "Good" Looks Like</div>
+
+    <p class="question-item">"What does success look like for me in the first 90 days? What would make you feel confident I'm on track?"</p>
+    <div class="why-box">This is the most important question. It gives you a concrete target and makes it easy to demonstrate progress against their definition of success, not yours.</div>
+
+    <p class="question-item">"Are there any early wins or priorities you'd want me to focus on in the first few weeks?"</p>
+    <div class="why-box">Shows initiative and helps you prioritise. Also reveals what they're under pressure to deliver — helping them on their priorities builds trust fast.</div>
+
+    <p class="question-item">"Beyond the obvious things like delivering quality work on time — what's something that really separates the best people in this role?"</p>
+    <div class="why-box">By explicitly giving them permission to skip the generic advice, you force out the non-obvious stuff — the things you'd only learn by being told or by watching someone great over time.</div>
+
+    <p class="question-item">"Is there anything previous people in this role did particularly well, or struggled with, that I should learn from?"</p>
+    <div class="why-box">Gives you the cheat code. If they say "the last person didn't communicate enough," you now know to over-index on visibility.</div>
+
+    <div class="subgroup-heading">Setting Up Your Development</div>
+
+    <p class="question-item">"Could we carve out time periodically — maybe monthly — to check in on my development separately from delivery?"</p>
+    <div class="why-box">This is the single most proactive thing you can do. It tells them you take your growth seriously, and it creates a structural safeguard against development being crowded out by day-to-day work.</div>
+
+    <p class="question-item">"I'm keen to develop in [specific area]. Are there opportunities in this role where I could build those skills?"</p>
+    <div class="why-box">Shows you've already thought about your development. Also plants a seed — so when opportunities arise, they think of you.</div>
+
+    <p class="question-item">"What's the best way for me to give you feedback on how I'm finding things? I want to make sure the communication goes both ways."</p>
+    <div class="why-box">This is a subtle power move. It signals maturity and creates a two-way dynamic. Most juniors never ask this, and managers notice when someone does.</div>
+
+    <div class="subgroup-heading">Understanding the Team Dynamic</div>
+
+    <p class="question-item">"How do you see the responsibilities split between me and my peer? Are there natural boundaries, or do you want us to figure that out together?"</p>
+    <div class="why-box">Prevents ambiguity and potential friction. If the manager defines it, great. If they say "figure it out," you and your peer need to proactively set boundaries.</div>
+
+    <p class="question-item">"Are there stakeholders outside our immediate team that I should be building relationships with early?"</p>
+    <div class="why-box">Shows you're thinking beyond your immediate scope. Helps you map the influence landscape — who matters, who has context, who you'll need to align with.</div>
+
+    <p class="question-item">"Is there anything about the team culture or how this group operates that would be helpful for me to know upfront?"</p>
+    <div class="why-box">An open-ended question that often surfaces gold — things like "we move fast and don't over-polish" or "the leadership team values data over storytelling." This helps you calibrate your style from day one.</div>
+
+    <div class="subgroup-heading">Closing the Conversation</div>
+
+    <div class="closing-box">
+      End with: "This has been really helpful. I'll send you a quick note summarising what we discussed so we're aligned. And I'll make sure our first few check-ins are high-signal so we find a good rhythm early. Thanks for making the time."
+      <em>Then actually send the summary. This does two things: it confirms alignment (so there's no ambiguity), and it immediately demonstrates the structured communication skills you're trying to build. First impressions compound.</em>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="section-heading" id="s8">
+      <span class="section-number">8</span>
+      <h2>Self-Advocacy & Career Management</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.1</span>
+      <h3>Owning your narrative at review time</h3>
+    </div>
+    <p>Don't assume your work speaks for itself. Proactively share your contributions, impact, and growth with your manager in the language they use to evaluate performance.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Before your review: prepare a one-page summary with 3–4 key contributions framed as "I did X, which led to Y impact." For instance: <strong>"Led the competitive pricing benchmarking that informed the client's $100M repricing decision, which the Partner cited as a turning point in the engagement."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.2</span>
+      <h3>Seeking sponsors, not just mentors</h3>
+    </div>
+    <p>A mentor gives advice. A sponsor puts your name forward in rooms you're not in. Identify senior people who will actively advocate for you, and give them specific reasons to.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      After a strong case: <strong>"Really enjoyed working with you on this. I'm keen to build more experience in [specific area] — if you hear of cases that would be a good fit, I'd love to be considered."</strong> You're not asking them to be your sponsor — you're making it easy for them to be one.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.3</span>
+      <h3>Understanding what top ratings actually require</h3>
+    </div>
+    <p>Don't guess at the evaluation criteria. Ask people who've been rated highly what they did differently, and ask your manager what would move you from "good" to "outstanding."</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      To a senior associate you trust: <strong>"You got a top rating last cycle — what do you think made the difference? Was it the type of work, how you communicated impact, or something else?"</strong> Then to your manager: "What would I need to demonstrate in the next 3 months to be tracking toward a top rating?"
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.4</span>
+      <h3>Managing your exit narrative</h3>
+    </div>
+    <p>If you're planning to leave after 1–2 years, be intentional about the skills and stories you're building. Every project is a future interview answer.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      When choosing what to work on, ask: <strong>"Will this give me a story I can tell in 12 months about driving a measurable outcome?"</strong> Prioritise work that lets you say: "I led X, which resulted in Y" — not just "I supported Z."
+    </div>
+
+    <!-- Download CTA -->
+    <div class="download-section">
+      <h3>Take this with you</h3>
+      <p>Download the full checklist as a document to reference anytime.</p>
+      <a class="download-btn" href="MBB_Development_Checklist.docx" download>
+        ⬇ Download Checklist (.docx)
+      </a>
+      <p class="download-note">Word document · Original formatting preserved</p>
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;padding:2rem 0;">
+      <p style="font-size:1.1rem;color:var(--text-mid);margin-bottom:0.75rem;">Thanks for reading — I hope this is useful.</p>
+      <p style="font-size:1rem;color:var(--text-muted);margin-bottom:1.5rem;">Follow me on LinkedIn for more.</p>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border-radius:100px;font-size:0.95rem;font-weight:600;background:#0a66c2;color:#fff;text-decoration:none;transition:all 0.25s;font-family:inherit;" onmouseover="this.style.background='#004182';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0a66c2';this.style.transform='none'">Follow on LinkedIn →</a>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">← Back to Workbench</a>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank">LinkedIn</a>
+      <a href="#">GitHub</a>
+    </div>
+    <p>Built by Alex · 2025</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const article = document.querySelector('.article');
+      const rect = article.getBoundingClientRect();
+      const articleTop = window.scrollY + rect.top;
+      const articleHeight = rect.height;
+      const scrolled = window.scrollY - articleTop;
+      const progress = Math.min(Math.max(scrolled / (articleHeight - window.innerHeight), 0), 1);
+      document.getElementById('progressBar').style.width = (progress * 100) + '%';
+    });
+
+    document.querySelectorAll('.toc a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          const offset = 90;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Dropdowns
+    function toggleDropdown(event, id) {
+      event.stopPropagation();
+      const el = document.getElementById(id);
+      const wasOpen = el.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+      if (!wasOpen) el.classList.add('open');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-dropdown'))
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape')
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>

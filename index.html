@@ -7,519 +7,236 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f8f6f1;
-      --bg-warm: #f2efe8;
-      --surface: #ffffff;
-      --surface-hover: #fcfbf9;
-      --border: #ddd9d0;
-      --border-light: #eae6de;
-      --text: #1e1e1e;
-      --text-mid: #505050;
-      --text-muted: #908a80;
-      --accent: #c2943a;
-      --accent-soft: #c2943a18;
-
-      --gadget: #2d8572;
-      --gadget-bg: #2d857210;
-      --gadget-border: #2d857225;
-      --tool-color: #bf6d35;
-      --tool-bg: #bf6d3510;
-      --tool-border: #bf6d3525;
-      --calc-color: #3872b8;
-      --calc-bg: #3872b810;
-      --calc-border: #3872b825;
-      --check-color: #3872b8;
-      --check-bg: #3872b810;
-      --check-border: #3872b825;
-      --frame-color: #9055a2;
-      --frame-bg: #9055a210;
-      --frame-border: #9055a225;
-      --template-color: #7a5aad;
-      --template-bg: #7a5aad10;
-      --template-border: #7a5aad25;
-      --guide-color: #bf6d35;
-      --guide-bg: #bf6d3510;
-      --guide-border: #bf6d3525;
-
-      --radius: 16px;
-      --radius-sm: 10px;
+      --bg: #f8f6f1; --bg-warm: #f2efe8; --surface: #ffffff; --surface-hover: #fcfbf9;
+      --border: #ddd9d0; --border-light: #eae6de;
+      --text: #1e1e1e; --text-mid: #505050; --text-muted: #908a80;
+      --accent: #c2943a; --accent-soft: #c2943a18;
+      --gadget: #2d8572; --gadget-bg: #2d857210; --gadget-border: #2d857225;
+      --tool-color: #bf6d35; --tool-bg: #bf6d3510; --tool-border: #bf6d3525;
+      --calc-color: #3872b8; --calc-bg: #3872b810; --calc-border: #3872b825;
+      --check-color: #3872b8; --check-bg: #3872b810; --check-border: #3872b825;
+      --frame-color: #9055a2; --frame-bg: #9055a210; --frame-border: #9055a225;
+      --template-color: #7a5aad; --template-bg: #7a5aad10; --template-border: #7a5aad25;
+      --guide-color: #bf6d35; --guide-bg: #bf6d3510; --guide-border: #bf6d3525;
+      --radius: 16px; --radius-sm: 10px;
       --shadow-sm: 0 1px 4px rgba(0,0,0,0.03);
       --shadow-md: 0 6px 24px rgba(0,0,0,0.06), 0 1px 5px rgba(0,0,0,0.03);
       --shadow-lg: 0 16px 48px rgba(0,0,0,0.07), 0 3px 12px rgba(0,0,0,0.04);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      letter-spacing: 0.01em;
+      background: var(--bg); color: var(--text); line-height: 1.7;
+      min-height: 100vh; -webkit-font-smoothing: antialiased; letter-spacing: 0.01em;
     }
 
+    /* ── NAV (persistent on all pages) ── */
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 0 3rem;
-      height: 72px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(248, 246, 241, 0.85);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border-bottom: 1px solid var(--border-light);
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 0 3rem; height: 72px; display: flex;
+      justify-content: space-between; align-items: center;
+      background: rgba(248,246,241,0.85); backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px); border-bottom: 1px solid var(--border-light);
     }
-
     .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      text-decoration: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
+      display: flex; align-items: center; gap: 0.7rem;
+      text-decoration: none; cursor: pointer; transition: opacity 0.2s;
     }
-
     .nav-logo:hover { opacity: 0.75; }
     .nav-logo svg { flex-shrink: 0; }
-
     .nav-logo-text {
-      font-family: 'Source Serif 4', serif;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: 0.01em;
+      font-family: 'Source Serif 4', serif; font-size: 1.2rem;
+      font-weight: 500; color: var(--text); letter-spacing: 0.01em;
     }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
+    .nav-right { display: flex; align-items: center; gap: 0.35rem; }
     .nav-dropdown { position: relative; }
-
     .nav-dropdown-trigger {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.55rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-mid);
-      background: transparent;
-      border: none;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      letter-spacing: 0.01em;
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); background: transparent; border: none;
+      border-radius: var(--radius-sm); cursor: pointer;
+      transition: all 0.2s; font-family: inherit; letter-spacing: 0.01em;
     }
-
-    .nav-dropdown-trigger:hover {
-      background: var(--bg-warm);
-      color: var(--text);
-    }
-
-    .nav-dropdown-trigger .arrow {
-      font-size: 0.55rem;
-      transition: transform 0.25s;
-      opacity: 0.45;
-    }
-
+    .nav-dropdown-trigger:hover { background: var(--bg-warm); color: var(--text); }
+    .nav-dropdown-trigger .arrow { font-size: 0.55rem; transition: transform 0.25s; opacity: 0.45; }
     .nav-dropdown.open .arrow { transform: rotate(180deg); }
-
     .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      min-width: 250px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      padding: 0.6rem;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px) scale(0.98);
-      transition: all 0.22s ease;
-      pointer-events: none;
+      position: absolute; top: calc(100% + 8px); right: 0; min-width: 250px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 0.6rem;
+      opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.98);
+      transition: all 0.22s ease; pointer-events: none;
     }
-
     .nav-dropdown.open .nav-dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
+      opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;
     }
-
     .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.7rem 0.85rem;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      color: var(--text);
-      font-size: 0.88rem;
-      transition: background 0.15s;
-      cursor: pointer;
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 0.85rem; border-radius: var(--radius-sm);
+      text-decoration: none; color: var(--text); font-size: 0.88rem;
+      transition: background 0.15s; cursor: pointer;
     }
-
     .dropdown-item:hover { background: var(--bg); }
-
     .dropdown-item .item-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      flex-shrink: 0;
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
     }
-
     .dropdown-item .item-text { display: flex; flex-direction: column; }
-
-    .dropdown-item .item-label {
-      font-weight: 600;
-      line-height: 1.35;
-      font-size: 0.88rem;
-    }
-
-    .dropdown-item .item-desc {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
+    .dropdown-item .item-label { font-weight: 600; line-height: 1.35; font-size: 0.88rem; }
+    .dropdown-item .item-desc { font-size: 0.76rem; color: var(--text-muted); line-height: 1.35; }
     .nav-link-simple {
-      padding: 0.55rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-mid);
-      text-decoration: none;
-      border-radius: var(--radius-sm);
-      transition: all 0.2s;
-      letter-spacing: 0.01em;
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); text-decoration: none;
+      border-radius: var(--radius-sm); transition: all 0.2s; letter-spacing: 0.01em;
     }
+    .nav-link-simple:hover { background: var(--bg-warm); color: var(--text); }
 
-    .nav-link-simple:hover {
-      background: var(--bg-warm);
-      color: var(--text);
-    }
-
+    /* ── HERO ── */
     .hero {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 11rem 2.5rem 5.5rem;
-      text-align: center;
+      max-width: 820px; margin: 0 auto; padding: 11rem 2.5rem 5.5rem; text-align: center;
     }
-
     .hero-wave {
-      font-size: 2.5rem;
-      display: inline-block;
-      animation: wave 2.5s ease-in-out infinite;
-      transform-origin: 70% 70%;
-      margin-bottom: 1.5rem;
+      font-size: 2.5rem; display: inline-block;
+      animation: wave 2.5s ease-in-out infinite; transform-origin: 70% 70%; margin-bottom: 1.5rem;
     }
-
     @keyframes wave {
-      0%, 100% { transform: rotate(0deg); }
-      15% { transform: rotate(14deg); }
-      30% { transform: rotate(-8deg); }
-      40% { transform: rotate(14deg); }
-      50% { transform: rotate(-4deg); }
-      60% { transform: rotate(10deg); }
-      70%, 100% { transform: rotate(0deg); }
+      0%,100%{transform:rotate(0)}15%{transform:rotate(14deg)}30%{transform:rotate(-8deg)}
+      40%{transform:rotate(14deg)}50%{transform:rotate(-4deg)}60%{transform:rotate(10deg)}70%,100%{transform:rotate(0)}
     }
-
     .hero h1 {
       font-family: 'Source Serif 4', serif;
-      font-size: clamp(2.6rem, 5.5vw, 3.8rem);
-      line-height: 1.22;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.15s;
+      font-size: clamp(2.6rem, 5.5vw, 3.8rem); line-height: 1.22;
+      color: var(--text); margin-bottom: 1.5rem; font-weight: 400;
+      letter-spacing: -0.01em; opacity: 0; animation: fadeUp 0.7s ease forwards 0.15s;
     }
-
     .hero-desc {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 540px;
-      margin: 0 auto;
-      line-height: 1.8;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.3s;
+      font-size: 1.15rem; color: var(--text-muted); max-width: 540px;
+      margin: 0 auto; line-height: 1.8; font-weight: 400; letter-spacing: 0.01em;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.3s;
     }
-
     .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 0.85rem;
-      margin-top: 2.75rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.45s;
+      display: flex; justify-content: center; gap: 0.85rem; margin-top: 2.75rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.45s;
     }
-
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.65rem;
-      border-radius: 100px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.25s;
-      font-family: inherit;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.01em;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.65rem; border-radius: 100px; font-size: 0.92rem;
+      font-weight: 600; text-decoration: none; transition: all 0.25s;
+      font-family: inherit; border: none; cursor: pointer; letter-spacing: 0.01em;
     }
-
     .btn-dark { background: var(--text); color: var(--bg); }
+    .btn-dark:hover { background: #333; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-outline { background: var(--surface); color: var(--text-mid); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--surface-hover); border-color: #c5c0b5; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
 
-    .btn-dark:hover {
-      background: #333;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-outline {
-      background: var(--surface);
-      color: var(--text-mid);
-      border: 1px solid var(--border);
-    }
-
-    .btn-outline:hover {
-      background: var(--surface-hover);
-      border-color: #c5c0b5;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
-    }
-
+    /* ── STATS ── */
     .stats-row {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2.5rem 3.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 4rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.55s;
+      max-width: 900px; margin: 0 auto; padding: 0 2.5rem 3.5rem;
+      display: flex; justify-content: center; gap: 4rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.55s;
     }
-
     .stat { text-align: center; }
+    .stat-number { font-family: 'Source Serif 4', serif; font-size: 2rem; color: var(--text); font-weight: 400; }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; letter-spacing: 0.02em; }
 
-    .stat-number {
-      font-family: 'Source Serif 4', serif;
-      font-size: 2rem;
-      color: var(--text);
-      font-weight: 400;
+    /* ── FEATURED ── */
+    .featured-section {
+      max-width: 920px; margin: 0 auto; padding: 0 2.5rem 3rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.6s;
     }
-
-    .stat-label {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-      letter-spacing: 0.02em;
+    .featured-label {
+      font-weight: 700; font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem;
     }
+    .featured-card {
+      display: flex; background: var(--surface); border: 1px solid var(--border-light);
+      border-radius: var(--radius); padding: 2.25rem; text-decoration: none;
+      color: inherit; transition: all 0.3s ease; gap: 1.5rem; align-items: center;
+    }
+    .featured-card:hover { border-color: var(--border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .featured-emoji { font-size: 2.5rem; flex-shrink: 0; }
+    .featured-content { flex-grow: 1; }
+    .featured-tag {
+      display: inline-flex; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.25rem 0.55rem; border-radius: 5px; font-weight: 500;
+      background: var(--guide-bg); color: var(--guide-color); border: 1px solid var(--guide-border);
+      margin-bottom: 0.65rem;
+    }
+    .featured-title {
+      font-family: 'Source Serif 4', serif; font-size: 1.35rem;
+      font-weight: 500; margin-bottom: 0.4rem;
+    }
+    .featured-desc { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+    .featured-arrow { font-size: 0.9rem; color: var(--text-muted); flex-shrink: 0; font-weight: 500; }
 
+    /* ── HOME SECTIONS ── */
     .home-sections {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 0 2.5rem 7rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.65s;
+      max-width: 920px; margin: 0 auto; padding: 0 2.5rem 7rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.65s;
     }
-
     .home-section-card {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius);
-      padding: 2.25rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-      display: block;
+      background: var(--surface); border: 1px solid var(--border-light);
+      border-radius: var(--radius); padding: 2.25rem; cursor: pointer;
+      transition: all 0.3s ease; text-decoration: none; color: inherit; display: block;
     }
-
-    .home-section-card:hover {
-      border-color: var(--border);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-3px);
-    }
-
-    .home-section-card .section-emoji {
-      font-size: 2rem;
-      margin-bottom: 1.15rem;
-      display: block;
-    }
-
-    .home-section-card h3 {
-      font-family: 'Source Serif 4', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 0.55rem;
-    }
-
-    .home-section-card p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 1.25rem;
-    }
-
+    .home-section-card:hover { border-color: var(--border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .home-section-card .section-emoji { font-size: 2rem; margin-bottom: 1.15rem; display: block; }
+    .home-section-card h3 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 0.55rem; }
+    .home-section-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; }
     .home-section-card .card-count {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      transition: color 0.2s;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;
+      color: var(--text-muted); transition: color 0.2s;
     }
-
     .home-section-card:hover .card-count { color: var(--text-mid); }
 
+    /* ── PAGE SECTIONS (gadgets/resources) ── */
     .page-section {
-      display: none;
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 7.5rem 2.5rem 5rem;
-      min-height: 100vh;
+      display: none; max-width: 1120px; margin: 0 auto; padding: 7.5rem 2.5rem 5rem; min-height: 100vh;
     }
-
-    .page-section.active {
-      display: block;
-      animation: fadeIn 0.35s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
+    .page-section.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from{opacity:0}to{opacity:1} }
     .page-header { margin-bottom: 2.75rem; }
-
     .page-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      margin-bottom: 1.5rem;
-      cursor: pointer;
-      transition: color 0.2s;
-      font-weight: 500;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.88rem; color: var(--text-muted); text-decoration: none;
+      margin-bottom: 1.5rem; cursor: pointer; transition: color 0.2s; font-weight: 500;
     }
-
     .page-back:hover { color: var(--text); }
-
     .page-header h2 {
-      font-family: 'Source Serif 4', serif;
-      font-size: 2.5rem;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.01em;
+      font-family: 'Source Serif 4', serif; font-size: 2.5rem;
+      font-weight: 400; margin-bottom: 0.5rem; letter-spacing: -0.01em;
     }
+    .page-header p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
 
-    .page-header p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .filter-bar {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 2.25rem;
-      flex-wrap: wrap;
-    }
-
+    /* ── FILTERS ── */
+    .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 2.25rem; flex-wrap: wrap; }
     .filter-pill {
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      font-size: 0.84rem;
-      font-weight: 500;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      letter-spacing: 0.01em;
+      padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.84rem;
+      font-weight: 500; border: 1px solid var(--border); background: transparent;
+      color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+      font-family: inherit; letter-spacing: 0.01em;
     }
+    .filter-pill:hover { border-color: #bbb5a8; color: var(--text-mid); background: var(--surface); }
+    .filter-pill.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    .filter-pill:hover {
-      border-color: #bbb5a8;
-      color: var(--text-mid);
-      background: var(--surface);
-    }
-
-    .filter-pill.active {
-      background: var(--text);
-      color: var(--bg);
-      border-color: var(--text);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-
+    /* ── CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius);
-      padding: 1.85rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
+      background: var(--surface); border: 1px solid var(--border-light);
+      border-radius: var(--radius); padding: 1.85rem; transition: all 0.3s ease;
+      cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column;
     }
-
-    .card:hover {
-      border-color: var(--border);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-3px);
-    }
-
-    .card-emoji {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
+    .card:hover { border-color: var(--border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .card-emoji { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
     .card-tag {
-      display: inline-flex;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.66rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.65rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      width: fit-content;
-      font-weight: 500;
+      display: inline-flex; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.3rem 0.65rem; border-radius: 6px; margin-bottom: 1rem;
+      width: fit-content; font-weight: 500;
     }
-
     .tag-gadget { background: var(--gadget-bg); color: var(--gadget); border: 1px solid var(--gadget-border); }
     .tag-tool { background: var(--tool-bg); color: var(--tool-color); border: 1px solid var(--tool-border); }
     .tag-calculator { background: var(--calc-bg); color: var(--calc-color); border: 1px solid var(--calc-border); }
@@ -527,200 +244,79 @@
     .tag-framework { background: var(--frame-bg); color: var(--frame-color); border: 1px solid var(--frame-border); }
     .tag-template { background: var(--template-bg); color: var(--template-color); border: 1px solid var(--template-border); }
     .tag-guide { background: var(--guide-bg); color: var(--guide-color); border: 1px solid var(--guide-border); }
-
-    .card h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.55rem;
-      line-height: 1.4;
-    }
-
-    .card .card-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      flex-grow: 1;
-    }
-
+    .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.55rem; line-height: 1.4; }
+    .card .card-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; flex-grow: 1; }
     .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1.25rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-light);
     }
+    .card-date { font-size: 0.76rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+    .card-action { font-size: 0.82rem; font-weight: 600; color: var(--text-mid); display: flex; align-items: center; gap: 0.3rem; transition: all 0.2s; }
+    .card:hover .card-action { gap: 0.5rem; color: var(--text); }
 
-    .card-date {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.02em;
-    }
-
-    .card-action {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-mid);
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: all 0.2s;
-    }
-
-    .card:hover .card-action {
-      gap: 0.5rem;
-      color: var(--text);
-    }
-
+    /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 3rem 2.5rem;
-      border-top: 1px solid var(--border-light);
-      color: var(--text-muted);
-      font-size: 0.84rem;
+      text-align: center; padding: 3rem 2.5rem;
+      border-top: 1px solid var(--border-light); color: var(--text-muted); font-size: 0.84rem;
     }
-
-    footer a {
-      color: var(--text-mid);
-      text-decoration: none;
-      transition: color 0.2s;
-      font-weight: 500;
-    }
-
+    footer a { color: var(--text-mid); text-decoration: none; transition: color 0.2s; font-weight: 500; }
     footer a:hover { color: var(--text); }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 0.85rem; }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 0.85rem;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 960px) {
-      .card-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 640px) {
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+    @media (max-width:960px) { .card-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width:640px) {
       nav { padding: 0 1.5rem; height: 66px; }
-      .nav-logo-text { font-size: 1.05rem; }
       .hero { padding: 9rem 1.75rem 4rem; }
       .hero h1 { font-size: 2.2rem; }
-      .hero-desc { font-size: 1.02rem; }
       .card-grid { grid-template-columns: 1fr; }
       .home-sections { grid-template-columns: 1fr; padding: 0 1.75rem 5rem; }
       .page-section { padding: 6.5rem 1.75rem 3.5rem; }
       .stats-row { gap: 2.5rem; padding: 0 1.75rem 3rem; }
       .hero-buttons { flex-direction: column; align-items: center; }
       .nav-dropdown-menu { right: -0.5rem; min-width: 220px; }
-      .nav-link-simple { padding: 0.5rem 0.65rem; font-size: 0.84rem; }
-      .nav-dropdown-trigger { padding: 0.5rem 0.65rem; font-size: 0.84rem; }
+      .nav-link-simple, .nav-dropdown-trigger { padding: 0.5rem 0.65rem; font-size: 0.84rem; }
+      .featured-card { flex-direction: column; text-align: center; }
+      .featured-arrow { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
+  <!-- ══ NAV (always visible) ══ -->
   <nav>
     <a class="nav-logo" onclick="showHome()">
-      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="34" height="34" rx="9" fill="#1e1e1e"/>
-        <path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/>
-        <rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/>
-        <rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/>
-        <rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/>
-        <rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/>
-        <rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/>
-        <circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/>
-        <line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-      </svg>
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
       <span class="nav-logo-text">Alex's Workbench</span>
     </a>
     <div class="nav-right">
       <div class="nav-dropdown" id="toolboxDropdown">
-        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event, 'toolboxDropdown')">
-          Toolbox <span class="arrow">▼</span>
-        </button>
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'toolboxDropdown')">Toolbox <span class="arrow">▼</span></button>
         <div class="nav-dropdown-menu">
-          <a class="dropdown-item" onclick="showPage('gadgets'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span>
-            <span class="item-text">
-              <span class="item-label">All Gadgets</span>
-              <span class="item-desc">Mini tools and apps I've built</span>
-            </span>
-          </a>
-          <a class="dropdown-item" onclick="filterAndShow('gadgets','calculator'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span>
-            <span class="item-text">
-              <span class="item-label">Calculators</span>
-              <span class="item-desc">Number crunching made easy</span>
-            </span>
-          </a>
-          <a class="dropdown-item" onclick="filterAndShow('gadgets','tool'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span>
-            <span class="item-text">
-              <span class="item-label">Utilities</span>
-              <span class="item-desc">Handy tools for everyday tasks</span>
-            </span>
-          </a>
+          <a class="dropdown-item" onclick="showPage('gadgets');closeDropdowns();"><span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span><span class="item-text"><span class="item-label">All Gadgets</span><span class="item-desc">Mini tools and apps I've built</span></span></a>
+          <a class="dropdown-item" onclick="filterAndShow('gadgets','calculator');closeDropdowns();"><span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span><span class="item-text"><span class="item-label">Calculators</span><span class="item-desc">Number crunching made easy</span></span></a>
+          <a class="dropdown-item" onclick="filterAndShow('gadgets','tool');closeDropdowns();"><span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span><span class="item-text"><span class="item-label">Utilities</span><span class="item-desc">Handy tools for everyday tasks</span></span></a>
         </div>
       </div>
-
       <div class="nav-dropdown" id="resourcesDropdown">
-        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event, 'resourcesDropdown')">
-          Resources <span class="arrow">▼</span>
-        </button>
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'resourcesDropdown')">Resources <span class="arrow">▼</span></button>
         <div class="nav-dropdown-menu">
-          <a class="dropdown-item" onclick="showPage('resources'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span>
-            <span class="item-text">
-              <span class="item-label">All Resources</span>
-              <span class="item-desc">Checklists, guides, and frameworks</span>
-            </span>
-          </a>
-          <a class="dropdown-item" onclick="filterAndShow('resources','checklist'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span>
-            <span class="item-text">
-              <span class="item-label">Checklists</span>
-              <span class="item-desc">Step-by-step action lists</span>
-            </span>
-          </a>
-          <a class="dropdown-item" onclick="filterAndShow('resources','framework'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span>
-            <span class="item-text">
-              <span class="item-label">Frameworks</span>
-              <span class="item-desc">Mental models and thinking tools</span>
-            </span>
-          </a>
-          <a class="dropdown-item" onclick="filterAndShow('resources','template'); closeDropdowns();">
-            <span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span>
-            <span class="item-text">
-              <span class="item-label">Templates</span>
-              <span class="item-desc">Ready-to-use docs and sheets</span>
-            </span>
-          </a>
+          <a class="dropdown-item" onclick="showPage('resources');closeDropdowns();"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span><span class="item-text"><span class="item-label">All Resources</span><span class="item-desc">Checklists, guides, and frameworks</span></span></a>
+          <a class="dropdown-item" onclick="filterAndShow('resources','checklist');closeDropdowns();"><span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span><span class="item-text"><span class="item-label">Checklists</span><span class="item-desc">Step-by-step action lists</span></span></a>
+          <a class="dropdown-item" onclick="filterAndShow('resources','framework');closeDropdowns();"><span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span><span class="item-text"><span class="item-label">Frameworks</span><span class="item-desc">Mental models and thinking tools</span></span></a>
+          <a class="dropdown-item" onclick="filterAndShow('resources','template');closeDropdowns();"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a>
         </div>
       </div>
-
-      <a class="nav-link-simple" href="#" target="_blank">LinkedIn</a>
+      <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank">LinkedIn</a>
     </div>
   </nav>
 
-  <!-- HOME -->
+  <!-- ══ HOME ══ -->
   <div id="homePage">
     <section class="hero">
       <div class="hero-wave">👋</div>
       <h1>Hey, I'm Alex.</h1>
-      <p class="hero-desc">
-        I like building small gadgets I find fun and writing up resources
-        I actually use. Nothing fancy — just things that make life
-        a little easier. Feel free to take a look around.
-      </p>
+      <p class="hero-desc">I like building small gadgets I find fun and writing up resources I actually use. Nothing fancy — just things that make life a little easier. Feel free to take a look around.</p>
       <div class="hero-buttons">
         <button class="btn btn-dark" onclick="showPage('gadgets')">Browse Toolbox</button>
         <button class="btn btn-outline" onclick="showPage('resources')">View Resources</button>
@@ -728,37 +324,40 @@
     </section>
 
     <div class="stats-row">
-      <div class="stat">
-        <div class="stat-number" id="gadgetCount">0</div>
-        <div class="stat-label">Gadgets built</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" id="resourceCount">0</div>
-        <div class="stat-label">Resources shared</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">∞</div>
-        <div class="stat-label">Ideas in the queue</div>
-      </div>
+      <div class="stat"><div class="stat-number" id="gadgetCount">6</div><div class="stat-label">Gadgets built</div></div>
+      <div class="stat"><div class="stat-number" id="resourceCount">6</div><div class="stat-label">Resources shared</div></div>
+      <div class="stat"><div class="stat-number">∞</div><div class="stat-label">Ideas in the queue</div></div>
+    </div>
+
+    <!-- Featured -->
+    <div class="featured-section">
+      <div class="featured-label">Featured</div>
+      <a class="featured-card" href="mbb-development-checklist.html">
+        <span class="featured-emoji">🏆</span>
+        <div class="featured-content">
+          <div class="featured-tag">Guide · 15 min read</div>
+          <div class="featured-title">Develop Your Career Like an MBB Consultant</div>
+          <div class="featured-desc">A practical checklist for building the professional skills that matter most in your first 1–2 years — with tangible examples of what "good" looks like.</div>
+        </div>
+        <span class="featured-arrow">Read →</span>
+      </a>
     </div>
 
     <div class="home-sections">
       <a class="home-section-card" onclick="showPage('gadgets')">
-        <span class="section-emoji">🛠️</span>
-        <h3>Toolbox</h3>
+        <span class="section-emoji">🛠️</span><h3>Toolbox</h3>
         <p>Mini calculators, trackers, and utilities I've cobbled together to scratch my own itch.</p>
-        <span class="card-count" id="gadgetCountLabel">0 gadgets →</span>
+        <span class="card-count" id="gadgetCountLabel">6 gadgets →</span>
       </a>
       <a class="home-section-card" onclick="showPage('resources')">
-        <span class="section-emoji">📖</span>
-        <h3>Resources</h3>
+        <span class="section-emoji">📖</span><h3>Resources</h3>
         <p>Checklists, frameworks, and templates I use personally and think others might find handy too.</p>
-        <span class="card-count" id="resourceCountLabel">0 resources →</span>
+        <span class="card-count" id="resourceCountLabel">6 resources →</span>
       </a>
     </div>
   </div>
 
-  <!-- GADGETS PAGE -->
+  <!-- ══ GADGETS PAGE ══ -->
   <div class="page-section" id="gadgetsPage">
     <div class="page-header">
       <a class="page-back" onclick="showHome()">← Back home</a>
@@ -766,15 +365,15 @@
       <p>Small gadgets and tools I've built — mostly for fun, sometimes for sanity.</p>
     </div>
     <div class="filter-bar" id="gadgetFilters">
-      <button class="filter-pill active" data-filter="all" onclick="filterCards('gadgets','all', this)">All</button>
-      <button class="filter-pill" data-filter="gadget" onclick="filterCards('gadgets','gadget', this)">Gadgets</button>
-      <button class="filter-pill" data-filter="calculator" onclick="filterCards('gadgets','calculator', this)">Calculators</button>
-      <button class="filter-pill" data-filter="tool" onclick="filterCards('gadgets','tool', this)">Utilities</button>
+      <button class="filter-pill active" data-filter="all" onclick="filterCards('gadgets','all',this)">All</button>
+      <button class="filter-pill" data-filter="gadget" onclick="filterCards('gadgets','gadget',this)">Gadgets</button>
+      <button class="filter-pill" data-filter="calculator" onclick="filterCards('gadgets','calculator',this)">Calculators</button>
+      <button class="filter-pill" data-filter="tool" onclick="filterCards('gadgets','tool',this)">Utilities</button>
     </div>
     <div class="card-grid" id="gadgetGrid"></div>
   </div>
 
-  <!-- RESOURCES PAGE -->
+  <!-- ══ RESOURCES PAGE ══ -->
   <div class="page-section" id="resourcesPage">
     <div class="page-header">
       <a class="page-back" onclick="showHome()">← Back home</a>
@@ -782,177 +381,155 @@
       <p>Checklists, frameworks, and templates I use — and you're welcome to as well.</p>
     </div>
     <div class="filter-bar" id="resourceFilters">
-      <button class="filter-pill active" data-filter="all" onclick="filterCards('resources','all', this)">All</button>
-      <button class="filter-pill" data-filter="checklist" onclick="filterCards('resources','checklist', this)">Checklists</button>
-      <button class="filter-pill" data-filter="framework" onclick="filterCards('resources','framework', this)">Frameworks</button>
-      <button class="filter-pill" data-filter="template" onclick="filterCards('resources','template', this)">Templates</button>
-      <button class="filter-pill" data-filter="guide" onclick="filterCards('resources','guide', this)">Guides</button>
+      <button class="filter-pill active" data-filter="all" onclick="filterCards('resources','all',this)">All</button>
+      <button class="filter-pill" data-filter="checklist" onclick="filterCards('resources','checklist',this)">Checklists</button>
+      <button class="filter-pill" data-filter="framework" onclick="filterCards('resources','framework',this)">Frameworks</button>
+      <button class="filter-pill" data-filter="template" onclick="filterCards('resources','template',this)">Templates</button>
+      <button class="filter-pill" data-filter="guide" onclick="filterCards('resources','guide',this)">Guides</button>
     </div>
     <div class="card-grid" id="resourceGrid"></div>
   </div>
 
-  <!-- Footer -->
   <footer>
-    <div class="footer-links">
-      <a href="#" target="_blank">LinkedIn</a>
-      <a href="#">GitHub</a>
-      <a href="#">Email</a>
-    </div>
+    <div class="footer-links"><a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank">LinkedIn</a><a href="#">GitHub</a><a href="#">Email</a></div>
     <p>Built by Alex · 2025</p>
   </footer>
 
-  <script>
-    /* ═══════════════════════════════════════
-       This script loads content from content.json
-       and builds all the cards automatically.
-       You never need to edit this file!
-       ═══════════════════════════════════════ */
+<script>
+// ═══════════════════════════════════════
+// CONTENT LOADING
+// ═══════════════════════════════════════
+const TAG_LABELS = { gadget:'Gadget', calculator:'Calculator', tool:'Utility', checklist:'Checklist', framework:'Framework', template:'Template', guide:'Guide' };
 
-    let siteContent = { gadgets: [], resources: [] };
+// Fallback data embedded — also loaded from content.json if available
+const FALLBACK_DATA = {
+  "gadgets": [
+    { "emoji": "📊", "tag": "gadget", "title": "[DUMMY] Habit Streak Tracker", "description": "A minimal daily tracker with a GitHub-style heatmap. Keeps me honest without the bloat of a full productivity app.", "date": "Jun 2025", "action": "Try it", "link": "#" },
+    { "emoji": "💰", "tag": "calculator", "title": "[DUMMY] Meeting Cost Calculator", "description": "Enter attendees and salary bands — see how much that meeting just cost. A gentle nudge toward fewer, better meetings.", "date": "May 2025", "action": "Try it", "link": "#" },
+    { "emoji": "🎯", "tag": "tool", "title": "[DUMMY] Decision Randomiser", "description": "Can't pick between options? Spin the wheel. If you feel disappointed by the result, you already know what you actually wanted.", "date": "Apr 2025", "action": "Try it", "link": "#" },
+    { "emoji": "☕", "tag": "calculator", "title": "[DUMMY] Coffee Spend Tracker", "description": "Log your daily coffee purchases and watch the annual total climb. Sometimes you need a reality check, one latte at a time.", "date": "Mar 2025", "action": "Try it", "link": "#" },
+    { "emoji": "⏱️", "tag": "gadget", "title": "[DUMMY] Pomodoro Focus Timer", "description": "A distraction-free timer with session tracking. Clean, simple, and doesn't try to gamify your entire life.", "date": "Feb 2025", "action": "Try it", "link": "#" },
+    { "emoji": "🔗", "tag": "tool", "title": "[DUMMY] Link Shortener & QR Gen", "description": "Paste a long URL, get a short one and a QR code. Built because I was tired of ad-heavy free tools for something simple.", "date": "Jan 2025", "action": "Try it", "link": "#" }
+  ],
+  "resources": [
+    { "emoji": "🏆", "tag": "guide", "title": "Develop Your Career Like an MBB Consultant", "description": "A practical checklist for building the professional skills that matter most in your first 1–2 years — with tangible examples of what 'good' looks like.", "date": "Guide · 15 min read", "action": "Read", "link": "mbb-development-checklist.html" },
+    { "emoji": "🧠", "tag": "framework", "title": "[DUMMY] Decision Journal Template", "description": "Log important decisions with context, alternatives, and expected outcomes. Review later to calibrate your judgment over time.", "date": "Notion · Template", "action": "Get template", "link": "#" },
+    { "emoji": "📋", "tag": "template", "title": "[DUMMY] Weekly Review System", "description": "My weekly reflection workflow: what went well, what didn't, and what to focus on next. Simple enough to actually stick with.", "date": "Notion · Template", "action": "Get template", "link": "#" },
+    { "emoji": "🏠", "tag": "checklist", "title": "[DUMMY] Moving to a New City Checklist", "description": "Everything from finding a flat to setting up utilities, transferring registrations, and the small stuff you always forget.", "date": "PDF · 5 pages", "action": "Download", "link": "#" },
+    { "emoji": "💡", "tag": "guide", "title": "[DUMMY] How I Use AI Tools Daily", "description": "A practical rundown of how I use Claude, GPT, and other AI tools in my workflow — with real examples and prompts that work.", "date": "Blog · 8 min read", "action": "Read", "link": "#" },
+    { "emoji": "⚖️", "tag": "framework", "title": "[DUMMY] Priority Matrix Worksheet", "description": "A one-pager for sorting tasks by urgency and impact. Print it, stick it on your desk, and stop doing busy-work first.", "date": "PDF · 1 page", "action": "Download", "link": "#" }
+  ]
+};
 
-    // Tag display names
-    const TAG_LABELS = {
-      gadget: 'Gadget',
-      calculator: 'Calculator',
-      tool: 'Utility',
-      checklist: 'Checklist',
-      framework: 'Framework',
-      template: 'Template',
-      guide: 'Guide'
-    };
+function loadContent(data) {
+  buildCards('gadgets', data.gadgets, 'gadgetGrid');
+  buildCards('resources', data.resources, 'resourceGrid');
+  updateCounts(data);
+}
 
-    // Load content and build the site
-    fetch('content.json')
-      .then(res => res.json())
-      .then(data => {
-        siteContent = data;
-        buildCards('gadgets', data.gadgets, 'gadgetGrid');
-        buildCards('resources', data.resources, 'resourceGrid');
-        updateCounts(data);
-      })
-      .catch(err => {
-        console.error('Could not load content.json:', err);
-      });
+// Try loading content.json, fall back to embedded data
+fetch('content.json')
+  .then(r => r.json())
+  .then(data => loadContent(data))
+  .catch(() => loadContent(FALLBACK_DATA));
 
-    function buildCards(section, items, gridId) {
-      const grid = document.getElementById(gridId);
-      grid.innerHTML = '';
-
-      items.forEach(item => {
-        const card = document.createElement('a');
-        card.className = 'card';
-        card.dataset.category = item.tag;
-        card.href = item.link || '#';
-        if (item.link && item.link !== '#') {
-          card.target = '_blank';
-          card.rel = 'noopener noreferrer';
-        }
-
-        card.innerHTML = `
-          <span class="card-emoji">${item.emoji}</span>
-          <span class="card-tag tag-${item.tag}">${TAG_LABELS[item.tag] || item.tag}</span>
-          <h3>${item.title}</h3>
-          <p class="card-desc">${item.description}</p>
-          <div class="card-footer">
-            <span class="card-date">${item.date}</span>
-            <span class="card-action">${item.action} →</span>
-          </div>
-        `;
-
-        grid.appendChild(card);
-      });
+function buildCards(section, items, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  items.forEach(item => {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.dataset.category = item.tag;
+    card.href = item.link || '#';
+    if (item.link && item.link !== '#' && !item.link.startsWith('article:')) {
+      // External links or separate HTML pages
     }
+    card.innerHTML = `
+      <span class="card-emoji">${item.emoji}</span>
+      <span class="card-tag tag-${item.tag}">${TAG_LABELS[item.tag] || item.tag}</span>
+      <h3>${item.title}</h3>
+      <p class="card-desc">${item.description}</p>
+      <div class="card-footer">
+        <span class="card-date">${item.date}</span>
+        <span class="card-action">${item.action} →</span>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
 
-    function updateCounts(data) {
-      const gc = data.gadgets.length;
-      const rc = data.resources.length;
-      document.getElementById('gadgetCount').textContent = gc;
-      document.getElementById('resourceCount').textContent = rc;
-      document.getElementById('gadgetCountLabel').textContent = gc + ' gadget' + (gc !== 1 ? 's' : '') + ' →';
-      document.getElementById('resourceCountLabel').textContent = rc + ' resource' + (rc !== 1 ? 's' : '') + ' →';
-    }
+function updateCounts(data) {
+  const gc = data.gadgets.length, rc = data.resources.length;
+  document.getElementById('gadgetCount').textContent = gc;
+  document.getElementById('resourceCount').textContent = rc;
+  document.getElementById('gadgetCountLabel').textContent = gc + ' gadget' + (gc !== 1 ? 's' : '') + ' →';
+  document.getElementById('resourceCountLabel').textContent = rc + ' resource' + (rc !== 1 ? 's' : '') + ' →';
+}
 
-    // ── Navigation ──
-    function showHome() {
-      document.getElementById('homePage').style.display = 'block';
-      document.getElementById('gadgetsPage').classList.remove('active');
-      document.getElementById('resourcesPage').classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function showHome() {
+  document.getElementById('homePage').style.display = 'block';
+  document.getElementById('gadgetsPage').classList.remove('active');
+  document.getElementById('resourcesPage').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    function showPage(page) {
-      document.getElementById('homePage').style.display = 'none';
-      document.getElementById('gadgetsPage').classList.remove('active');
-      document.getElementById('resourcesPage').classList.remove('active');
-      document.getElementById(page + 'Page').classList.add('active');
+function showPage(page) {
+  document.getElementById('homePage').style.display = 'none';
+  document.getElementById('gadgetsPage').classList.remove('active');
+  document.getElementById('resourcesPage').classList.remove('active');
+  document.getElementById(page + 'Page').classList.add('active');
+  // Reset filters
+  const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
+  document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('#' + barId + ' .filter-pill[data-filter="all"]').classList.add('active');
+  const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
+  document.querySelectorAll('#' + gridId + ' .card').forEach(c => c.style.display = 'flex');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-      const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
-      document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
-      document.querySelector('#' + barId + ' .filter-pill[data-filter="all"]').classList.add('active');
+function filterAndShow(page, category) {
+  document.getElementById('homePage').style.display = 'none';
+  document.getElementById('gadgetsPage').classList.remove('active');
+  document.getElementById('resourcesPage').classList.remove('active');
+  document.getElementById(page + 'Page').classList.add('active');
+  const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
+  const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
+  document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
+  const pill = document.querySelector('#' + barId + ' .filter-pill[data-filter="' + category + '"]');
+  if (pill) pill.classList.add('active');
+  document.querySelectorAll('#' + gridId + ' .card').forEach(card => {
+    card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-      const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
-      document.querySelectorAll('#' + gridId + ' .card').forEach(c => c.style.display = 'flex');
+function filterCards(page, category, clickedPill) {
+  const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
+  const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
+  document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
+  clickedPill.classList.add('active');
+  document.querySelectorAll('#' + gridId + ' .card').forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = 'flex'; card.style.animation = 'fadeIn 0.3s ease';
+    } else { card.style.display = 'none'; }
+  });
+}
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function filterAndShow(page, category) {
-      document.getElementById('homePage').style.display = 'none';
-      document.getElementById('gadgetsPage').classList.remove('active');
-      document.getElementById('resourcesPage').classList.remove('active');
-      document.getElementById(page + 'Page').classList.add('active');
-
-      const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
-      const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
-
-      document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
-      const pill = document.querySelector('#' + barId + ' .filter-pill[data-filter="' + category + '"]');
-      if (pill) pill.classList.add('active');
-
-      document.querySelectorAll('#' + gridId + ' .card').forEach(card => {
-        card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
-      });
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function filterCards(page, category, clickedPill) {
-      const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
-      const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
-
-      document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
-      clickedPill.classList.add('active');
-
-      document.querySelectorAll('#' + gridId + ' .card').forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = 'flex';
-          card.style.animation = 'fadeIn 0.3s ease';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // ── Dropdowns ──
-    function toggleDropdown(event, id) {
-      event.stopPropagation();
-      const el = document.getElementById(id);
-      const wasOpen = el.classList.contains('open');
-      closeDropdowns();
-      if (!wasOpen) el.classList.add('open');
-    }
-
-    function closeDropdowns() {
-      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-    }
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.nav-dropdown')) closeDropdowns();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDropdowns();
-    });
-  </script>
+// ═══════════════════════════════════════
+// DROPDOWNS
+// ═══════════════════════════════════════
+function toggleDropdown(event, id) {
+  event.stopPropagation();
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  closeDropdowns();
+  if (!wasOpen) el.classList.add('open');
+}
+function closeDropdowns() { document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open')); }
+document.addEventListener('click', e => { if (!e.target.closest('.nav-dropdown')) closeDropdowns(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdowns(); });
+</script>
 </body>
 </html>
