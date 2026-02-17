@@ -1,7 +1,7 @@
 {
   "gadgets": [
     {
-      "emoji": "📊",
+      "emoji": "\ud83d\udcca",
       "tag": "gadget",
       "title": "[DUMMY] Habit Streak Tracker",
       "description": "A minimal daily tracker with a GitHub-style heatmap. Keeps me honest without the bloat of a full productivity app.",
@@ -10,16 +10,16 @@
       "link": "#"
     },
     {
-      "emoji": "💰",
+      "emoji": "\ud83d\udcb0",
       "tag": "calculator",
       "title": "[DUMMY] Meeting Cost Calculator",
-      "description": "Enter attendees and salary bands — see how much that meeting just cost. A gentle nudge toward fewer, better meetings.",
+      "description": "Enter attendees and salary bands \u2014 see how much that meeting just cost. A gentle nudge toward fewer, better meetings.",
       "date": "May 2025",
       "action": "Try it",
       "link": "#"
     },
     {
-      "emoji": "🎯",
+      "emoji": "\ud83c\udfaf",
       "tag": "tool",
       "title": "[DUMMY] Decision Randomiser",
       "description": "Can't pick between options? Spin the wheel. If you feel disappointed by the result, you already know what you actually wanted.",
@@ -28,7 +28,7 @@
       "link": "#"
     },
     {
-      "emoji": "☕",
+      "emoji": "\u2615",
       "tag": "calculator",
       "title": "[DUMMY] Coffee Spend Tracker",
       "description": "Log your daily coffee purchases and watch the annual total climb. Sometimes you need a reality check, one latte at a time.",
@@ -37,7 +37,7 @@
       "link": "#"
     },
     {
-      "emoji": "⏱️",
+      "emoji": "\u23f1\ufe0f",
       "tag": "gadget",
       "title": "[DUMMY] Pomodoro Focus Timer",
       "description": "A distraction-free timer with session tracking. Clean, simple, and doesn't try to gamify your entire life.",
@@ -46,7 +46,7 @@
       "link": "#"
     },
     {
-      "emoji": "🔗",
+      "emoji": "\ud83d\udd17",
       "tag": "tool",
       "title": "[DUMMY] Link Shortener & QR Gen",
       "description": "Paste a long URL, get a short one and a QR code. Built because I was tired of ad-heavy free tools for something simple.",
@@ -57,56 +57,65 @@
   ],
   "resources": [
     {
-      "emoji": "🏆",
+      "emoji": "\ud83c\udfc6",
       "tag": "guide",
       "title": "Develop Your Career Like an MBB Consultant",
-      "description": "A practical checklist for building the professional skills that matter most in your first 1–2 years — with tangible examples of what 'good' looks like.",
-      "date": "Guide · 25 min read",
+      "description": "A practical checklist for building the professional skills that matter most in your first 1\u20132 years \u2014 with tangible examples of what 'good' looks like.",
+      "date": "Guide \u00b7 15 min read",
       "action": "Read",
       "link": "mbb-development-checklist.html"
     },
     {
-      "emoji": "🧠",
+      "emoji": "\ud83d\udde3\ufe0f",
+      "tag": "guide",
+      "title": "The Language of Impact",
+      "description": "The exact speech patterns, reframes, and language habits that build credibility and influence \u2014 with before/after examples for every situation.",
+      "date": "Guide \u00b7 18 min read",
+      "action": "Read",
+      "link": "language-of-impact.html"
+    },
+    {
+      "emoji": "\ud83e\udde0",
       "tag": "framework",
       "title": "[DUMMY] Decision Journal Template",
       "description": "Log important decisions with context, alternatives, and expected outcomes. Review later to calibrate your judgment over time.",
-      "date": "Notion · Template",
+      "date": "Notion \u00b7 Template",
       "action": "Get template",
       "link": "#"
     },
     {
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "template",
       "title": "[DUMMY] Weekly Review System",
       "description": "My weekly reflection workflow: what went well, what didn't, and what to focus on next. Simple enough to actually stick with.",
-      "date": "Notion · Template",
+      "date": "Notion \u00b7 Template",
       "action": "Get template",
       "link": "#"
     },
     {
-      "emoji": "🏠",
+      "emoji": "\ud83c\udfe0",
       "tag": "checklist",
       "title": "[DUMMY] Moving to a New City Checklist",
       "description": "Everything from finding a flat to setting up utilities, transferring registrations, and the small stuff you always forget.",
-      "date": "PDF · 5 pages",
+      "date": "PDF \u00b7 5 pages",
       "action": "Download",
       "link": "#"
     },
     {
-      "emoji": "💡",
+      "emoji": "\ud83d\udca1",
       "tag": "guide",
       "title": "[DUMMY] How I Use AI Tools Daily",
-      "description": "A practical rundown of how I use Claude, GPT, and other AI tools in my workflow — with real examples and prompts that work.",
-      "date": "Blog · 8 min read",
+      "description": "A practical rundown of how I use Claude, GPT, and other AI tools in my workflow \u2014 with real examples and prompts that work.",
+      "date": "Blog \u00b7 8 min read",
       "action": "Read",
       "link": "#"
     },
     {
-      "emoji": "⚖️",
+      "emoji": "\u2696\ufe0f",
       "tag": "framework",
       "title": "[DUMMY] Priority Matrix Worksheet",
       "description": "A one-pager for sorting tasks by urgency and impact. Print it, stick it on your desk, and stop doing busy-work first.",
-      "date": "PDF · 1 page",
+      "date": "PDF \u00b7 1 page",
       "action": "Download",
       "link": "#"
     }
