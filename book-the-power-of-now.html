@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Notes: The Power of Now — Alex's Workbench</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f8f6f1;--bg-warm:#f2efe8;--surface:#fff;--border:#ddd9d0;--border-light:#eae6de;--text:#1e1e1e;--text-mid:#505050;--text-muted:#908a80;--accent:#c2943a;--accent-soft:#c2943a12;--example-bg:#f4f1eb;--radius:16px;--radius-sm:10px;--shadow-md:0 6px 24px rgba(0,0,0,.06),0 1px 5px rgba(0,0,0,.03);--gadget:#2d8572;--gadget-bg:#2d857210;--tool-color:#bf6d35;--tool-bg:#bf6d3510;--calc-color:#3872b8;--calc-bg:#3872b810;--check-color:#3872b8;--check-bg:#3872b810;--frame-color:#9055a2;--frame-bg:#9055a210;--template-color:#7a5aad;--template-bg:#7a5aad10;--guide-color:#2d8572;--guide-bg:#2d857210;--guide-border:#2d857225;--book-color:#bf6d35;--book-bg:#bf6d3510;--book-border:#bf6d3525}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+    nav{position:fixed;top:0;width:100%;z-index:1000;padding:0 3rem;height:72px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,241,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border-light)}
+    .nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;cursor:pointer;transition:opacity .2s}.nav-logo:hover{opacity:.75}
+    .nav-logo-text{font-family:'Source Serif 4',serif;font-size:1.2rem;font-weight:500;color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:.35rem}
+    .nav-dropdown{position:relative}
+    .nav-dropdown-trigger{display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-mid);background:0 0;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;font-family:inherit}.nav-dropdown-trigger:hover{background:var(--bg-warm);color:var(--text)}
+    .nav-dropdown-trigger .arrow{font-size:.55rem;transition:transform .25s;opacity:.45}.nav-dropdown.open .arrow{transform:rotate(180deg)}
+    .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none}
+    .nav-dropdown.open .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+    .dropdown-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:var(--radius-sm);text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;cursor:pointer}.dropdown-item:hover{background:var(--bg)}
+    .dropdown-item .item-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+    .dropdown-item .item-text{display:flex;flex-direction:column}.dropdown-item .item-label{font-weight:600;line-height:1.35;font-size:.88rem}.dropdown-item .item-desc{font-size:.76rem;color:var(--text-muted);line-height:1.35}
+    .nav-link-simple{padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-mid);text-decoration:none;border-radius:var(--radius-sm);transition:all .2s}.nav-link-simple:hover{background:var(--bg-warm);color:var(--text)}
+    .article{max-width:920px;margin:0 auto;padding:8.5rem 2.5rem 5rem}
+    .article-tag{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;padding:.3rem .7rem;border-radius:6px;font-weight:500;background:var(--book-bg);color:var(--book-color);border:1px solid var(--book-border);margin-bottom:1.5rem}
+    .article h1{font-family:'Source Serif 4',serif;font-size:clamp(2.2rem,4.5vw,3rem);line-height:1.25;font-weight:600;letter-spacing:-.015em;margin-bottom:.5rem}
+    .book-author{font-size:1.05rem;color:var(--text-muted);margin-bottom:1.5rem;font-style:italic}
+    .article-subtitle{font-size:1.12rem;color:var(--text-muted);line-height:1.75;margin-bottom:2rem}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;padding-bottom:2.5rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border-light);font-size:.84rem;color:var(--text-muted)}.article-meta span{display:flex;align-items:center;gap:.35rem}
+    .article-intro{margin-bottom:2.75rem}.article-intro p{font-size:1.12rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.25rem}
+    .toc{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:2rem 2.5rem;margin-bottom:3rem}
+    .toc-title{font-weight:700;font-size:.88rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:1rem}
+    .toc ol{list-style:none;counter-reset:toc-counter}.toc li{counter-increment:toc-counter;margin-bottom:.5rem}
+    .toc li a{display:flex;align-items:baseline;gap:.6rem;color:var(--text-mid);text-decoration:none;font-size:1rem;font-weight:500;padding:.3rem 0;transition:color .2s}.toc li a:hover{color:var(--text)}
+    .toc li a::before{content:counter(toc-counter);font-family:'Source Serif 4',serif;font-size:.85rem;font-weight:600;color:var(--accent);min-width:1.2rem}
+    .section-heading{display:flex;align-items:center;gap:.85rem;margin-top:3.5rem;margin-bottom:1rem;padding-top:1rem}
+    .section-number{font-family:'Source Serif 4',serif;font-size:1.5rem;font-weight:600;color:var(--accent);min-width:2rem;line-height:1}
+    .section-heading h2{font-family:'Source Serif 4',serif;font-size:1.65rem;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+    .article p{font-size:1.08rem;color:var(--text-mid);line-height:1.8;margin-bottom:1rem}
+    .lesson-box{background:var(--example-bg);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:1.1rem 1.5rem;margin:1rem 0 .5rem;font-size:1rem;line-height:1.75;color:var(--text-mid)}
+    .lesson-box strong{color:var(--text);font-weight:600}
+    .lesson-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:500;display:block;margin-bottom:.4rem;color:var(--accent)}
+    .practice-box{background:#f0faf4;border-left:3px solid #27ae60;border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:1rem 1.5rem;margin:.5rem 0 1.75rem;font-size:.98rem;line-height:1.75;color:var(--text-mid)}
+    .practice-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:500;display:block;margin-bottom:.4rem;color:#27864e}
+    .quote-box{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0;font-size:1.05rem;line-height:1.75;color:var(--text-mid);font-style:italic;position:relative;padding-left:2.5rem}
+    .quote-box::before{content:'"';position:absolute;left:.75rem;top:.5rem;font-size:2.5rem;color:var(--accent);font-family:'Source Serif 4',serif;line-height:1}
+    footer{text-align:center;padding:3rem 2.5rem;border-top:1px solid var(--border-light);color:var(--text-muted);font-size:.84rem;margin-top:4rem}
+    footer a{color:var(--text-mid);text-decoration:none;font-weight:500}footer a:hover{color:var(--text)}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:.85rem}
+    .progress-bar{position:fixed;top:72px;left:0;height:3px;background:var(--accent);z-index:999;transition:width .1s linear;width:0%}
+    @media(max-width:640px){nav{padding:0 1.5rem;height:66px}.article{padding:7.5rem 1.5rem 4rem}.toc{padding:1.5rem 1.75rem}.lesson-box,.practice-box{padding:1rem 1.25rem}.article-meta{flex-direction:column;align-items:flex-start;gap:.5rem}.nav-dropdown-menu{right:-.5rem;min-width:220px}.nav-link-simple,.nav-dropdown-trigger{padding:.5rem .65rem;font-size:.84rem}}
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <nav>
+    <a class="nav-logo" href="index.html"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg><span class="nav-logo-text">Alex's Workbench</span></a>
+    <div class="nav-right">
+      <div class="nav-dropdown" id="toolboxDropdown"><button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'toolboxDropdown')">Toolbox <span class="arrow">▼</span></button><div class="nav-dropdown-menu"><a class="dropdown-item" href="index.html#gadgets"><span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span><span class="item-text"><span class="item-label">All Gadgets</span><span class="item-desc">Mini tools and apps I've built</span></span></a><a class="dropdown-item" href="index.html#gadgets-calculator"><span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span><span class="item-text"><span class="item-label">Calculators</span><span class="item-desc">Number crunching made easy</span></span></a><a class="dropdown-item" href="index.html#gadgets-tool"><span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span><span class="item-text"><span class="item-label">Utilities</span><span class="item-desc">Handy tools for everyday tasks</span></span></a></div></div>
+      <div class="nav-dropdown" id="resourcesDropdown"><button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'resourcesDropdown')">Resources <span class="arrow">▼</span></button><div class="nav-dropdown-menu"><a class="dropdown-item" href="index.html#resources"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span><span class="item-text"><span class="item-label">All Resources</span><span class="item-desc">Checklists, guides, and frameworks</span></span></a><a class="dropdown-item" href="index.html#resources-checklist"><span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span><span class="item-text"><span class="item-label">Checklists</span><span class="item-desc">Step-by-step action lists</span></span></a><a class="dropdown-item" href="index.html#resources-framework"><span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span><span class="item-text"><span class="item-label">Frameworks</span><span class="item-desc">Mental models and thinking tools</span></span></a><a class="dropdown-item" href="index.html#resources-template"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a></div></div>
+      <a class="nav-link-simple" href="index.html#books" style="cursor:pointer;">Books</a>
+      <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;font-weight:600;">LinkedIn</a>
+    </div>
+  </nav>
+
+  <article class="article">
+    <span class="article-tag">Book Notes</span>
+    <h1>The Power of Now</h1>
+    <p class="book-author">by Eckhart Tolle · First published 1997</p>
+    <p class="article-subtitle">A guide to escaping the prison of compulsive thinking — distilled into the ideas that actually changed how I experience day-to-day life.</p>
+    <div class="article-meta"><span>✍️ Alex</span><span>📅 2026</span><span>⏱️ 13 min read</span></div>
+
+    <div class="article-intro">
+      <p>This is one of those books that's easy to dismiss as "spiritual fluff" — until you actually try the exercises. Tolle's central argument is disarmingly simple: most of our suffering isn't caused by what's happening to us right now. It's caused by our thoughts about the past and future. The solution is to learn to step out of the endless mental chatter and into the present moment.</p>
+      <p>Whether you're into spirituality or not, the practical techniques here are genuinely useful — especially if you're someone who overthinks, catastrophises, or finds it hard to switch off. Here are the ideas that stuck with me most, and how to actually use them.</p>
+    </div>
+
+    <div class="toc"><div class="toc-title">Contents</div><ol>
+      <li><a href="#s1">You Are Not Your Thoughts</a></li>
+      <li><a href="#s2">The Present Moment Is All You Have</a></li>
+      <li><a href="#s3">The Ego and the Stories It Tells</a></li>
+      <li><a href="#s4">The Pain-Body: Why Old Emotions Keep Resurfacing</a></li>
+      <li><a href="#s5">Acceptance vs. Resistance</a></li>
+      <li><a href="#s6">Building a Daily Practice</a></li>
+    </ol></div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <div class="section-heading" id="s1"><span class="section-number">1</span><h2>You Are Not Your Thoughts</h2></div>
+    <p>This is the foundational idea of the book and arguably the most powerful. Most of us completely identify with the voice in our head — the running commentary, the worrying, the replaying of conversations. Tolle's point is that you are not that voice. You are the awareness behind it — the one who notices the thoughts.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Learn to watch the thinker.</strong> The moment you observe a thought rather than being consumed by it, you've created space between you and your mind. That space is where peace lives. You don't need to stop thinking. You just need to stop being controlled by it.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Right now, close your eyes for 30 seconds and ask yourself: "What will my next thought be?" Then wait. You'll notice a gap — a moment of alert stillness before the next thought arrives. That gap is presence. The more you practise this, the longer the gaps become.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>The mind is a powerful tool — when you use it, not when it uses you.</strong> Tolle isn't anti-thinking. He's against compulsive, involuntary thinking — the kind that runs on autopilot and drags you into anxiety spirals or rumination loops. The goal is to use your mind deliberately, then put it down when you don't need it.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Notice how much of your thinking is voluntary vs. involuntary. When you catch yourself in a thought loop — replaying a conversation, worrying about tomorrow — gently interrupt it by shifting attention to something physical: the feeling of your feet on the floor, the sound of the room, the sensation of breathing. This isn't suppression. It's redirection.</div>
+
+    <div class="quote-box">The beginning of freedom is the realisation that you are not the possessing entity — the thinker. The moment you start watching the thinker, a higher level of consciousness becomes activated.</div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <div class="section-heading" id="s2"><span class="section-number">2</span><h2>The Present Moment Is All You Have</h2></div>
+    <p>This sounds obvious, but sit with it: have you ever experienced anything outside the present moment? Every memory happened in a "now." Every future event will happen in a "now." The past and future only exist as thoughts in your mind, right now. When you truly grasp this, it changes how you relate to time.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Your "life situation" is not your life.</strong> Your life situation — your career, your finances, your relationship status — exists as a mental narrative. Your actual life is what's happening right now: the breath you're taking, the words you're reading, the chair you're sitting in. Most suffering comes from confusing the two.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>When you feel overwhelmed, ask yourself Tolle's question: "What problem do I have at this moment?" Not tomorrow. Not next week. Right now. Usually, the answer is: none. There might be a situation to deal with, but in this exact moment, you're okay. That realisation alone can dissolve anxiety.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Waiting is a state of mind — stop living for the next moment.</strong> Most people spend their lives in a state of "when I get X, then I'll be happy." Tolle calls this psychological time — using the future as an escape from the present. The problem: the future never arrives. It's always now.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Catch yourself in "when/then" thinking: "When I get the promotion, then I'll relax." "When the project is over, then I'll enjoy life." Each time you catch it, redirect: "What can I appreciate about right now?" This isn't toxic positivity. It's training yourself to stop outsourcing your wellbeing to a future that doesn't exist yet.</div>
+
+    <div class="quote-box">Realise deeply that the present moment is all you ever have. Make the Now the primary focus of your life.</div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <div class="section-heading" id="s3"><span class="section-number">3</span><h2>The Ego and the Stories It Tells</h2></div>
+    <p>The "ego" in Tolle's framework isn't about arrogance. It's the mind-made sense of self — the collection of stories, labels, and identities we construct about who we are. "I'm the kind of person who..." or "I always..." or "People like me don't..." These stories feel like truth, but they're just thoughts you've repeated enough times to believe.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>The ego thrives on conflict, comparison, and complaint.</strong> Notice how the voice in your head loves to judge — other people, yourself, situations. That's the ego feeding itself. It needs problems, enemies, and drama to sustain itself. Without them, it has nothing to do.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>For one day, observe your mental commentary without acting on it. Notice how often you judge — "That was stupid," "They shouldn't have done that," "I should be further along." Don't try to stop it. Just watch. The act of observing it weakens its grip. You'll notice that most of your judgments are habitual noise, not useful analysis.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>You don't need to defend your self-image.</strong> Most arguments and emotional reactions aren't about the actual issue. They're about the ego feeling threatened. When someone criticises you and you feel a surge of defensiveness, that's not "you" being attacked — it's a mental identity being challenged. The real you doesn't need defending.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Next time you feel defensive — in a meeting, a conversation, a Slack thread — pause before responding and ask: "Am I reacting to the content, or am I reacting because my ego feels threatened?" Just asking the question creates enough space to respond thoughtfully rather than reactively.</div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <div class="section-heading" id="s4"><span class="section-number">4</span><h2>The Pain-Body: Why Old Emotions Keep Resurfacing</h2></div>
+    <p>One of Tolle's most useful concepts. The "pain-body" is essentially accumulated emotional baggage — every unprocessed hurt, grief, anger, and frustration you've experienced. It lives in you as a kind of energy field, and it periodically "wakes up" and looks for situations to feed on.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Emotional overreactions are often the pain-body speaking, not you.</strong> Ever snapped at someone over something trivial and immediately thought "where did that come from"? That's old pain getting triggered by a present situation. The reaction is disproportionate because it's not just about now — it's about every similar experience your body has stored.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>When you have a disproportionately strong emotional reaction, pause and observe it as a physical sensation rather than a story. Where do you feel it in your body? Chest? Stomach? Throat? Just feel it without analysing it or building a narrative around it. Tolle's insight: the pain-body can only survive if you identify with it. The moment you observe it, you start dissolving it.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Attention is the key to transformation.</strong> You don't heal old pain by thinking about it more. You heal it by bringing full, non-judgmental awareness to it when it arises. This isn't about suppressing emotions or "positive thinking." It's about feeling them fully without the mental story attached.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Next time a negative emotion arises — frustration, anxiety, sadness — try this: don't resist it, don't feed it with thoughts, and don't act on it. Just sit with the raw feeling for 60–90 seconds. Feel it as energy in your body. Most emotions, when you simply observe them without the story, pass much faster than you'd expect.</div>
+
+    <div class="quote-box">The greater part of human pain is unnecessary. It is self-created as long as the unobserved mind runs your life.</div>
+
+    <!-- ═══ SECTION 5 ═══ -->
+    <div class="section-heading" id="s5"><span class="section-number">5</span><h2>Acceptance vs. Resistance</h2></div>
+    <p>This is where Tolle's ideas become immediately applicable to everyday stress. His argument: suffering = pain × resistance. The pain of a difficult situation is one thing. The suffering we add by resisting it — complaining, wishing it were different, dramatising it — is another entirely, and that part is optional.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Whatever the present moment contains, accept it as if you had chosen it.</strong> This doesn't mean being passive or tolerating bad situations. It means stopping the internal war against reality. Once you accept what is, you can act from clarity rather than from reactivity. Acceptance comes first; action follows.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Tolle offers three options for any situation you find intolerable: remove yourself from it, change it, or accept it totally. There is no fourth option. If you can't leave and you can't change it, then accept it fully and stop the mental resistance. The resistance is what makes it unbearable, not the situation itself.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Complaining is always non-acceptance of what is.</strong> Every complaint is a statement that reality should be different from what it is. Some complaints lead to action (useful). Most are just mental noise that reinforces dissatisfaction without changing anything (useless).</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Try a 24-hour no-complaint experiment. Not just out loud — internally too. Every time you catch yourself complaining in your head, stop and ask: "Am I going to do something about this, or am I just generating noise?" If you're going to act, act. If not, let it go. You'll be surprised how much mental energy frees up.</div>
+
+    <div class="quote-box">If you find your here and now intolerable and it makes you unhappy, you have three options: remove yourself from the situation, change it, or accept it totally.</div>
+
+    <!-- ═══ SECTION 6 ═══ -->
+    <div class="section-heading" id="s6"><span class="section-number">6</span><h2>Building a Daily Practice</h2></div>
+    <p>Tolle's ideas are only useful if you practise them. Reading about presence won't make you present. The good news: you don't need a meditation cushion or an hour of free time. Presence can be practised in the middle of your normal day, in the gaps between tasks.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Use your body as an anchor to the present.</strong> Your mind lives in the past and future. Your body only exists now. Whenever you feel lost in thought, shift your attention to a physical sensation — your hands, your breath, the feeling of your feet on the ground. This immediately pulls you out of your head and into the present.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Three times a day — morning, midday, and evening — pause for 30 seconds and feel your body from the inside. Start with your hands. Can you feel them without looking? Move to your arms, chest, legs. This "inner body awareness" exercise is Tolle's most recommended daily practice. It takes seconds and it works.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Turn routine activities into presence practices.</strong> You don't need a separate "mindfulness time." Washing dishes, walking to the train, waiting for a meeting to start — these are all opportunities to practise being fully where you are instead of lost in thought.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Pick one daily routine — brushing your teeth, making coffee, your commute — and commit to doing it with full attention for one week. No phone, no mental planning, no replaying conversations. Just the sensory experience of what you're actually doing. Notice how different it feels compared to your usual autopilot mode.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Start with small gaps of presence, not marathon meditation sessions.</strong> Tolle doesn't advocate sitting in silence for hours. He advocates frequent, short moments of awareness throughout the day. Ten seconds of genuine presence is more valuable than ten minutes of trying to meditate while your mind races.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Set three invisible "presence triggers" in your day — moments that remind you to drop into awareness. Examples: every time you open a door, take one conscious breath. Every time you sit down at your desk, feel your body for five seconds. Every time you pick up your phone, pause and notice one thing in your immediate surroundings. Small. Frequent. Cumulative.</div>
+
+    <p style="margin-top:2rem;">The beauty of Tolle's message is its simplicity: peace isn't something you achieve in the future. It's something you access right now, by stepping out of the stream of compulsive thinking and into the aliveness of the present moment. You don't have to believe this philosophically. Just try the exercises and see what happens.</p>
+
+    <div class="quote-box">All negativity is caused by an accumulation of psychological time and denial of the present. Unease, anxiety, tension, stress, worry — all forms of fear — are caused by too much future, and not enough presence.</div>
+
+    <p style="text-align:center;margin-top:3rem;padding:2rem 0;">
+      <span style="font-size:1.1rem;color:var(--text-mid);display:block;margin-bottom:.75rem;">Thanks for reading — I hope this is useful.</span>
+      <span style="font-size:1rem;color:var(--text-muted);display:block;margin-bottom:1.5rem;">Follow me on LinkedIn for more.</span>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-size:.95rem;font-weight:600;background:#0a66c2;color:#fff;text-decoration:none;transition:all .25s;font-family:inherit;" onmouseover="this.style.background='#004182';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0a66c2';this.style.transform='none'">Follow on LinkedIn →</a>
+    </p>
+  </article>
+
+  <footer>
+    <div class="footer-links"><a href="index.html">← Back to Workbench</a><a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;">LinkedIn</a><a href="#">GitHub</a></div>
+    <p>Built by Alex · 2025</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll',()=>{const a=document.querySelector('.article'),r=a.getBoundingClientRect(),t=window.scrollY+r.top,h=r.height,s=window.scrollY-t,p=Math.min(Math.max(s/(h-window.innerHeight),0),1);document.getElementById('progressBar').style.width=(p*100)+'%'});
+    document.querySelectorAll('.toc a').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(t){window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'})}})});
+    function toggleDropdown(e,id){e.stopPropagation();const el=document.getElementById(id),w=el.classList.contains('open');document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'));if(!w)el.classList.add('open')}
+    document.addEventListener('click',e=>{if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'))});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'))});
+  </script>
+</body>
+</html>

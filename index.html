@@ -17,7 +17,7 @@
       --check-color: #3872b8; --check-bg: #3872b810; --check-border: #3872b825;
       --frame-color: #9055a2; --frame-bg: #9055a210; --frame-border: #9055a225;
       --template-color: #7a5aad; --template-bg: #7a5aad10; --template-border: #7a5aad25;
-      --guide-color: #2d8572; --guide-bg: #2d857210; --guide-border: #2d857225;
+      --guide-color: #2d8572; --guide-bg: #2d857210; --guide-border: #2d857225; --book-color: #bf6d35; --book-bg: #bf6d3510; --book-border: #bf6d3525;
       --radius: 16px; --radius-sm: 10px;
       --shadow-sm: 0 1px 4px rgba(0,0,0,0.03);
       --shadow-md: 0 6px 24px rgba(0,0,0,0.06), 0 1px 5px rgba(0,0,0,0.03);
@@ -307,6 +307,7 @@
           <a class="dropdown-item" onclick="filterAndShow('resources','template');closeDropdowns();"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a>
         </div>
       </div>
+      <a class="nav-link-simple" onclick="showPage('books')" style="cursor:pointer;">Books</a>
       <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;font-weight:600;">LinkedIn</a>
     </div>
   </nav>
@@ -324,8 +325,8 @@
     </section>
 
     <div class="stats-row">
-      <div class="stat"><div class="stat-number" id="gadgetCount">6</div><div class="stat-label">Gadgets built</div></div>
-      <div class="stat"><div class="stat-number" id="resourceCount">7</div><div class="stat-label">Resources shared</div></div>
+      <div class="stat"><div class="stat-number" id="gadgetCount">0</div><div class="stat-label">Gadgets built</div></div>
+      <div class="stat"><div class="stat-number" id="resourceCount">2</div><div class="stat-label">Resources shared</div></div>
       <div class="stat"><div class="stat-number">∞</div><div class="stat-label">Ideas in the queue</div></div>
     </div>
 
@@ -356,12 +357,12 @@
       <a class="home-section-card" onclick="showPage('gadgets')">
         <span class="section-emoji">🛠️</span><h3>Toolbox</h3>
         <p>Mini calculators, trackers, and utilities I've cobbled together to scratch my own itch.</p>
-        <span class="card-count" id="gadgetCountLabel">6 gadgets →</span>
+        <span class="card-count" id="gadgetCountLabel">0 gadgets →</span>
       </a>
       <a class="home-section-card" onclick="showPage('resources')">
         <span class="section-emoji">📖</span><h3>Resources</h3>
         <p>Checklists, frameworks, and templates I use personally and think others might find handy too.</p>
-        <span class="card-count" id="resourceCountLabel">7 resources →</span>
+        <span class="card-count" id="resourceCountLabel">2 resources →</span>
       </a>
     </div>
   </div>
@@ -399,6 +400,16 @@
     <div class="card-grid" id="resourceGrid"></div>
   </div>
 
+  <!-- ══ BOOKS PAGE ══ -->
+  <div class="page-section" id="booksPage">
+    <div class="page-header">
+      <a class="page-back" onclick="showHome()">← Back home</a>
+      <h2>Books</h2>
+      <p>Key lessons and takeaways from books I've read — distilled into what I actually found useful, with practical ways to apply each one.</p>
+    </div>
+    <div class="card-grid" id="bookGrid"></div>
+  </div>
+
   <footer>
     <div class="footer-links"><a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;">LinkedIn</a><a href="#">GitHub</a><a href="#">Email</a></div>
     <p>Built by Alex · 2025</p>
@@ -408,32 +419,25 @@
 // ═══════════════════════════════════════
 // CONTENT LOADING
 // ═══════════════════════════════════════
-const TAG_LABELS = { gadget:'Gadget', calculator:'Calculator', tool:'Utility', checklist:'Checklist', framework:'Framework', template:'Template', guide:'Guide' };
+const TAG_LABELS = { gadget:'Gadget', calculator:'Calculator', tool:'Utility', checklist:'Checklist', framework:'Framework', template:'Template', guide:'Guide', book:'Book Notes' };
 
 // Fallback data embedded — also loaded from content.json if available
 const FALLBACK_DATA = {
-  "gadgets": [
-    { "emoji": "📊", "tag": "gadget", "title": "[DUMMY] Habit Streak Tracker", "description": "A minimal daily tracker with a GitHub-style heatmap. Keeps me honest without the bloat of a full productivity app.", "date": "Jun 2025", "action": "Try it", "link": "#" },
-    { "emoji": "💰", "tag": "calculator", "title": "[DUMMY] Meeting Cost Calculator", "description": "Enter attendees and salary bands — see how much that meeting just cost. A gentle nudge toward fewer, better meetings.", "date": "May 2025", "action": "Try it", "link": "#" },
-    { "emoji": "🎯", "tag": "tool", "title": "[DUMMY] Decision Randomiser", "description": "Can't pick between options? Spin the wheel. If you feel disappointed by the result, you already know what you actually wanted.", "date": "Apr 2025", "action": "Try it", "link": "#" },
-    { "emoji": "☕", "tag": "calculator", "title": "[DUMMY] Coffee Spend Tracker", "description": "Log your daily coffee purchases and watch the annual total climb. Sometimes you need a reality check, one latte at a time.", "date": "Mar 2025", "action": "Try it", "link": "#" },
-    { "emoji": "⏱️", "tag": "gadget", "title": "[DUMMY] Pomodoro Focus Timer", "description": "A distraction-free timer with session tracking. Clean, simple, and doesn't try to gamify your entire life.", "date": "Feb 2025", "action": "Try it", "link": "#" },
-    { "emoji": "🔗", "tag": "tool", "title": "[DUMMY] Link Shortener & QR Gen", "description": "Paste a long URL, get a short one and a QR code. Built because I was tired of ad-heavy free tools for something simple.", "date": "Jan 2025", "action": "Try it", "link": "#" }
+  "gadgets": [],
+  "books": [
+    { "emoji": "🤝", "tag": "book", "title": "How to Win Friends and Influence People", "description": "The foundational playbook on human connection — distilled into the lessons that actually stick, with concrete ways to practise each one.", "date": "Dale Carnegie · 12 min read", "action": "Read", "link": "book-how-to-win-friends.html" },
+    { "emoji": "🧘", "tag": "book", "title": "The Power of Now", "description": "A guide to escaping the prison of compulsive thinking — the ideas that actually changed how I experience day-to-day life.", "date": "Eckhart Tolle · 13 min read", "action": "Read", "link": "book-the-power-of-now.html" }
   ],
   "resources": [
     { "emoji": "🏆", "tag": "guide", "title": "Develop Your Career Like an MBB Consultant", "description": "A practical checklist for building the professional skills that matter most in your first 1–2 years — with tangible examples of what 'good' looks like.", "date": "Guide · 15 min read", "action": "Read", "link": "mbb-development-checklist.html" },
-    { "emoji": "🗣️", "tag": "guide", "title": "The Language of Impact", "description": "The exact speech patterns, reframes, and language habits that build credibility and influence — with before/after examples for every situation.", "date": "Guide · 18 min read", "action": "Read", "link": "language-of-impact.html" },
-    { "emoji": "🧠", "tag": "framework", "title": "[DUMMY] Decision Journal Template", "description": "Log important decisions with context, alternatives, and expected outcomes. Review later to calibrate your judgment over time.", "date": "Notion · Template", "action": "Get template", "link": "#" },
-    { "emoji": "📋", "tag": "template", "title": "[DUMMY] Weekly Review System", "description": "My weekly reflection workflow: what went well, what didn't, and what to focus on next. Simple enough to actually stick with.", "date": "Notion · Template", "action": "Get template", "link": "#" },
-    { "emoji": "🏠", "tag": "checklist", "title": "[DUMMY] Moving to a New City Checklist", "description": "Everything from finding a flat to setting up utilities, transferring registrations, and the small stuff you always forget.", "date": "PDF · 5 pages", "action": "Download", "link": "#" },
-    { "emoji": "💡", "tag": "guide", "title": "[DUMMY] How I Use AI Tools Daily", "description": "A practical rundown of how I use Claude, GPT, and other AI tools in my workflow — with real examples and prompts that work.", "date": "Blog · 8 min read", "action": "Read", "link": "#" },
-    { "emoji": "⚖️", "tag": "framework", "title": "[DUMMY] Priority Matrix Worksheet", "description": "A one-pager for sorting tasks by urgency and impact. Print it, stick it on your desk, and stop doing busy-work first.", "date": "PDF · 1 page", "action": "Download", "link": "#" }
+    { "emoji": "🗣️", "tag": "guide", "title": "The Language of Impact", "description": "The exact speech patterns, reframes, and language habits that build credibility and influence — with before/after examples for every situation.", "date": "Guide · 18 min read", "action": "Read", "link": "language-of-impact.html" }
   ]
 };
 
 function loadContent(data) {
   buildCards('gadgets', data.gadgets, 'gadgetGrid');
   buildCards('resources', data.resources, 'resourceGrid');
+  if (data.books) buildCards('books', data.books, 'bookGrid');
   updateCounts(data);
 }
 
@@ -482,6 +486,7 @@ function showHome() {
   document.getElementById('homePage').style.display = 'block';
   document.getElementById('gadgetsPage').classList.remove('active');
   document.getElementById('resourcesPage').classList.remove('active');
+  document.getElementById('booksPage').classList.remove('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -489,13 +494,17 @@ function showPage(page) {
   document.getElementById('homePage').style.display = 'none';
   document.getElementById('gadgetsPage').classList.remove('active');
   document.getElementById('resourcesPage').classList.remove('active');
+  document.getElementById('booksPage').classList.remove('active');
   document.getElementById(page + 'Page').classList.add('active');
-  // Reset filters
-  const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
-  document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
-  document.querySelector('#' + barId + ' .filter-pill[data-filter="all"]').classList.add('active');
-  const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
-  document.querySelectorAll('#' + gridId + ' .card').forEach(c => c.style.display = 'flex');
+  // Reset filters (if the page has them)
+  const barId = page === 'gadgets' ? 'gadgetFilters' : (page === 'resources' ? 'resourceFilters' : null);
+  if (barId) {
+    document.querySelectorAll('#' + barId + ' .filter-pill').forEach(p => p.classList.remove('active'));
+    const allPill = document.querySelector('#' + barId + ' .filter-pill[data-filter="all"]');
+    if (allPill) allPill.classList.add('active');
+    const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';
+    document.querySelectorAll('#' + gridId + ' .card').forEach(c => c.style.display = 'flex');
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -503,6 +512,7 @@ function filterAndShow(page, category) {
   document.getElementById('homePage').style.display = 'none';
   document.getElementById('gadgetsPage').classList.remove('active');
   document.getElementById('resourcesPage').classList.remove('active');
+  document.getElementById('booksPage').classList.remove('active');
   document.getElementById(page + 'Page').classList.add('active');
   const barId = page === 'gadgets' ? 'gadgetFilters' : 'resourceFilters';
   const gridId = page === 'gadgets' ? 'gadgetGrid' : 'resourceGrid';

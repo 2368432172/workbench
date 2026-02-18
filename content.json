@@ -1,60 +1,5 @@
 {
-  "gadgets": [
-    {
-      "emoji": "\ud83d\udcca",
-      "tag": "gadget",
-      "title": "[DUMMY] Habit Streak Tracker",
-      "description": "A minimal daily tracker with a GitHub-style heatmap. Keeps me honest without the bloat of a full productivity app.",
-      "date": "Jun 2025",
-      "action": "Try it",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83d\udcb0",
-      "tag": "calculator",
-      "title": "[DUMMY] Meeting Cost Calculator",
-      "description": "Enter attendees and salary bands \u2014 see how much that meeting just cost. A gentle nudge toward fewer, better meetings.",
-      "date": "May 2025",
-      "action": "Try it",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83c\udfaf",
-      "tag": "tool",
-      "title": "[DUMMY] Decision Randomiser",
-      "description": "Can't pick between options? Spin the wheel. If you feel disappointed by the result, you already know what you actually wanted.",
-      "date": "Apr 2025",
-      "action": "Try it",
-      "link": "#"
-    },
-    {
-      "emoji": "\u2615",
-      "tag": "calculator",
-      "title": "[DUMMY] Coffee Spend Tracker",
-      "description": "Log your daily coffee purchases and watch the annual total climb. Sometimes you need a reality check, one latte at a time.",
-      "date": "Mar 2025",
-      "action": "Try it",
-      "link": "#"
-    },
-    {
-      "emoji": "\u23f1\ufe0f",
-      "tag": "gadget",
-      "title": "[DUMMY] Pomodoro Focus Timer",
-      "description": "A distraction-free timer with session tracking. Clean, simple, and doesn't try to gamify your entire life.",
-      "date": "Feb 2025",
-      "action": "Try it",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83d\udd17",
-      "tag": "tool",
-      "title": "[DUMMY] Link Shortener & QR Gen",
-      "description": "Paste a long URL, get a short one and a QR code. Built because I was tired of ad-heavy free tools for something simple.",
-      "date": "Jan 2025",
-      "action": "Try it",
-      "link": "#"
-    }
-  ],
+  "gadgets": [],
   "resources": [
     {
       "emoji": "\ud83c\udfc6",
@@ -73,51 +18,26 @@
       "date": "Guide \u00b7 18 min read",
       "action": "Read",
       "link": "language-of-impact.html"
-    },
+    }
+  ],
+  "books": [
     {
-      "emoji": "\ud83e\udde0",
-      "tag": "framework",
-      "title": "[DUMMY] Decision Journal Template",
-      "description": "Log important decisions with context, alternatives, and expected outcomes. Review later to calibrate your judgment over time.",
-      "date": "Notion \u00b7 Template",
-      "action": "Get template",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83d\udccb",
-      "tag": "template",
-      "title": "[DUMMY] Weekly Review System",
-      "description": "My weekly reflection workflow: what went well, what didn't, and what to focus on next. Simple enough to actually stick with.",
-      "date": "Notion \u00b7 Template",
-      "action": "Get template",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83c\udfe0",
-      "tag": "checklist",
-      "title": "[DUMMY] Moving to a New City Checklist",
-      "description": "Everything from finding a flat to setting up utilities, transferring registrations, and the small stuff you always forget.",
-      "date": "PDF \u00b7 5 pages",
-      "action": "Download",
-      "link": "#"
-    },
-    {
-      "emoji": "\ud83d\udca1",
-      "tag": "guide",
-      "title": "[DUMMY] How I Use AI Tools Daily",
-      "description": "A practical rundown of how I use Claude, GPT, and other AI tools in my workflow \u2014 with real examples and prompts that work.",
-      "date": "Blog \u00b7 8 min read",
+      "emoji": "\ud83e\udd1d",
+      "tag": "book",
+      "title": "How to Win Friends and Influence People",
+      "description": "The foundational playbook on human connection \u2014 distilled into the lessons that actually stick, with concrete ways to practise each one.",
+      "date": "Dale Carnegie \u00b7 12 min read",
       "action": "Read",
-      "link": "#"
+      "link": "book-how-to-win-friends.html"
     },
     {
-      "emoji": "\u2696\ufe0f",
-      "tag": "framework",
-      "title": "[DUMMY] Priority Matrix Worksheet",
-      "description": "A one-pager for sorting tasks by urgency and impact. Print it, stick it on your desk, and stop doing busy-work first.",
-      "date": "PDF \u00b7 1 page",
-      "action": "Download",
-      "link": "#"
+      "emoji": "\ud83e\uddd8",
+      "tag": "book",
+      "title": "The Power of Now",
+      "description": "A guide to escaping the prison of compulsive thinking \u2014 the ideas that actually changed how I experience day-to-day life.",
+      "date": "Eckhart Tolle \u00b7 13 min read",
+      "action": "Read",
+      "link": "book-the-power-of-now.html"
     }
   ]
 }

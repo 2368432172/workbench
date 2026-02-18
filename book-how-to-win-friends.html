@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Notes: How to Win Friends and Influence People — Alex's Workbench</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f8f6f1;--bg-warm:#f2efe8;--surface:#fff;--border:#ddd9d0;--border-light:#eae6de;--text:#1e1e1e;--text-mid:#505050;--text-muted:#908a80;--accent:#c2943a;--accent-soft:#c2943a12;--example-bg:#f4f1eb;--radius:16px;--radius-sm:10px;--shadow-md:0 6px 24px rgba(0,0,0,.06),0 1px 5px rgba(0,0,0,.03);--gadget:#2d8572;--gadget-bg:#2d857210;--tool-color:#bf6d35;--tool-bg:#bf6d3510;--calc-color:#3872b8;--calc-bg:#3872b810;--check-color:#3872b8;--check-bg:#3872b810;--frame-color:#9055a2;--frame-bg:#9055a210;--template-color:#7a5aad;--template-bg:#7a5aad10;--guide-color:#2d8572;--guide-bg:#2d857210;--guide-border:#2d857225;--book-color:#bf6d35;--book-bg:#bf6d3510;--book-border:#bf6d3525}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+    nav{position:fixed;top:0;width:100%;z-index:1000;padding:0 3rem;height:72px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,241,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border-light)}
+    .nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;cursor:pointer;transition:opacity .2s}.nav-logo:hover{opacity:.75}
+    .nav-logo-text{font-family:'Source Serif 4',serif;font-size:1.2rem;font-weight:500;color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:.35rem}
+    .nav-dropdown{position:relative}
+    .nav-dropdown-trigger{display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-mid);background:0 0;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;font-family:inherit}
+    .nav-dropdown-trigger:hover{background:var(--bg-warm);color:var(--text)}
+    .nav-dropdown-trigger .arrow{font-size:.55rem;transition:transform .25s;opacity:.45}
+    .nav-dropdown.open .arrow{transform:rotate(180deg)}
+    .nav-dropdown-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none}
+    .nav-dropdown.open .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+    .dropdown-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:var(--radius-sm);text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;cursor:pointer}.dropdown-item:hover{background:var(--bg)}
+    .dropdown-item .item-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+    .dropdown-item .item-text{display:flex;flex-direction:column}.dropdown-item .item-label{font-weight:600;line-height:1.35;font-size:.88rem}.dropdown-item .item-desc{font-size:.76rem;color:var(--text-muted);line-height:1.35}
+    .nav-link-simple{padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-mid);text-decoration:none;border-radius:var(--radius-sm);transition:all .2s}.nav-link-simple:hover{background:var(--bg-warm);color:var(--text)}
+    .article{max-width:920px;margin:0 auto;padding:8.5rem 2.5rem 5rem}
+    .article-tag{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;padding:.3rem .7rem;border-radius:6px;font-weight:500;background:var(--book-bg);color:var(--book-color);border:1px solid var(--book-border);margin-bottom:1.5rem}
+    .article h1{font-family:'Source Serif 4',serif;font-size:clamp(2.2rem,4.5vw,3rem);line-height:1.25;font-weight:600;letter-spacing:-.015em;margin-bottom:.5rem}
+    .book-author{font-size:1.05rem;color:var(--text-muted);margin-bottom:1.5rem;font-style:italic}
+    .article-subtitle{font-size:1.12rem;color:var(--text-muted);line-height:1.75;margin-bottom:2rem}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;padding-bottom:2.5rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border-light);font-size:.84rem;color:var(--text-muted)}.article-meta span{display:flex;align-items:center;gap:.35rem}
+    .article-intro{margin-bottom:2.75rem}.article-intro p{font-size:1.12rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.25rem}
+    .toc{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:2rem 2.5rem;margin-bottom:3rem}
+    .toc-title{font-weight:700;font-size:.88rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:1rem}
+    .toc ol{list-style:none;counter-reset:toc-counter}.toc li{counter-increment:toc-counter;margin-bottom:.5rem}
+    .toc li a{display:flex;align-items:baseline;gap:.6rem;color:var(--text-mid);text-decoration:none;font-size:1rem;font-weight:500;padding:.3rem 0;transition:color .2s}.toc li a:hover{color:var(--text)}
+    .toc li a::before{content:counter(toc-counter);font-family:'Source Serif 4',serif;font-size:.85rem;font-weight:600;color:var(--accent);min-width:1.2rem}
+    .section-heading{display:flex;align-items:center;gap:.85rem;margin-top:3.5rem;margin-bottom:1rem;padding-top:1rem}
+    .section-number{font-family:'Source Serif 4',serif;font-size:1.5rem;font-weight:600;color:var(--accent);min-width:2rem;line-height:1}
+    .section-heading h2{font-family:'Source Serif 4',serif;font-size:1.65rem;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+    .article p{font-size:1.08rem;color:var(--text-mid);line-height:1.8;margin-bottom:1rem}
+    .lesson-box{background:var(--example-bg);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:1.1rem 1.5rem;margin:1rem 0 .5rem;font-size:1rem;line-height:1.75;color:var(--text-mid)}
+    .lesson-box strong{color:var(--text);font-weight:600}
+    .lesson-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:500;display:block;margin-bottom:.4rem;color:var(--accent)}
+    .practice-box{background:#f0faf4;border-left:3px solid #27ae60;border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:1rem 1.5rem;margin:.5rem 0 1.75rem;font-size:.98rem;line-height:1.75;color:var(--text-mid)}
+    .practice-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:500;display:block;margin-bottom:.4rem;color:#27864e}
+    .quote-box{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0;font-size:1.05rem;line-height:1.75;color:var(--text-mid);font-style:italic;position:relative;padding-left:2.5rem}
+    .quote-box::before{content:'"';position:absolute;left:.75rem;top:.5rem;font-size:2.5rem;color:var(--accent);font-family:'Source Serif 4',serif;line-height:1}
+    footer{text-align:center;padding:3rem 2.5rem;border-top:1px solid var(--border-light);color:var(--text-muted);font-size:.84rem;margin-top:4rem}
+    footer a{color:var(--text-mid);text-decoration:none;font-weight:500}footer a:hover{color:var(--text)}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:.85rem}
+    .progress-bar{position:fixed;top:72px;left:0;height:3px;background:var(--accent);z-index:999;transition:width .1s linear;width:0%}
+    @media(max-width:640px){nav{padding:0 1.5rem;height:66px}.article{padding:7.5rem 1.5rem 4rem}.toc{padding:1.5rem 1.75rem}.lesson-box,.practice-box{padding:1rem 1.25rem}.article-meta{flex-direction:column;align-items:flex-start;gap:.5rem}.nav-dropdown-menu{right:-.5rem;min-width:220px}.nav-link-simple,.nav-dropdown-trigger{padding:.5rem .65rem;font-size:.84rem}}
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <nav>
+    <a class="nav-logo" href="index.html"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg><span class="nav-logo-text">Alex's Workbench</span></a>
+    <div class="nav-right">
+      <div class="nav-dropdown" id="toolboxDropdown"><button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'toolboxDropdown')">Toolbox <span class="arrow">▼</span></button><div class="nav-dropdown-menu"><a class="dropdown-item" href="index.html#gadgets"><span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span><span class="item-text"><span class="item-label">All Gadgets</span><span class="item-desc">Mini tools and apps I've built</span></span></a><a class="dropdown-item" href="index.html#gadgets-calculator"><span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span><span class="item-text"><span class="item-label">Calculators</span><span class="item-desc">Number crunching made easy</span></span></a><a class="dropdown-item" href="index.html#gadgets-tool"><span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span><span class="item-text"><span class="item-label">Utilities</span><span class="item-desc">Handy tools for everyday tasks</span></span></a></div></div>
+      <div class="nav-dropdown" id="resourcesDropdown"><button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'resourcesDropdown')">Resources <span class="arrow">▼</span></button><div class="nav-dropdown-menu"><a class="dropdown-item" href="index.html#resources"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span><span class="item-text"><span class="item-label">All Resources</span><span class="item-desc">Checklists, guides, and frameworks</span></span></a><a class="dropdown-item" href="index.html#resources-checklist"><span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span><span class="item-text"><span class="item-label">Checklists</span><span class="item-desc">Step-by-step action lists</span></span></a><a class="dropdown-item" href="index.html#resources-framework"><span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span><span class="item-text"><span class="item-label">Frameworks</span><span class="item-desc">Mental models and thinking tools</span></span></a><a class="dropdown-item" href="index.html#resources-template"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a></div></div>
+      <a class="nav-link-simple" href="index.html#books" style="cursor:pointer;">Books</a>
+      <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;font-weight:600;">LinkedIn</a>
+    </div>
+  </nav>
+
+  <article class="article">
+    <span class="article-tag">Book Notes</span>
+    <h1>How to Win Friends and Influence People</h1>
+    <p class="book-author">by Dale Carnegie · First published 1936</p>
+    <p class="article-subtitle">The foundational playbook on human connection — distilled into the lessons that actually stick, with concrete ways to practise each one.</p>
+    <div class="article-meta"><span>✍️ Alex</span><span>📅 2026</span><span>⏱️ 12 min read</span></div>
+
+    <div class="article-intro">
+      <p>This book has sold over 30 million copies since 1936 and it's not because the advice is complicated. It's because most of us already know this stuff intellectually — we just don't do it. Carnegie's genius was packaging timeless human truths into principles simple enough to remember and specific enough to act on. Nearly a century later, every single one still applies.</p>
+      <p>What follows are the lessons I found most useful, organised into four themes. Each one includes the core idea, why it matters, and a concrete way to put it into practice this week.</p>
+    </div>
+
+    <div class="toc"><div class="toc-title">Contents</div><ol>
+      <li><a href="#s1">The Fundamentals: How People Actually Work</a></li>
+      <li><a href="#s2">Making People Like You (Without Faking It)</a></li>
+      <li><a href="#s3">Winning People to Your Way of Thinking</a></li>
+      <li><a href="#s4">Leading Without Creating Resentment</a></li>
+      <li><a href="#s5">Putting It All Together</a></li>
+    </ol></div>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <div class="section-heading" id="s1"><span class="section-number">1</span><h2>The Fundamentals: How People Actually Work</h2></div>
+    <p>Before any technique or tactic, Carnegie wants you to understand three truths about human nature that most people get wrong. Everything else in the book builds on these.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Don't criticise, condemn, or complain.</strong> Criticism is futile because it puts people on the defensive and makes them dig in harder. It wounds pride, triggers resentment, and almost never changes behaviour. Carnegie's blunt take: "Any fool can criticise, condemn, and complain — and most fools do."</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Next time you feel the urge to correct someone, pause and ask: "Will saying this actually change their behaviour, or will it just make me feel right?" If it's the latter, hold it. If correction is genuinely needed, frame it as a question: "What if we tried it this way?" rather than "You did it wrong."</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Give honest, sincere appreciation.</strong> Not flattery — that's cheap and people see through it. Carnegie means noticing what someone actually did well and telling them specifically. The deepest craving in human nature isn't food or shelter; it's the desire to feel important and appreciated.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Once a day this week, tell someone exactly what they did that you valued. Not "great job" — something specific: "The way you structured that presentation made the recommendation really clear. I could tell you'd thought hard about the audience." Watch what happens to the relationship.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Think in terms of what the other person wants.</strong> The only way to influence someone is to talk about what they want and show them how to get it. Before every conversation where you need something, ask yourself: "What would make them want to do this?"</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Before your next request — whether it's asking your manager for a new project or convincing a colleague to help — spend 60 seconds thinking about what's in it for them. Frame your ask around their goals, not yours. "This would give you visibility with the Partner" lands differently from "I need your help."</div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <div class="section-heading" id="s2"><span class="section-number">2</span><h2>Making People Like You (Without Faking It)</h2></div>
+    <p>Carnegie's six principles for being likeable aren't about performing. They're about genuinely shifting your attention from yourself to the other person. The paradox: the less you try to be interesting, the more interesting you become.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Become genuinely interested in other people.</strong> You can make more friends in two months by being interested in other people than in two years of trying to get people interested in you. Real interest — not networking — is what builds connection.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>In your next conversation, ask one follow-up question that goes deeper than small talk. If someone mentions a project, ask what the hardest part was. If they mention a trip, ask what surprised them most. Follow-up questions signal that you're actually listening, not just waiting to talk.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Remember and use people's names.</strong> A person's name is, to that person, the most important sound in any language. Forgetting it signals "you're not important enough to remember." Remembering it does the opposite — instantly.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>When you meet someone new, repeat their name immediately ("Nice to meet you, Sarah") and use it once more before the conversation ends. If you're bad with names, write it down within 30 seconds of the conversation ending. This is a trainable skill, not a talent.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Be a good listener. Encourage others to talk about themselves.</strong> Carnegie once spent an evening at a dinner party barely saying a word — just asking questions and listening intently. Afterwards, the other guest described him as "the most fascinating conversationalist." He'd hardly spoken. The secret to being interesting is being interested.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>In your next meeting or conversation, consciously listen more than you speak. When there's a pause, resist the urge to fill it with your own story. Instead, ask: "Tell me more about that." People will walk away feeling great about the interaction — and about you.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Talk in terms of the other person's interests.</strong> Before meeting someone, do even 30 seconds of thinking about what matters to them. Then open the conversation there. People light up when you show you've paid attention to what they care about.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Before your next 1:1, check-in, or client meeting, ask yourself: "What are they most interested in or worried about right now?" Open with that. If your manager is stressed about a deadline, lead with your progress update. If a colleague just got back from holiday, ask about it before jumping into work.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Make the other person feel important — and do it sincerely.</strong> Everyone you meet feels superior to you in some way. The moment you acknowledge that — their expertise, their effort, their perspective — you unlock the door to genuine connection.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Find one person today who doesn't seem to be having a great day — a colleague, a barista, someone in a meeting — and say something that makes them feel seen. "I noticed you handled that tricky question really well" or "Thanks for staying late on this — I know it's been a long week." Five seconds, lasting impact.</div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <div class="section-heading" id="s3"><span class="section-number">3</span><h2>Winning People to Your Way of Thinking</h2></div>
+    <p>This isn't about manipulation. It's about understanding that you will never change someone's mind by making them feel wrong. Carnegie's approach: make it easy for people to agree with you by starting from common ground and respecting their dignity throughout.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>The only way to get the best of an argument is to avoid it.</strong> You can't win an argument. If you lose it, you lose. If you win it, the other person resents you — so you still lose. Arguments create losers, not converts.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Next time you feel a disagreement escalating, stop and say: "That's an interesting point — help me understand your thinking." This shifts the dynamic from combat to curiosity. You'll learn something, they'll feel heard, and you'll both end up closer to the truth.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Show respect for other people's opinions. Never say "you're wrong."</strong> The moment you tell someone they're wrong, you've made it personal. They'll stop listening to your logic and start defending their ego. Even if you're right, you've lost them.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Replace "I disagree" or "That's not right" with "I see it differently — here's what I'm seeing." This opens a door instead of slamming one shut. The other person is far more likely to actually consider your perspective.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>If you're wrong, admit it quickly and emphatically.</strong> When you're wrong, owning it fast disarms the other person completely. They were expecting a fight — instead, you took their ammunition away. This builds enormous trust and respect.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Next time you make a mistake, resist the urge to explain or hedge. Just say: "You're right — I got that wrong. Here's how I'll fix it." You'll be stunned at how quickly the tension evaporates and how much credibility you gain.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Let the other person feel the idea is theirs.</strong> People have more faith in ideas they discover for themselves than in ideas handed to them. Instead of telling someone what to do, ask questions that guide them to the conclusion you want.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Instead of saying "I think we should do X," try: "What do you think would happen if we tried X?" or "What if we approached it from this angle?" When the other person arrives at the answer themselves, they'll champion it far more passionately than if you'd told them.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Try honestly to see things from the other person's point of view.</strong> Before reacting to anyone's behaviour, pause and ask: "Why would a reasonable person act this way?" There's always a reason. Finding it is the key to understanding — and to influence.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Before a difficult conversation, write down three reasons the other person might hold their position. Not strawman reasons — genuinely strong ones. This exercise alone will change how you show up. You'll be less combative and more curious, and they'll feel it immediately.</div>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <div class="section-heading" id="s4"><span class="section-number">4</span><h2>Leading Without Creating Resentment</h2></div>
+    <p>Carnegie's leadership principles all share one thread: you can change people's behaviour without triggering defensiveness if you protect their dignity throughout the process. Great leaders make people want to improve rather than making them feel inadequate.</p>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Begin with praise and honest appreciation before addressing a problem.</strong> A surgeon doesn't start cutting without anaesthetic. Similarly, genuine praise before feedback softens the landing and makes the person receptive rather than defensive.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Before giving feedback, identify something genuinely good about the person's work and lead with it. Not a throwaway "good job, but..." — a real observation. "The depth of your competitive analysis was impressive. One thing that could make the recommendation land even harder is..." The praise makes the feedback feel like coaching, not criticism.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Call attention to people's mistakes indirectly.</strong> Direct criticism triggers defensiveness. Indirect approaches — asking questions, sharing your own mistakes first, or framing the issue as a shared challenge — achieve the same correction without the resentment.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Instead of "You made an error in the model," try: "I noticed something in the model that didn't look right to me — can we look at it together?" The shift from "you" to "we" makes it collaborative instead of accusatory.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Give the other person a fine reputation to live up to.</strong> If you want someone to improve in a specific area, act as though they already possess that quality. People will make extraordinary efforts to live up to the identity you reflect back to them.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>Instead of telling a junior team member to be more detail-oriented, say: "I've noticed you have a good eye for detail — I'm going to rely on you to QA this deck before it goes to the client." You've just turned a development area into an identity they'll work to uphold.</div>
+
+    <div class="lesson-box"><span class="lesson-label">Lesson</span><strong>Make the fault seem easy to correct and the goal seem attainable.</strong> When someone feels overwhelmed or incapable, they shut down. When they feel like improvement is within reach, they lean in. Shrink the gap between where they are and where they need to be.</div>
+    <div class="practice-box"><span class="practice-label">Put it in practice</span>When coaching someone, break the improvement into one small, specific action: "The one thing that would make the biggest difference next time is leading with the recommendation instead of the analysis." One thing. Not five. Small wins build momentum.</div>
+
+    <!-- ═══ SECTION 5 ═══ -->
+    <div class="section-heading" id="s5"><span class="section-number">5</span><h2>Putting It All Together</h2></div>
+    <p>Carnegie was very clear that these principles only work when they come from genuine care for other people — not as manipulation tactics. The moment you weaponise them, people sense it and trust evaporates. The real shift isn't about technique. It's about developing a genuine habit of thinking about the other person first.</p>
+
+    <div class="quote-box">When dealing with people, remember you are not dealing with creatures of logic, but creatures of emotion — creatures bristling with prejudices and motivated by pride and vanity.</div>
+
+    <p>The beauty of Carnegie's work is that it's not about becoming a different person. It's about becoming more deliberate in how you treat the people around you. Start with one principle this week. When it becomes natural, add another. Over time, these small shifts compound into something much bigger: a reputation as someone people trust, enjoy working with, and want to help succeed.</p>
+
+    <div class="quote-box">You can make more friends in two months by becoming interested in other people than you can in two years by trying to get other people interested in you.</div>
+
+    <p style="text-align:center;margin-top:3rem;padding:2rem 0;">
+      <span style="font-size:1.1rem;color:var(--text-mid);display:block;margin-bottom:.75rem;">Thanks for reading — I hope this is useful.</span>
+      <span style="font-size:1rem;color:var(--text-muted);display:block;margin-bottom:1.5rem;">Follow me on LinkedIn for more.</span>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-size:.95rem;font-weight:600;background:#0a66c2;color:#fff;text-decoration:none;transition:all .25s;font-family:inherit;" onmouseover="this.style.background='#004182';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0a66c2';this.style.transform='none'">Follow on LinkedIn →</a>
+    </p>
+  </article>
+
+  <footer>
+    <div class="footer-links"><a href="index.html">← Back to Workbench</a><a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;">LinkedIn</a><a href="#">GitHub</a></div>
+    <p>Built by Alex · 2025</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll',()=>{const a=document.querySelector('.article'),r=a.getBoundingClientRect(),t=window.scrollY+r.top,h=r.height,s=window.scrollY-t,p=Math.min(Math.max(s/(h-window.innerHeight),0),1);document.getElementById('progressBar').style.width=(p*100)+'%'});
+    document.querySelectorAll('.toc a').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(t){window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'})}})});
+    function toggleDropdown(e,id){e.stopPropagation();const el=document.getElementById(id),w=el.classList.contains('open');document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'));if(!w)el.classList.add('open')}
+    document.addEventListener('click',e=>{if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'))});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'))});
+  </script>
+</body>
+</html>
