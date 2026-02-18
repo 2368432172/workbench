@@ -1,5 +1,15 @@
 {
-  "gadgets": [],
+  "gadgets": [
+    {
+      "emoji": "\ud83d\udcb0",
+      "tag": "gadget",
+      "title": "Money Clock",
+      "description": "Watch your earnings tick up in real time. Enter your salary, hit start, and see exactly how much you make every second. Time is literally money.",
+      "date": "Live Tool",
+      "action": "Try it",
+      "link": "money-clock.html"
+    }
+  ],
   "resources": [
     {
       "emoji": "\ud83c\udfc6",
