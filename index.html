@@ -325,7 +325,7 @@
     </section>
 
     <div class="stats-row">
-      <div class="stat"><div class="stat-number" id="gadgetCount">0</div><div class="stat-label">Gadgets built</div></div>
+      <div class="stat"><div class="stat-number" id="gadgetCount">1</div><div class="stat-label">Gadgets built</div></div>
       <div class="stat"><div class="stat-number" id="resourceCount">2</div><div class="stat-label">Resources shared</div></div>
       <div class="stat"><div class="stat-number">∞</div><div class="stat-label">Ideas in the queue</div></div>
     </div>
@@ -333,6 +333,15 @@
     <!-- Featured -->
     <div class="featured-section">
       <div class="featured-label">Featured</div>
+      <a class="featured-card" href="money-clock.html" style="margin-bottom:1rem;">
+        <span class="featured-emoji">💰</span>
+        <div class="featured-content">
+          <div class="featured-tag" style="background:var(--gadget-bg);color:var(--gadget);border-color:#2d857225;">Gadget · Live Tool</div>
+          <div class="featured-title">Money Clock</div>
+          <div class="featured-desc">Watch your earnings tick up in real time. Enter your salary, hit start, and see exactly how much you make every second.</div>
+        </div>
+        <span class="featured-arrow">Try it →</span>
+      </a>
       <a class="featured-card" href="mbb-development-checklist.html">
         <span class="featured-emoji">🏆</span>
         <div class="featured-content">
@@ -357,7 +366,7 @@
       <a class="home-section-card" onclick="showPage('gadgets')">
         <span class="section-emoji">🛠️</span><h3>Toolbox</h3>
         <p>Mini calculators, trackers, and utilities I've cobbled together to scratch my own itch.</p>
-        <span class="card-count" id="gadgetCountLabel">0 gadgets →</span>
+        <span class="card-count" id="gadgetCountLabel">1 gadget →</span>
       </a>
       <a class="home-section-card" onclick="showPage('resources')">
         <span class="section-emoji">📖</span><h3>Resources</h3>
@@ -423,7 +432,9 @@ const TAG_LABELS = { gadget:'Gadget', calculator:'Calculator', tool:'Utility', c
 
 // Fallback data embedded — also loaded from content.json if available
 const FALLBACK_DATA = {
-  "gadgets": [],
+  "gadgets": [
+    { "emoji": "💰", "tag": "gadget", "title": "Money Clock", "description": "Watch your earnings tick up in real time. Enter your salary, hit start, and see exactly how much you make every second. Time is literally money.", "date": "Live Tool", "action": "Try it", "link": "money-clock.html" }
+  ],
   "books": [
     { "emoji": "🤝", "tag": "book", "title": "How to Win Friends and Influence People", "description": "The foundational playbook on human connection — distilled into the lessons that actually stick, with concrete ways to practise each one.", "date": "Dale Carnegie · 12 min read", "action": "Read", "link": "book-how-to-win-friends.html" },
     { "emoji": "🧘", "tag": "book", "title": "The Power of Now", "description": "A guide to escaping the prison of compulsive thinking — the ideas that actually changed how I experience day-to-day life.", "date": "Eckhart Tolle · 13 min read", "action": "Read", "link": "book-the-power-of-now.html" }
