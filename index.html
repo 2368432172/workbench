@@ -174,21 +174,21 @@
     /* ── HOME SECTIONS ── */
     .home-sections {
       max-width: 920px; margin: 0 auto; padding: 0 2.5rem 7rem;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
       opacity: 0; animation: fadeUp 0.7s ease forwards 0.65s;
     }
     .home-section-card {
       background: var(--surface); border: 1px solid var(--border-light);
       border-radius: var(--radius); padding: 2.25rem; cursor: pointer;
-      transition: all 0.3s ease; text-decoration: none; color: inherit; display: block;
+      transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column;
     }
     .home-section-card:hover { border-color: var(--border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
     .home-section-card .section-emoji { font-size: 2rem; margin-bottom: 1.15rem; display: block; }
     .home-section-card h3 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 0.55rem; }
-    .home-section-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; }
+    .home-section-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; flex: 1; }
     .home-section-card .card-count {
       font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;
-      color: var(--text-muted); transition: color 0.2s;
+      color: var(--text-muted); transition: color 0.2s; margin-top: auto;
     }
     .home-section-card:hover .card-count { color: var(--text-mid); }
 
@@ -373,6 +373,11 @@
         <p>Checklists, frameworks, and templates I use personally and think others might find handy too.</p>
         <span class="card-count" id="resourceCountLabel">2 resources →</span>
       </a>
+      <a class="home-section-card" onclick="showPage('books')">
+        <span class="section-emoji">📚</span><h3>Book Notes</h3>
+        <p>Key lessons from books I've read — distilled into what actually stuck, with ways to put each one into practice.</p>
+        <span class="card-count" id="bookCountLabel">2 books →</span>
+      </a>
     </div>
   </div>
 
@@ -488,6 +493,8 @@ function updateCounts(data) {
   document.getElementById('resourceCount').textContent = rc;
   document.getElementById('gadgetCountLabel').textContent = gc + ' gadget' + (gc !== 1 ? 's' : '') + ' →';
   document.getElementById('resourceCountLabel').textContent = rc + ' resource' + (rc !== 1 ? 's' : '') + ' →';
+  const bc = (data.books || []).length;
+  document.getElementById('bookCountLabel').textContent = bc + ' book' + (bc !== 1 ? 's' : '') + ' →';
 }
 
 // ═══════════════════════════════════════
