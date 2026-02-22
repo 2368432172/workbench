@@ -699,72 +699,139 @@ function buildRecs(){
   const g=S.goal||'fatigue';
   const f=S.feelings||[];const sp=S.specifics||[];const gg=S.gym_goals||[];
   const isPlant=S.diet==='vegan'||S.diet==='veg';
+  const isPesce=S.diet==='pesce';
   const cond=(S.conditions||'').toLowerCase();
   const curr=(S.curr_supps||'').toLowerCase();
 
+  // ═══ GOAL-SPECIFIC SCORING ═══
+  // Each goal has distinct "hero" supplements. Universal supplements (vitamin D, omega-3, magnesium)
+  // are NOT given base points — they only score when lifestyle/diet factors warrant them.
+
   if(g==='fatigue'||f.includes('tired')){
-    sc(scores,'magnesium',5);sc(scores,'b_complex',5);sc(scores,'vitamin_d',4);
-    sc(scores,'coq10',3);sc(scores,'iron',3);sc(scores,'omega3',2);
-    if(sp.includes('brain_fog')){sc(scores,'omega3',3);sc(scores,'magnesium',2);}
-    if(sp.includes('feel_cold')||sp.includes('breathless'))sc(scores,'iron',4);
-    if(sp.includes('post_illness')){sc(scores,'zinc',3);sc(scores,'vitamin_c',2);}
+    // Primary: B vitamins for energy metabolism, iron if indicated, CoQ10 for mitochondria
+    sc(scores,'b_complex',7);sc(scores,'iron',5);sc(scores,'coq10',4);
+    if(sp.includes('afternoon_crash')){sc(scores,'b_complex',3);sc(scores,'coq10',2);}
+    if(sp.includes('wake_groggy')){sc(scores,'iron',3);sc(scores,'b_complex',2);}
+    if(sp.includes('brain_fog')){sc(scores,'b12',4);sc(scores,'coq10',2);}
+    if(sp.includes('feel_cold')||sp.includes('breathless'))sc(scores,'iron',6);
+    if(sp.includes('post_illness')){sc(scores,'zinc',5);sc(scores,'vitamin_c',4);}
+    if(sp.includes('low_motivation')){sc(scores,'b_complex',2);sc(scores,'ashwagandha',3);}
+    if(sp.includes('poor_stamina')){sc(scores,'iron',3);sc(scores,'coq10',3);}
   }
   if(g==='sleep'||f.includes('sleep_bad')){
-    sc(scores,'magnesium',5);sc(scores,'melatonin',4);sc(scores,'l_theanine',3);
-    sc(scores,'vitamin_d',3);sc(scores,'ashwagandha',2);
-    if(sp.includes('racing_mind')){sc(scores,'ashwagandha',3);sc(scores,'l_theanine',2);}
-    if(sp.includes('screen_time'))sc(scores,'melatonin',2);
-    if(S.bedtime==='after12')sc(scores,'melatonin',2);
+    // Primary: melatonin for onset, magnesium glycinate for quality, L-theanine for racing mind
+    sc(scores,'melatonin',7);sc(scores,'magnesium',6);sc(scores,'l_theanine',4);
+    if(sp.includes('sleep_onset')){sc(scores,'melatonin',3);sc(scores,'l_theanine',2);}
+    if(sp.includes('racing_mind')){sc(scores,'l_theanine',4);sc(scores,'ashwagandha',3);}
+    if(sp.includes('wake_night'))sc(scores,'magnesium',3);
+    if(sp.includes('unrefreshing')){sc(scores,'magnesium',2);sc(scores,'b_complex',3);}
+    if(sp.includes('screen_time'))sc(scores,'melatonin',3);
+    if(sp.includes('irregular'))sc(scores,'melatonin',2);
+    if(sp.includes('caffeine_pm'))sc(scores,'l_theanine',3);
+    if(S.bedtime==='after12')sc(scores,'melatonin',3);
   }
   if(g==='gym'||f.includes('gym')){
-    sc(scores,'creatine',6);sc(scores,'magnesium',4);sc(scores,'omega3',3);
-    sc(scores,'vitamin_d',3);sc(scores,'zinc',2);sc(scores,'vitamin_c',2);
-    if(gg.includes('muscle')||gg.includes('strength'))sc(scores,'protein',5);
-    if(gg.includes('endurance')){sc(scores,'coq10',2);sc(scores,'b_complex',2);}
-    if(gg.includes('recovery')||sp.includes('slow_recov')){sc(scores,'omega3',3);sc(scores,'magnesium',2);}
-    if(gg.includes('injury_prev')||sp.includes('joint_pain')||f.includes('joint')){sc(scores,'omega3',4);sc(scores,'vitamin_c',3);}
+    // Primary: creatine (most evidenced ergogenic), protein (foundation), then goal-specific
+    sc(scores,'creatine',8);sc(scores,'protein',6);
+    if(gg.includes('muscle')||gg.includes('strength')){sc(scores,'protein',4);sc(scores,'creatine',2);}
+    if(gg.includes('endurance')){sc(scores,'coq10',5);sc(scores,'b_complex',4);}
+    if(gg.includes('recovery')||sp.includes('slow_recov')){sc(scores,'omega3',5);sc(scores,'magnesium',4);}
+    if(gg.includes('injury_prev')||sp.includes('joint_pain')||f.includes('joint')){sc(scores,'vitamin_c',6);sc(scores,'omega3',5);}
+    if(gg.includes('fat_loss')){sc(scores,'protein',3);sc(scores,'b_complex',3);}
+    if(gg.includes('recomp')){sc(scores,'protein',3);sc(scores,'creatine',2);}
+    if(gg.includes('sport')){sc(scores,'creatine',2);sc(scores,'coq10',3);}
+    if(sp.includes('plateau')){sc(scores,'creatine',3);sc(scores,'protein',2);}
+    if(sp.includes('protein_gap'))sc(scores,'protein',5);
   }
   if(g==='focus'||f.includes('focus_poor')||f.includes('foggy')){
-    sc(scores,'omega3',5);sc(scores,'l_theanine',4);sc(scores,'magnesium',3);
-    sc(scores,'creatine',3);sc(scores,'b_complex',3);sc(scores,'vitamin_d',2);
-    if(sp.includes('memory')||sp.includes('word_finding')){sc(scores,'omega3',2);sc(scores,'b12',2);}
-    if(sp.includes('mental_fat')||sp.includes('decision_fat')){sc(scores,'coq10',2);sc(scores,'b_complex',2);}
+    // Primary: L-theanine+caffeine (most evidenced nootropic combo), creatine for cognition, B12 for myelin
+    sc(scores,'l_theanine',8);sc(scores,'creatine',5);sc(scores,'b12',4);
+    if(sp.includes('short_attn')){sc(scores,'l_theanine',3);sc(scores,'omega3',2);}
+    if(sp.includes('memory')||sp.includes('word_finding')){sc(scores,'omega3',4);sc(scores,'b12',3);}
+    if(sp.includes('mental_fat')||sp.includes('decision_fat')){sc(scores,'coq10',4);sc(scores,'creatine',2);}
+    if(sp.includes('studying')){sc(scores,'l_theanine',2);sc(scores,'creatine',2);}
+    if(sp.includes('creative')){sc(scores,'l_theanine',2);sc(scores,'omega3',2);}
+    if(sp.includes('procrastinate')){sc(scores,'l_theanine',3);sc(scores,'b_complex',2);}
   }
   if(g==='mood'||f.includes('mood_low')||f.includes('stressed')){
-    sc(scores,'omega3',5);sc(scores,'vitamin_d',4);sc(scores,'magnesium',4);
-    sc(scores,'ashwagandha',4);sc(scores,'b_complex',3);sc(scores,'zinc',2);sc(scores,'l_theanine',2);
-    if(sp.includes('seasonal'))sc(scores,'vitamin_d',3);
-    if(sp.includes('anxiety')){sc(scores,'ashwagandha',3);sc(scores,'magnesium',2);}
-    if(sp.includes('burnout')){sc(scores,'ashwagandha',2);sc(scores,'magnesium',2);}
+    // Primary: ashwagandha for stress/cortisol, omega-3 EPA for mood, L-theanine for anxiety
+    sc(scores,'ashwagandha',7);sc(scores,'omega3',5);sc(scores,'l_theanine',4);
+    if(sp.includes('anxiety')){sc(scores,'l_theanine',4);sc(scores,'ashwagandha',2);sc(scores,'magnesium',3);}
+    if(sp.includes('low_mood')){sc(scores,'omega3',4);sc(scores,'b_complex',4);}
+    if(sp.includes('seasonal')){sc(scores,'vitamin_d',7);sc(scores,'omega3',2);}
+    if(sp.includes('burnout')){sc(scores,'ashwagandha',3);sc(scores,'b_complex',3);}
+    if(sp.includes('irritable')){sc(scores,'magnesium',4);sc(scores,'omega3',2);}
+    if(sp.includes('stress_eat')){sc(scores,'ashwagandha',2);sc(scores,'l_theanine',2);}
+    if(sp.includes('overwhelm')){sc(scores,'ashwagandha',3);sc(scores,'l_theanine',2);}
+    if(sp.includes('withdrawal')){sc(scores,'omega3',3);sc(scores,'b_complex',2);}
   }
   if(g==='immunity'||f.includes('sick_often')){
-    sc(scores,'vitamin_d',5);sc(scores,'zinc',5);sc(scores,'vitamin_c',4);
-    sc(scores,'omega3',3);sc(scores,'probiotics',4);
-    if(sp.includes('low_sun'))sc(scores,'vitamin_d',3);
-    if(sp.includes('freq_ill')){sc(scores,'zinc',2);sc(scores,'vitamin_c',2);}
+    // Primary: zinc (T-cell critical), vitamin C (immune cell concentration), probiotics (gut immunity)
+    sc(scores,'zinc',8);sc(scores,'vitamin_c',7);sc(scores,'probiotics',5);
+    if(sp.includes('freq_ill')){sc(scores,'zinc',3);sc(scores,'vitamin_c',2);}
+    if(sp.includes('slow_recov')){sc(scores,'vitamin_c',3);sc(scores,'zinc',2);}
+    if(sp.includes('slow_heal')){sc(scores,'zinc',3);sc(scores,'vitamin_c',3);}
+    if(sp.includes('run_down')){sc(scores,'b_complex',4);sc(scores,'iron',3);}
+    if(sp.includes('high_stress')){sc(scores,'ashwagandha',4);sc(scores,'vitamin_c',2);}
+    if(sp.includes('poor_diet')){sc(scores,'b_complex',4);sc(scores,'probiotics',2);}
+    if(sp.includes('low_sun'))sc(scores,'vitamin_d',6);
+    if(sp.includes('travel')){sc(scores,'probiotics',3);sc(scores,'vitamin_c',2);}
   }
+
+  // ═══ SECONDARY FEELINGS (multi-select from S1) ═══
   if(f.includes('gut')||['bloating','irregular','ibs'].includes(S.gut_health)){
-    sc(scores,'probiotics',4);sc(scores,'omega3',2);
+    sc(scores,'probiotics',5);sc(scores,'magnesium',2);
   }
-  if(isPlant){sc(scores,'b12',9);sc(scores,'omega3',4);sc(scores,'zinc',3);sc(scores,'iron',3);sc(scores,'vitamin_d',2);sc(scores,'creatine',3);}
-  if(S.meat_freq==='rarely'||S.meat_freq==='1-2'){sc(scores,'iron',2);sc(scores,'zinc',2);sc(scores,'b12',2);sc(scores,'creatine',2);}
-  if(S.greens_freq==='rarely'||S.greens_freq==='1-2'){sc(scores,'magnesium',2);sc(scores,'vitamin_c',2);sc(scores,'b_complex',2);}
-  if(S.dairy_freq==='never')sc(scores,'vitamin_d',2);
-  if(S.ultra_proc==='high'){sc(scores,'b_complex',3);sc(scores,'magnesium',2);sc(scores,'zinc',2);sc(scores,'probiotics',2);}
-  if(['south_asian','black','middle_eastern'].includes(S.ethnicity)||S.sunlight==='low')sc(scores,'vitamin_d',4);
-  if(S.age==='50s'||S.age==='60plus'){sc(scores,'vitamin_d',2);sc(scores,'coq10',3);sc(scores,'omega3',2);sc(scores,'b12',2);sc(scores,'magnesium',1);}
-  if(S.sex==='female'){sc(scores,'iron',3);sc(scores,'magnesium',2);}
-  if(S.sex==='male'&&(S.age==='30s'||S.age==='40s'||S.age==='50s')){sc(scores,'zinc',2);sc(scores,'vitamin_d',1);}
-  if(S.sleep_hours<6.5)sc(scores,'magnesium',2);
-  if(S.stress>7){sc(scores,'ashwagandha',3);sc(scores,'magnesium',2);}
-  if(S.activity==='very'){sc(scores,'magnesium',2);sc(scores,'zinc',1);sc(scores,'coq10',1);}
-  if(S.bmi&&S.bmi<18.5){sc(scores,'b_complex',2);sc(scores,'iron',2);}
-  if(S.bmi&&S.bmi>30){sc(scores,'vitamin_d',2);sc(scores,'omega3',2);}
+  if(f.includes('joint')&&g!=='gym'){sc(scores,'omega3',4);sc(scores,'vitamin_c',3);}
+
+  // ═══ DIET-DRIVEN DEFICIENCY RISK ═══
+  // These are the strongest evidence-based triggers — diet determines deficiency risk more than goals
+  if(isPlant){sc(scores,'b12',10);sc(scores,'omega3',5);sc(scores,'iron',4);sc(scores,'zinc',4);sc(scores,'creatine',3);}
+  if(isPesce){sc(scores,'b12',3);sc(scores,'iron',3);}
+  if(S.meat_freq==='rarely'){sc(scores,'iron',3);sc(scores,'zinc',3);sc(scores,'b12',3);sc(scores,'creatine',2);}
+  else if(S.meat_freq==='1-2'){sc(scores,'iron',2);sc(scores,'zinc',1);sc(scores,'b12',1);}
+  if(S.greens_freq==='rarely'){sc(scores,'magnesium',3);sc(scores,'vitamin_c',3);sc(scores,'b_complex',2);}
+  else if(S.greens_freq==='1-2'){sc(scores,'magnesium',2);sc(scores,'vitamin_c',1);}
+  if(S.dairy_freq==='never'){sc(scores,'vitamin_d',3);}
+  if(S.ultra_proc==='high'){sc(scores,'b_complex',3);sc(scores,'magnesium',3);sc(scores,'probiotics',3);sc(scores,'zinc',2);}
+
+  // ═══ SUNLIGHT / VITAMIN D — only score when actually indicated ═══
+  if(S.sunlight==='low')sc(scores,'vitamin_d',5);
+  else if(S.sunlight==='moderate')sc(scores,'vitamin_d',2);
+  // High sunlight = no vitamin D points from this factor
+  if(['south_asian','east_asian','black','middle_eastern'].includes(S.ethnicity))sc(scores,'vitamin_d',4);
+
+  // ═══ DEMOGRAPHIC MODIFIERS ═══
+  if(S.age==='50s'||S.age==='60plus'){sc(scores,'coq10',4);sc(scores,'b12',3);sc(scores,'vitamin_d',2);}
+  if(S.age==='teens'||S.age==='20s'){/* younger adults less likely to need CoQ10/B12 unless diet indicates */}
+  if(S.sex==='female'){sc(scores,'iron',4);sc(scores,'magnesium',2);}
+  if(S.sex==='male'&&(S.age==='30s'||S.age==='40s'||S.age==='50s'))sc(scores,'zinc',2);
+
+  // ═══ LIFESTYLE MODIFIERS ═══
+  if(S.sleep_hours<6){sc(scores,'magnesium',3);sc(scores,'melatonin',2);}
+  else if(S.sleep_hours<6.5)sc(scores,'magnesium',2);
+  if(S.stress>7){sc(scores,'ashwagandha',3);sc(scores,'l_theanine',2);}
+  else if(S.stress>5)sc(scores,'ashwagandha',1);
+  if(S.activity==='very'){sc(scores,'magnesium',2);sc(scores,'zinc',2);sc(scores,'protein',2);}
+  if(S.bmi&&S.bmi<18.5){sc(scores,'b_complex',3);sc(scores,'iron',3);}
+  if(S.bmi&&S.bmi>30){sc(scores,'vitamin_d',3);sc(scores,'omega3',2);}
+
+  // ═══ DEDUP: reduce score if user already takes it ═══
   Object.keys(DB).forEach(id=>{
     const name=DB[id].n.toLowerCase().split(' ')[0];
-    if(curr.includes(name)||curr.includes(id.replace(/_/g,' '))){if(scores[id])scores[id]=Math.max(0,scores[id]-6);}
+    const aliases=[name,id.replace(/_/g,' '),id.replace(/_/g,'')];
+    if(id==='omega3')aliases.push('fish oil','epa','dha','omega');
+    if(id==='b_complex')aliases.push('b vitamin','b-complex','b complex');
+    if(id==='vitamin_d')aliases.push('vit d','d3');
+    if(id==='vitamin_c')aliases.push('vit c','ascorbic');
+    if(id==='l_theanine')aliases.push('theanine');
+    if(id==='b12')aliases.push('b-12','methylcobalamin','cyanocobalamin');
+    if(id==='coq10')aliases.push('ubiquinol','ubiquinone','coenzyme');
+    if(aliases.some(a=>curr.includes(a))){if(scores[id])scores[id]=Math.max(0,scores[id]-8);}
   });
+
   let picks=Object.entries(scores).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([id])=>id);
+  // Vegans MUST see B12 regardless
   if(isPlant&&!picks.includes('b12')){picks.splice(4,1,'b12');}
   return picks;
 }
