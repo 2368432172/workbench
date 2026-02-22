@@ -1,51 +1,60 @@
 {
   "gadgets": [
     {
-      "emoji": "\ud83d\udcb0",
+      "emoji": "💰",
       "tag": "gadget",
       "title": "Money Clock",
       "description": "Watch your earnings tick up in real time. Enter your salary, hit start, and see exactly how much you make every second. Time is literally money.",
       "date": "Live Tool",
       "action": "Try it",
       "link": "money-clock.html"
+    },
+    {
+      "emoji": "💊",
+      "tag": "gadget",
+      "title": "Wellness & Supplement Recommender",
+      "description": "A 5-minute assessment that gives you personalised, evidence-graded supplement suggestions — ranked by relevance to your body and goals.",
+      "date": "Live Tool",
+      "action": "Try it",
+      "link": "wellness-recommender.html"
     }
   ],
   "resources": [
     {
-      "emoji": "\ud83c\udfc6",
+      "emoji": "🏆",
       "tag": "guide",
       "title": "Develop Your Career Like an MBB Consultant",
-      "description": "A practical checklist for building the professional skills that matter most in your first 1\u20132 years \u2014 with tangible examples of what 'good' looks like.",
-      "date": "Guide \u00b7 15 min read",
+      "description": "A practical checklist for building the professional skills that matter most in your first 1–2 years — with tangible examples of what 'good' looks like.",
+      "date": "Guide · 15 min read",
       "action": "Read",
       "link": "mbb-development-checklist.html"
     },
     {
-      "emoji": "\ud83d\udde3\ufe0f",
+      "emoji": "🗣️",
       "tag": "guide",
       "title": "The Language of Impact",
-      "description": "The exact speech patterns, reframes, and language habits that build credibility and influence \u2014 with before/after examples for every situation.",
-      "date": "Guide \u00b7 18 min read",
+      "description": "The exact speech patterns, reframes, and language habits that build credibility and influence — with before/after examples for every situation.",
+      "date": "Guide · 18 min read",
       "action": "Read",
       "link": "language-of-impact.html"
     }
   ],
   "books": [
     {
-      "emoji": "\ud83e\udd1d",
+      "emoji": "🤝",
       "tag": "book",
       "title": "How to Win Friends and Influence People",
-      "description": "The foundational playbook on human connection \u2014 distilled into the lessons that actually stick, with concrete ways to practise each one.",
-      "date": "Dale Carnegie \u00b7 12 min read",
+      "description": "The foundational playbook on human connection — distilled into the lessons that actually stick, with concrete ways to practise each one.",
+      "date": "Dale Carnegie · 12 min read",
       "action": "Read",
       "link": "book-how-to-win-friends.html"
     },
     {
-      "emoji": "\ud83e\uddd8",
+      "emoji": "🧘",
       "tag": "book",
       "title": "The Power of Now",
-      "description": "A guide to escaping the prison of compulsive thinking \u2014 the ideas that actually changed how I experience day-to-day life.",
-      "date": "Eckhart Tolle \u00b7 13 min read",
+      "description": "A guide to escaping the prison of compulsive thinking — the ideas that actually changed how I experience day-to-day life.",
+      "date": "Eckhart Tolle · 13 min read",
       "action": "Read",
       "link": "book-the-power-of-now.html"
     }
