@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellness & Supplement Recommender</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#f8f6f1;--white:#fff;--sage:#6b9970;--sage-l:#d4e6d5;--sage-m:#eef5ee;--sage-d:#3d6b42;
+  --terra:#c4845a;--terra-l:#f5e8df;--char:#1e1e1e;--mid:#5a5a5a;--soft:#8a8a8a;
+  --border:#e4e0d8;--pill:#f2f0eb;--caut-bg:#fffbef;--dan-bg:#fff3f3;--dan-b:#e8a0a0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--char);min-height:100vh;-webkit-font-smoothing:antialiased}
+.shell{min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.topnav{width:100%;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--cream);z-index:100;border-bottom:1px solid transparent;transition:border-color .3s}
+.topnav.scrolled{border-color:var(--border)}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:17px;color:var(--char)}
+.nav-logo em{color:var(--sage-d);font-style:italic}
+.ptrack{flex:1;max-width:220px;margin:0 28px}
+.pdots{display:flex;gap:5px;align-items:center;justify-content:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .3s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+.dot.active{background:var(--sage-d);width:20px;border-radius:3px}
+.dot.done{background:var(--sage-l)}
+.nlabel{font-size:13px;color:var(--soft);letter-spacing:.5px;white-space:nowrap}
+.main{flex:1;width:100%;max-width:920px;padding:44px 24px 100px;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;animation:sIn .38s cubic-bezier(.4,0,.2,1) both}
+.screen.active{display:flex}
+@keyframes sIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.q-eye{font-size:12.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+.q-hl{font-family:'DM Serif Display',serif;font-size:clamp(22px,5vw,30px);line-height:1.22;color:var(--char);margin-bottom:7px}
+.q-hl em{font-style:italic;color:var(--sage-d)}
+.q-sub{font-size:15.5px;color:var(--soft);font-weight:300;line-height:1.6;margin-bottom:26px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.cards.three{grid-template-columns:repeat(3,1fr)}
+.copt{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:15px 13px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;gap:3px;position:relative;transition:border-color .16s,box-shadow .16s}
+.copt:hover{border-color:var(--sage);box-shadow:0 2px 12px rgba(107,153,112,.15)}
+.copt.sel{border-color:var(--sage-d);background:var(--sage-m);box-shadow:0 0 0 2.5px rgba(61,107,66,.12)}
+.copt .ce{font-size:22px;margin-bottom:3px}
+.copt .cl{font-size:15px;font-weight:500;color:var(--char)}
+.copt .cs{font-size:13.5px;color:var(--soft);font-weight:300}
+.copt.sel .cl{color:var(--sage-d)}
+.copt.sel .cs{color:var(--sage)}
+.copt .chk{position:absolute;top:9px;right:9px;width:17px;height:17px;background:var(--sage-d);border-radius:50%;display:none;align-items:center;justify-content:center}
+.copt .chk svg{width:9px;height:9px}
+.copt.sel .chk{display:flex}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.popt{background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:10px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--char);transition:border-color .15s,background .15s;white-space:nowrap;user-select:none}
+.popt:hover{border-color:var(--sage);background:var(--sage-m)}
+.popt.sel{border-color:var(--sage-d);background:var(--sage-d);color:#fff}
+.freq{display:flex;gap:7px;margin-bottom:16px}
+.fbtn{flex:1;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:9px 4px;text-align:center;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.fbtn .fn{display:block;font-size:14.5px;font-weight:600;color:var(--char)}
+.fbtn .fl{display:block;font-size:12px;color:var(--soft);margin-top:1px}
+.fbtn:hover{border-color:var(--sage);background:var(--sage-m)}
+.fbtn.sel{border-color:var(--sage-d);background:var(--sage-m)}
+.fbtn.sel .fn{color:var(--sage-d)}
+.s-disp{text-align:center;font-family:'DM Serif Display',serif;font-size:38px;color:var(--char);margin-bottom:10px}
+.s-disp span{font-family:'DM Sans',sans-serif;font-size:16px;color:var(--soft);margin-left:4px}
+.s-labels{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);margin-bottom:6px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--sage-d);box-shadow:0 2px 8px rgba(61,107,66,.35);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.ngrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:18px}
+.nfield{display:flex;flex-direction:column;gap:5px}
+.nfield label{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft)}
+.ninner{display:flex;align-items:center;background:var(--white);border:1.5px solid var(--border);border-radius:11px;overflow:hidden;transition:border-color .2s}
+.ninner:focus-within{border-color:var(--sage)}
+.ninner input{flex:1;border:none;background:none;padding:13px 10px;font-family:'DM Sans',sans-serif;font-size:19px;font-weight:500;color:var(--char);outline:none;width:0}
+.ninner input::placeholder{color:var(--border);font-weight:300;font-size:17px}
+.nunit{padding:0 12px 0 3px;font-size:14px;color:var(--soft);white-space:nowrap}
+.urow{display:flex;gap:6px;margin-bottom:10px}
+.ubtn{font-size:13px;font-weight:500;padding:4px 12px;border-radius:100px;border:1.5px solid var(--border);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--soft);transition:all .15s}
+.ubtn.active{border-color:var(--sage-d);background:var(--sage-d);color:#fff}
+.bmic{display:inline-flex;align-items:center;gap:8px;background:var(--pill);border-radius:100px;padding:8px 16px;font-size:14px;color:var(--mid);margin-top:8px;margin-bottom:18px}
+.bmic .bv{font-weight:600;color:var(--char)}
+.qtxt{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:13px;padding:17px 19px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--char);resize:none;min-height:90px;outline:none;transition:border-color .2s;margin-bottom:6px;line-height:1.6;font-weight:300}
+.qtxt:focus{border-color:var(--sage)}
+.qtxt::placeholder{color:var(--border)}
+.subq{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);animation:fadeUp .28s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.subq-lbl{font-size:14.5px;font-weight:500;color:var(--mid);margin-bottom:10px}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.btn-back{background:none;border:1.5px solid var(--border);border-radius:100px;padding:12px 22px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--soft);cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:var(--char);color:var(--char)}
+.btn-skip{font-size:13.5px;color:var(--soft);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.btn-skip:hover{color:var(--mid)}
+.btn-cta{background:var(--char);border:none;border-radius:100px;padding:14px 30px;font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:500;color:#fff;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:7px;margin-left:auto}
+.btn-cta:hover{background:var(--sage-d);transform:translateY(-1px);box-shadow:0 6px 18px rgba(61,107,66,.3)}
+.btn-cta:disabled{opacity:.32;cursor:not-allowed;transform:none;box-shadow:none;background:var(--char)}
+.btn-cta svg{width:13px;height:13px}
+.mhint{font-size:13.5px;color:var(--sage);font-style:italic;margin-bottom:12px}
+.disc{background:var(--sage-m);border:1px solid var(--sage-l);border-radius:11px;padding:13px 17px;font-size:13.5px;color:var(--sage-d);line-height:1.6;margin-bottom:26px;display:flex;gap:9px}
+.disc .di{flex-shrink:0;font-size:13px;margin-top:1px}
+.intro{display:flex;flex-direction:column;align-items:center;text-align:center;padding:16px 0 36px}
+.ibadge{display:inline-flex;align-items:center;gap:6px;background:var(--sage-m);border:1px solid var(--sage-l);border-radius:100px;padding:6px 16px;font-size:13px;font-weight:500;color:var(--sage-d);margin-bottom:22px}
+.intro h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,7vw,42px);line-height:1.15;margin-bottom:14px;max-width:560px}
+.intro h1 em{font-style:italic;color:var(--sage-d)}
+.isub{font-size:15.5px;color:var(--soft);font-weight:300;line-height:1.65;max-width:500px;margin-bottom:30px}
+.frow{display:flex;gap:20px;margin-bottom:32px;flex-wrap:wrap;justify-content:center}
+.feat{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--mid)}
+.fdot{width:5px;height:5px;border-radius:50%;background:var(--sage);flex-shrink:0}
+.btn-start{background:var(--char);color:#fff;border:none;border-radius:100px;padding:16px 38px;font-family:'DM Sans',sans-serif;font-size:15.5px;font-weight:500;cursor:pointer;transition:all .18s;margin-bottom:12px}
+.btn-start:hover{background:var(--sage-d);transform:translateY(-2px);box-shadow:0 8px 22px rgba(61,107,66,.35)}
+.imeta{font-size:13px;color:var(--soft);font-weight:300}
+#rscreen{display:none}
+#rscreen.active{display:block;animation:sIn .45s cubic-bezier(.4,0,.2,1) both}
+.r-hero{text-align:center;padding-bottom:30px;border-bottom:1px solid var(--border);margin-bottom:26px}
+.r-eye{font-size:12.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+.r-hl{font-family:'DM Serif Display',serif;font-size:clamp(24px,5vw,34px);line-height:1.2;margin-bottom:10px}
+.r-hl em{font-style:italic;color:var(--sage-d)}
+.r-sub{font-size:15px;color:var(--soft);font-weight:300;line-height:1.6;max-width:560px;margin:0 auto}
+.pstrip{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px;justify-content:center}
+.ptag{background:var(--pill);border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13.5px;color:var(--mid)}
+.rbanner{background:var(--dan-bg);border:1px solid var(--dan-b);border-radius:13px;padding:14px 18px;font-size:14px;color:#7a2020;line-height:1.6;margin-bottom:18px}
+.icard{background:var(--terra-l);border:1px solid #d4a882;border-radius:13px;padding:14px 18px;font-size:14px;color:#6b3d1a;line-height:1.6;margin-bottom:14px}
+.icard strong{display:block;margin-bottom:5px}
+.scard{background:var(--white);border:1px solid var(--border);border-radius:18px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.045);transition:box-shadow .2s,transform .2s;animation:fadeUp .38s cubic-bezier(.4,0,.2,1) both}
+.scard:hover{box-shadow:0 7px 24px rgba(0,0,0,.09);transform:translateY(-1px)}
+.shdr{padding:20px 22px 16px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;user-select:none}
+.sico{width:44px;height:44px;border-radius:12px;background:var(--sage-m);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.smeta{flex:1;min-width:0}
+.srank{font-size:12px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;color:var(--sage);margin-bottom:2px}
+.sname{font-family:'DM Serif Display',serif;font-size:21px;font-weight:400;color:var(--char);margin-bottom:2px}
+.stag{font-size:13.5px;color:var(--soft);font-weight:300;margin-bottom:5px}
+.etog{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--sage);font-weight:500}
+.eico{display:inline-block;transition:transform .22s;font-size:13px}
+.ebadge{font-size:12px;font-weight:500;padding:3px 9px;border-radius:100px;flex-shrink:0;white-space:nowrap}
+.ebadge.strong{background:var(--sage-m);color:var(--sage-d)}
+.ebadge.moderate{background:var(--terra-l);color:var(--terra)}
+.sbody{display:none;padding:0 22px 20px;border-top:1px solid var(--border)}
+.sbody.open{display:block;animation:fadeUp .22s ease both}
+.wbox{background:var(--sage-m);border-radius:11px;padding:14px 17px;margin:14px 0 12px;font-size:14.5px;color:var(--sage-d);line-height:1.65}
+.wbox strong{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;color:var(--sage)}
+.sci{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:11px;font-weight:300}
+.drow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
+.dc{background:var(--pill);border-radius:9px;padding:9px 12px}
+.dc .dl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);font-weight:500;margin-bottom:3px}
+.dc .dv{font-size:13.5px;color:var(--char);line-height:1.5}
+.sc{background:var(--caut-bg);border:1px solid #e8d080;border-radius:9px;padding:10px 14px;font-size:13.5px;color:#6b5010;line-height:1.55;margin-top:9px}
+.sc.red{background:var(--dan-bg);border-color:var(--dan-b);color:#7a1c1c}
+.evn{font-size:13px;color:var(--soft);font-style:italic;margin-top:7px;line-height:1.5}
+.doc-sec{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:26px;margin-top:8px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.doc-sec h3{font-family:'DM Serif Display',serif;font-size:21px;margin-bottom:7px}
+.doc-sec p{font-size:14.5px;color:var(--soft);font-weight:300;line-height:1.6;margin-bottom:18px}
+.btn-doc{display:inline-flex;align-items:center;gap:7px;background:var(--char);color:#fff;border:none;border-radius:100px;padding:14px 26px;font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer;transition:all .18s}
+.btn-doc:hover{background:var(--sage-d);transform:translateY(-1px);box-shadow:0 6px 18px rgba(61,107,66,.3)}
+.btn-restart{display:block;margin:14px auto 0;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.btn-restart:hover{color:var(--mid)}
+.mov{position:fixed;inset:0;background:rgba(20,20,20,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.mbox{background:var(--white);border-radius:22px;padding:32px 32px;max-width:700px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:sIn .28s cubic-bezier(.4,0,.2,1)}
+.mbox h3{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:5px}
+.msub{font-size:12.5px;color:var(--soft);font-weight:300;margin-bottom:18px;line-height:1.5}
+.mtxt{background:var(--cream);border-radius:11px;padding:16px 18px;font-size:12.5px;line-height:1.8;color:var(--char);white-space:pre-wrap;border:1px solid var(--border);margin-bottom:18px;font-weight:300}
+.macts{display:flex;gap:9px;justify-content:flex-end}
+.btn-mc{background:none;border:1.5px solid var(--border);border-radius:100px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--soft);cursor:pointer;transition:all .15s}
+.btn-mc:hover{border-color:var(--char);color:var(--char)}
+.btn-mcp{background:var(--char);border:none;border-radius:100px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:all .18s}
+.btn-mcp:hover{background:var(--sage-d)}
+.hidden{display:none!important}
+@media(max-width:500px){
+  .topnav{padding:14px 16px}
+  .ptrack{max-width:140px;margin:0 12px}
+  .main{padding:28px 14px 80px}
+  .cards,.cards.three{grid-template-columns:1fr 1fr}
+  .pbar-strip{top:57px!important;padding:8px 16px!important}
+  .ngrid{grid-template-columns:1fr}
+  .drow{grid-template-columns:1fr}
+  .mbox{padding:22px 18px}
+  .macts{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="topnav" id="topnav" style="font-family:'Plus Jakarta Sans',-apple-system,sans-serif;">
+  <a href="index.html" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
+    <span style="font-family:'Source Serif 4',serif;font-size:1.2rem;font-weight:500;color:var(--char);">Alex's Workbench</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:.35rem;">
+    <div class="wbnav-dd" id="wbToolbox" style="position:relative;">
+      <button onclick="toggleWBDD(event,'wbToolbox')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--soft);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Toolbox <span style="font-size:.55rem;opacity:.45;">▼</span></button>
+      <div class="wbdd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
+        <a href="index.html#gadgets" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--char);font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#2d857210;color:#2d8572;">⚡</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Gadgets</span><span style="font-size:.76rem;color:#908a80;">Mini tools and apps I've built</span></span></a>
+      </div>
+    </div>
+    <div class="wbnav-dd" id="wbResources" style="position:relative;">
+      <button onclick="toggleWBDD(event,'wbResources')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--soft);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Resources <span style="font-size:.55rem;opacity:.45;">▼</span></button>
+      <div class="wbdd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
+        <a href="index.html#resources" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--char);font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#7a5aad10;color:#7a5aad;">📚</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Resources</span><span style="font-size:.76rem;color:#908a80;">Checklists, guides, and frameworks</span></span></a>
+      </div>
+    </div>
+    <a href="index.html#books" style="padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--soft);text-decoration:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;">Books</a>
+    <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="padding:.55rem 1rem;font-size:.9rem;font-weight:600;color:#0a66c2;text-decoration:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;">LinkedIn</a>
+  </div>
+</nav>
+<div class="pbar-strip" id="pbarStrip" style="display:none;width:100%;padding:10px 32px;background:var(--cream);border-bottom:1px solid var(--border);position:sticky;top:57px;z-index:99;">
+  <div style="max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:16px;">
+    <div class="ptrack" id="ptrack" style="flex:1;max-width:320px;margin:0;"><div class="pdots" id="pdots"></div></div>
+    <div class="nlabel" id="nlabel" style="white-space:nowrap;"></div>
+  </div>
+</div>
+<div class="main" id="main">
+
+<div class="intro" id="intro">
+  <div class="ibadge">🔬 Science-backed · Personal use only</div>
+  <h1>What does your body <em>actually</em> need?</h1>
+  <p class="isub">A 5-minute assessment that gives you personalised, evidence-graded supplement suggestions — free from pseudoscience and marketing hype.</p>
+  <div class="frow">
+    <div class="feat"><div class="fdot"></div>~12 questions</div>
+    <div class="feat"><div class="fdot"></div>Ranked by relevance to you</div>
+    <div class="feat"><div class="fdot"></div>Not medical advice</div>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">Start your assessment →</button>
+  <p class="imeta">Always consult your doctor before starting any supplement.</p>
+</div>
+
+<div id="quiz" class="hidden">
+<div class="disc"><span class="di">🛡️</span><span><strong>General wellness information only — not medical advice.</strong> Consult a qualified healthcare professional before starting any supplement, especially if you have health conditions or take medication.</span></div>
+
+<!-- S1 -->
+<div class="screen" id="s1">
+  <div class="q-eye">Let's start honest</div>
+  <div class="q-hl">How have you been feeling lately?</div>
+  <div class="q-sub">Pick everything that rings true.</div>
+  <p class="mhint">Select all that apply</p>
+  <div class="pills">
+    <div class="popt" data-val="tired" onclick="togglePill(this,'feelings')">😴 Tired & low energy</div>
+    <div class="popt" data-val="sleep_bad" onclick="togglePill(this,'feelings')">🌙 Struggling to sleep</div>
+    <div class="popt" data-val="foggy" onclick="togglePill(this,'feelings')">🌫️ Brain fog</div>
+    <div class="popt" data-val="mood_low" onclick="togglePill(this,'feelings')">😔 Low or flat mood</div>
+    <div class="popt" data-val="stressed" onclick="togglePill(this,'feelings')">😤 Stressed / anxious</div>
+    <div class="popt" data-val="gym" onclick="togglePill(this,'feelings')">💪 Want to train better</div>
+    <div class="popt" data-val="sick_often" onclick="togglePill(this,'feelings')">🤧 Getting sick often</div>
+    <div class="popt" data-val="focus_poor" onclick="togglePill(this,'feelings')">🎯 Poor focus</div>
+    <div class="popt" data-val="joint" onclick="togglePill(this,'feelings')">🦴 Joint / muscle discomfort</div>
+    <div class="popt" data-val="gut" onclick="togglePill(this,'feelings')">💚 Gut / digestion issues</div>
+  </div>
+  <div class="nav-row"><div></div><button class="btn-cta" id="s1next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S2 -->
+<div class="screen" id="s2">
+  <div class="q-eye">Priorities</div>
+  <div class="q-hl">If you could fix <em>one</em> thing this month?</div>
+  <div class="q-sub">This determines how we rank your suggestions.</div>
+  <div class="cards">
+    <div class="copt" data-val="fatigue" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">⚡</span><span class="cl">My energy levels</span><span class="cs">Feel alive and awake</span></div>
+    <div class="copt" data-val="sleep" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🌙</span><span class="cl">My sleep quality</span><span class="cs">Deep, restorative rest</span></div>
+    <div class="copt" data-val="gym" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">💪</span><span class="cl">Athletic performance</span><span class="cs">Strength, muscle, recovery</span></div>
+    <div class="copt" data-val="focus" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🧠</span><span class="cl">Focus & cognition</span><span class="cs">Clarity, memory, sharp thinking</span></div>
+    <div class="copt" data-val="mood" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🌿</span><span class="cl">Mood & stress</span><span class="cs">Calm, resilient, balanced</span></div>
+    <div class="copt" data-val="immunity" onclick="selCard(this,'goal')"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🛡️</span><span class="cl">Immune system</span><span class="cs">Stay well year-round</span></div>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-cta" id="s2next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S3 dynamic -->
+<div class="screen" id="s3">
+  <div class="q-eye">Tell me more</div>
+  <div class="q-hl" id="s3hl">A bit more detail?</div>
+  <div class="q-sub">The more honest, the better the result.</div>
+  <p class="mhint">Select all that apply</p>
+  <div class="pills" id="s3pills"></div>
+  <div class="nav-row"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip this</button><button class="btn-cta" id="s3next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S4 diet -->
+<div class="screen" id="s4">
+  <div class="q-eye">Your diet</div>
+  <div class="q-hl">What does your diet actually look like?</div>
+  <div class="q-sub">The biggest factor for identifying nutritional gaps. Be honest — this is just for you.</div>
+  <div class="cards">
+    <div class="copt" data-val="omni" onclick="selCard(this,'diet');showDietSubs()"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🥩</span><span class="cl">Omnivore</span><span class="cs">I eat everything</span></div>
+    <div class="copt" data-val="pesce" onclick="selCard(this,'diet');showDietSubs()"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🐟</span><span class="cl">Pescatarian</span><span class="cs">Fish, no meat</span></div>
+    <div class="copt" data-val="veg" onclick="selCard(this,'diet');showDietSubs()"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🥛</span><span class="cl">Vegetarian</span><span class="cs">No meat or fish</span></div>
+    <div class="copt" data-val="vegan" onclick="selCard(this,'diet');showDietSubs()"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div><span class="ce">🌱</span><span class="cl">Vegan</span><span class="cs">No animal products</span></div>
+  </div>
+  <div id="dsubs" class="hidden">
+    <div class="subq"><div class="subq-lbl">How often do you eat <strong id="psrc">red meat</strong>?</div>
+      <div class="freq"><div class="fbtn" data-val="daily" onclick="selFreq(this,'meat_freq')"><span class="fn">Daily</span><span class="fl">or more</span></div><div class="fbtn" data-val="3-5" onclick="selFreq(this,'meat_freq')"><span class="fn">3–5×</span><span class="fl">per week</span></div><div class="fbtn" data-val="1-2" onclick="selFreq(this,'meat_freq')"><span class="fn">1–2×</span><span class="fl">per week</span></div><div class="fbtn" data-val="rarely" onclick="selFreq(this,'meat_freq')"><span class="fn">Rarely</span><span class="fl">&lt; monthly</span></div></div>
+    </div>
+    <div class="subq"><div class="subq-lbl">How often do you eat <strong>leafy greens, nuts, or seeds</strong>?</div>
+      <div class="freq"><div class="fbtn" data-val="daily" onclick="selFreq(this,'greens_freq')"><span class="fn">Daily</span></div><div class="fbtn" data-val="3-5" onclick="selFreq(this,'greens_freq')"><span class="fn">3–5×</span><span class="fl">per week</span></div><div class="fbtn" data-val="1-2" onclick="selFreq(this,'greens_freq')"><span class="fn">1–2×</span><span class="fl">per week</span></div><div class="fbtn" data-val="rarely" onclick="selFreq(this,'greens_freq')"><span class="fn">Rarely</span></div></div>
+    </div>
+    <div class="subq"><div class="subq-lbl">Do you eat <strong>dairy or fortified plant milks</strong>?</div>
+      <div class="freq"><div class="fbtn" data-val="daily" onclick="selFreq(this,'dairy_freq')"><span class="fn">Daily</span></div><div class="fbtn" data-val="sometimes" onclick="selFreq(this,'dairy_freq')"><span class="fn">Sometimes</span></div><div class="fbtn" data-val="never" onclick="selFreq(this,'dairy_freq')"><span class="fn">Never</span></div></div>
+    </div>
+    <div class="subq"><div class="subq-lbl">How much of your diet is <strong>ultra-processed food</strong> (ready meals, fast food, packaged snacks)?</div>
+      <div class="freq"><div class="fbtn" data-val="low" onclick="selFreq(this,'ultra_proc')"><span class="fn">Very little</span><span class="fl">home-cooked</span></div><div class="fbtn" data-val="medium" onclick="selFreq(this,'ultra_proc')"><span class="fn">Some</span><span class="fl">mixed</span></div><div class="fbtn" data-val="high" onclick="selFreq(this,'ultra_proc')"><span class="fn">A lot</span><span class="fl">most meals</span></div></div>
+    </div>
+  </div>
+  <div class="nav-row" style="margin-top:18px"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-cta" id="s4next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S5 body -->
+<div class="screen" id="s5">
+  <div class="q-eye">Your body</div>
+  <div class="q-hl">Height, weight & activity level</div>
+  <div class="q-sub">Used to calculate relevant dosing ranges and deficiency risks. Optional — skip if preferred.</div>
+  <div class="urow"><button class="ubtn active" id="mbtn" onclick="setUnits('metric')">Metric</button><button class="ubtn" id="ibtn" onclick="setUnits('imperial')">Imperial</button></div>
+  <div class="ngrid" id="minputs">
+    <div class="nfield"><label>Height</label><div class="ninner"><input type="number" id="hcm" placeholder="170" min="100" max="240" oninput="calcBMI()"><span class="nunit">cm</span></div></div>
+    <div class="nfield"><label>Weight</label><div class="ninner"><input type="number" id="wkg" placeholder="70" min="30" max="300" oninput="calcBMI()"><span class="nunit">kg</span></div></div>
+  </div>
+  <div class="ngrid hidden" id="iinputs">
+    <div class="nfield"><label>Height (ft)</label><div class="ninner"><input type="number" id="hft" placeholder="5" min="3" max="8" oninput="calcBMI()"><span class="nunit">ft</span></div></div>
+    <div class="nfield"><label>Height (in)</label><div class="ninner"><input type="number" id="hin" placeholder="10" min="0" max="11" oninput="calcBMI()"><span class="nunit">in</span></div></div>
+    <div class="nfield"><label>Weight</label><div class="ninner"><input type="number" id="wlbs" placeholder="154" min="66" max="660" oninput="calcBMI()"><span class="nunit">lbs</span></div></div>
+  </div>
+  <div class="bmic hidden" id="bmic">BMI: <span class="bv" id="bminum">—</span> <span id="bmicat"></span></div>
+  <div class="subq-lbl" style="margin-bottom:10px;margin-top:4px">How active are you?</div>
+  <div class="cards">
+    <div class="copt" data-val="sedentary" onclick="selCard(this,'activity')"><span class="cl">🪑 Mostly sedentary</span><span class="cs">Desk job, minimal exercise</span></div>
+    <div class="copt" data-val="light" onclick="selCard(this,'activity')"><span class="cl">🚶 Lightly active</span><span class="cs">1–2× per week</span></div>
+    <div class="copt" data-val="moderate" onclick="selCard(this,'activity')"><span class="cl">🏃 Moderately active</span><span class="cs">3–4× per week</span></div>
+    <div class="copt" data-val="very" onclick="selCard(this,'activity')"><span class="cl">🏋️ Very active</span><span class="cs">5–6× intense sessions</span></div>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" id="s5next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S6 demographics -->
+<div class="screen" id="s6">
+  <div class="q-eye">About you</div>
+  <div class="q-hl">Age, sex & background</div>
+  <div class="q-sub">All optional — but each adds meaningful precision to your results.</div>
+  <div class="subq-lbl" style="margin-bottom:9px">Age group</div>
+  <div class="cards three" style="margin-bottom:20px">
+    <div class="copt" data-val="teens" onclick="selCard(this,'age')"><span class="cl">Under 20</span></div>
+    <div class="copt" data-val="20s" onclick="selCard(this,'age')"><span class="cl">20s</span></div>
+    <div class="copt" data-val="30s" onclick="selCard(this,'age')"><span class="cl">30s</span></div>
+    <div class="copt" data-val="40s" onclick="selCard(this,'age')"><span class="cl">40s</span></div>
+    <div class="copt" data-val="50s" onclick="selCard(this,'age')"><span class="cl">50s</span></div>
+    <div class="copt" data-val="60plus" onclick="selCard(this,'age')"><span class="cl">60+</span></div>
+  </div>
+  <div class="subq-lbl" style="margin-bottom:9px">Biological sex <span style="font-weight:300;color:var(--soft)">(optional)</span></div>
+  <div class="cards three" style="margin-bottom:20px">
+    <div class="copt" data-val="male" onclick="selCard(this,'sex')"><span class="cl">Male</span></div>
+    <div class="copt" data-val="female" onclick="selCard(this,'sex')"><span class="cl">Female</span></div>
+    <div class="copt" data-val="skip" onclick="selCard(this,'sex')"><span class="cl">Prefer not</span></div>
+  </div>
+  <div class="subq-lbl" style="margin-bottom:9px">Ethnicity <span style="font-weight:300;color:var(--soft)">(affects vitamin D risk)</span></div>
+  <div class="pills">
+    <div class="popt" data-val="white" onclick="selPillE(this,'ethnicity')">White / European</div>
+    <div class="popt" data-val="south_asian" onclick="selPillE(this,'ethnicity')">South Asian</div>
+    <div class="popt" data-val="east_asian" onclick="selPillE(this,'ethnicity')">East / SE Asian</div>
+    <div class="popt" data-val="black" onclick="selPillE(this,'ethnicity')">Black / African</div>
+    <div class="popt" data-val="middle_eastern" onclick="selPillE(this,'ethnicity')">Middle Eastern</div>
+    <div class="popt" data-val="mixed" onclick="selPillE(this,'ethnicity')">Mixed / Other</div>
+    <div class="popt" data-val="skip" onclick="selPillE(this,'ethnicity')">Prefer not to say</div>
+  </div>
+  <div class="nav-row" style="margin-top:16px"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip all</button><button class="btn-cta" id="s6next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S7 sleep -->
+<div class="screen" id="s7">
+  <div class="q-eye">Sleep patterns</div>
+  <div class="q-hl">How long do you typically sleep?</div>
+  <div class="q-sub">Sleep duration affects energy, mood, immunity, and body composition.</div>
+  <div class="s-disp"><span id="slval">7</span><span>hrs</span></div>
+  <div class="s-labels"><span>4h</span><span>6h</span><span>8h</span><span>10h</span></div>
+  <input type="range" min="4" max="10" step="0.5" value="7" id="slslider" oninput="updSl()">
+  <div id="slhint" style="margin-top:12px;font-size:12.5px;color:var(--soft);font-style:italic;text-align:center;min-height:18px;line-height:1.5"></div>
+  <div class="subq">
+    <div class="subq-lbl">What time do you usually go to bed?</div>
+    <div class="cards" style="margin-bottom:0">
+      <div class="copt" data-val="before10" onclick="selCard(this,'bedtime')"><span class="cl">Before 10pm</span></div>
+      <div class="copt" data-val="10-12" onclick="selCard(this,'bedtime')"><span class="cl">10pm – midnight</span></div>
+      <div class="copt" data-val="after12" onclick="selCard(this,'bedtime')"><span class="cl">After midnight</span></div>
+      <div class="copt" data-val="varies" onclick="selCard(this,'bedtime')"><span class="cl">Varies a lot</span></div>
+    </div>
+  </div>
+  <div class="nav-row" style="margin-top:18px"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" id="s7next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S8 lifestyle -->
+<div class="screen" id="s8">
+  <div class="q-eye">Lifestyle signals</div>
+  <div class="q-hl">Sun, stress & gut health</div>
+  <div class="q-sub">Three of the most powerful and overlooked drivers of deficiency.</div>
+  <div class="subq-lbl" style="margin-bottom:9px">Daily outdoor / daylight time?</div>
+  <div class="cards" style="margin-bottom:20px">
+    <div class="copt" data-val="low" onclick="selCard(this,'sunlight')"><span class="cl">🌑 Very little</span><span class="cs">Mostly indoors</span></div>
+    <div class="copt" data-val="moderate" onclick="selCard(this,'sunlight')"><span class="cl">🌤️ Some</span><span class="cs">30–60 mins</span></div>
+    <div class="copt" data-val="high" onclick="selCard(this,'sunlight')"><span class="cl">☀️ Plenty</span><span class="cs">1+ hours outside</span></div>
+  </div>
+  <div class="subq-lbl" style="margin-bottom:6px">Current stress level</div>
+  <div class="s-disp" style="font-size:30px;margin-bottom:8px"><span id="stval">5</span><span>/10</span></div>
+  <div class="s-labels"><span>Very low</span><span>Moderate</span><span>Very high</span></div>
+  <input type="range" min="1" max="10" step="1" value="5" id="stslider" oninput="updSt()" style="margin-bottom:22px">
+  <div class="subq-lbl" style="margin-bottom:9px">How's your gut / digestion?</div>
+  <div class="cards" style="margin-bottom:0">
+    <div class="copt" data-val="good" onclick="selCard(this,'gut_health')"><span class="cl">✅ No issues</span></div>
+    <div class="copt" data-val="bloating" onclick="selCard(this,'gut_health')"><span class="cl">💨 Bloating / gas</span></div>
+    <div class="copt" data-val="irregular" onclick="selCard(this,'gut_health')"><span class="cl">📊 Irregular bowels</span></div>
+    <div class="copt" data-val="ibs" onclick="selCard(this,'gut_health')"><span class="cl">🔴 IBS / diagnosed issue</span></div>
+  </div>
+  <div class="nav-row" style="margin-top:18px"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" id="s8next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S9 gym (conditional) -->
+<div class="screen" id="s9">
+  <div class="q-eye">Training details</div>
+  <div class="q-hl">What are you <em>actually</em> chasing in the gym?</div>
+  <div class="q-sub">Multi-select — most people have more than one goal.</div>
+  <p class="mhint">Select all that apply</p>
+  <div class="pills">
+    <div class="popt" data-val="muscle" onclick="togglePill(this,'gym_goals')">💪 Build muscle</div>
+    <div class="popt" data-val="strength" onclick="togglePill(this,'gym_goals')">🏋️ Strength / 1RM</div>
+    <div class="popt" data-val="endurance" onclick="togglePill(this,'gym_goals')">🏃 Cardio / endurance</div>
+    <div class="popt" data-val="fat_loss" onclick="togglePill(this,'gym_goals')">🔥 Fat loss</div>
+    <div class="popt" data-val="recovery" onclick="togglePill(this,'gym_goals')">🔄 Faster recovery</div>
+    <div class="popt" data-val="injury_prev" onclick="togglePill(this,'gym_goals')">🦴 Joint protection</div>
+    <div class="popt" data-val="recomp" onclick="togglePill(this,'gym_goals')">⚖️ Body recomposition</div>
+    <div class="popt" data-val="sport" onclick="togglePill(this,'gym_goals')">📈 Sport performance</div>
+  </div>
+  <div class="subq">
+    <div class="subq-lbl">Training experience?</div>
+    <div class="cards three" style="margin-bottom:0">
+      <div class="copt" data-val="beginner" onclick="selCard(this,'exp')"><span class="cl">🌱 Beginner</span><span class="cs">&lt; 6 months</span></div>
+      <div class="copt" data-val="intermediate" onclick="selCard(this,'exp')"><span class="cl">📈 Intermediate</span><span class="cs">6m – 3 years</span></div>
+      <div class="copt" data-val="advanced" onclick="selCard(this,'exp')"><span class="cl">🏆 Advanced</span><span class="cs">3+ years</span></div>
+    </div>
+  </div>
+  <div class="nav-row" style="margin-top:18px"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" id="s9next" onclick="next()" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S10 current supplements -->
+<div class="screen" id="s10">
+  <div class="q-eye">What you already take</div>
+  <div class="q-hl">Current supplements or medications?</div>
+  <div class="q-sub">Helps avoid redundant suggestions and flag potential interactions.</div>
+  <textarea class="qtxt" id="currsupps" placeholder="E.g. 'vitamin D 2000 IU, fish oil daily' or 'sertraline 50mg' or 'nothing currently'..."></textarea>
+  <div style="font-size:11.5px;color:var(--soft);font-weight:300;margin-bottom:22px">Include prescription medications — some interact with common supplements.</div>
+  <div class="nav-row"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" onclick="saveTxt('currsupps','curr_supps');next()">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+</div>
+
+<!-- S11 conditions -->
+<div class="screen" id="s11">
+  <div class="q-eye">Health background</div>
+  <div class="q-hl">Any diagnosed conditions we should know about?</div>
+  <div class="q-sub">This is where safety cautions get personalised. Completely optional — but important.</div>
+  <textarea class="qtxt" id="condinput" placeholder="E.g. 'type 2 diabetes', 'hypothyroidism', 'pregnant', 'IBS', 'heart disease', 'none'..."></textarea>
+  <div class="nav-row"><button class="btn-back" onclick="prev()">← Back</button><button class="btn-skip" onclick="skipNext()">Skip</button><button class="btn-cta" onclick="saveTxt('condinput','conditions');showResults()">Show my results →</button></div>
+</div>
+
+</div><!-- /quiz -->
+<div id="rscreen"></div>
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<div class="mov hidden" id="mov">
+  <div class="mbox">
+    <h3>📋 Summary for your doctor</h3>
+    <p class="msub">Plain-English — copy and bring to your GP. They can advise on what's genuinely appropriate for your situation.</p>
+    <div class="mtxt" id="mtxt"></div>
+    <div class="macts"><button class="btn-mc" onclick="closeModal()">Close</button><button class="btn-mcp" onclick="copyModal()">Copy to clipboard</button></div>
+  </div>
+</div>
+<script>
+const S={feelings:[],goal:null,specifics:[],diet:null,meat_freq:null,greens_freq:null,dairy_freq:null,ultra_proc:null,bmi:null,weight_kg:null,height_m:null,activity:null,age:null,sex:null,ethnicity:null,sleep_hours:7,bedtime:null,sunlight:null,stress:5,gut_health:null,gym_goals:[],exp:null,curr_supps:'',conditions:'',useMetric:true};
+const TOTAL=11;
+let step=0;
+
+function startQuiz(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('quiz').classList.remove('hidden');
+  document.getElementById('ptrack').classList.remove('hidden');
+  document.getElementById('pbarStrip').style.display='';
+  step=1;buildDots();showStep(1);
+}
+function buildDots(){
+  const w=document.getElementById('pdots');w.innerHTML='';
+  for(let i=1;i<=TOTAL;i++){const d=document.createElement('div');d.className='dot';d.id='d'+i;w.appendChild(d);}
+  updateDots();
+}
+function updateDots(){
+  for(let i=1;i<=TOTAL;i++){const d=document.getElementById('d'+i);if(!d)continue;d.className='dot'+(i===step?' active':i<step?' done':'');}
+  document.getElementById('nlabel').textContent=step+' / '+TOTAL;
+}
+function showStep(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  if(n===9&&!needGym()){step=n+1;showStep(n+1);return;}
+  if(n===3)popSpec();
+  const el=document.getElementById('s'+n);if(el)el.classList.add('active');
+  updateDots();window.scrollTo({top:0,behavior:'smooth'});
+}
+function next(){collectStep();if(step<TOTAL){step++;showStep(step);}else showResults();}
+function prev(){if(step>1){step--;showStep(step);}}
+function skipNext(){if(step<TOTAL){step++;showStep(step);}else showResults();}
+function saveTxt(inputId,key){S[key]=(document.getElementById(inputId)||{}).value||'';}
+function collectStep(){
+  if(step===7)S.sleep_hours=parseFloat(document.getElementById('slslider').value);
+  if(step===8)S.stress=parseInt(document.getElementById('stslider').value);
+}
+function needGym(){return S.goal==='gym'||S.feelings.includes('gym')||S.feelings.includes('joint');}
+
+function togglePill(el,key){
+  const val=el.dataset.val;el.classList.toggle('sel');
+  if(!Array.isArray(S[key]))S[key]=[];
+  const idx=S[key].indexOf(val);
+  if(idx>-1)S[key].splice(idx,1);else S[key].push(val);
+  if(key==='feelings'){const b=document.getElementById('s1next');if(b)b.disabled=S.feelings.length===0;}
+  if(key==='specifics'){const b=document.getElementById('s3next');if(b)b.disabled=S.specifics.length===0;}
+  if(key==='gym_goals'){const b=document.getElementById('s9next');if(b)b.disabled=S.gym_goals.length===0;}
+}
+function selPillE(el,key){
+  el.closest('.pills').querySelectorAll('.popt').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');S[key]=el.dataset.val;
+  if(key==='ethnicity'){const b=document.getElementById('s6next');if(b)b.disabled=false;}
+}
+function selCard(el,key){
+  el.closest('.cards').querySelectorAll('.copt').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');S[key]=el.dataset.val;
+  if(key==='goal'){const b=document.getElementById('s2next');if(b)b.disabled=false;}
+  if(key==='activity'){const b=document.getElementById('s5next');if(b)b.disabled=false;}
+  if(key==='age'||key==='sex'){const b=document.getElementById('s6next');if(b)b.disabled=false;}
+  if(key==='bedtime'){const b=document.getElementById('s7next');if(b)b.disabled=false;}
+  if(key==='sunlight'||key==='gut_health'){const b=document.getElementById('s8next');if(b)b.disabled=false;}
+  if(key==='exp'){const b=document.getElementById('s9next');if(b)b.disabled=false;}
+}
+function selFreq(el,key){
+  el.closest('.freq').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');S[key]=el.dataset.val;
+}
+function showDietSubs(){
+  document.getElementById('dsubs').classList.remove('hidden');
+  const lbl={vegan:'legumes / tofu',veg:'legumes / tofu',pesce:'fish / seafood',omni:'red meat'};
+  document.getElementById('psrc').textContent=lbl[S.diet]||'protein source';
+  document.getElementById('s4next').disabled=false;
+}
+function popSpec(){
+  const goal=S.goal||'fatigue';
+  const data={
+    fatigue:{h:'What does your tiredness feel like?',opts:[{v:'afternoon_crash',l:'😴 Afternoon energy crash'},{v:'wake_groggy',l:'😵 Wake up exhausted'},{v:'low_motivation',l:'😶 Low motivation'},{v:'brain_fog',l:'🌫️ Persistent brain fog'},{v:'poor_stamina',l:'😮‍💨 Poor physical stamina'},{v:'feel_cold',l:'🥶 Feel cold all the time'},{v:'breathless',l:'😤 Get breathless easily'},{v:'post_illness',l:'🤒 Still recovering from illness'}]},
+    sleep:{h:'What best describes your sleep struggle?',opts:[{v:'sleep_onset',l:"⏰ Can't fall asleep"},{v:'wake_night',l:'🌙 Wake during the night'},{v:'racing_mind',l:'🧠 Racing mind at bedtime'},{v:'unrefreshing',l:'😞 Wake unrefreshed'},{v:'early_wake',l:'🌅 Wake too early'},{v:'screen_time',l:'📱 Heavy screen time at night'},{v:'irregular',l:'🔄 Irregular schedule'},{v:'caffeine_pm',l:'☕ Caffeine after 2pm'}]},
+    gym:{h:'What holds you back most?',opts:[{v:'plateau',l:'📉 Hit a plateau'},{v:'slow_recov',l:'🔄 Slow muscle recovery'},{v:'low_stamina',l:'🫀 Gas out mid-workout'},{v:'joint_pain',l:'🦴 Joint / tendon pain'},{v:'protein_gap',l:"🥩 Can't hit protein targets"},{v:'poor_sleep_gym',l:'😴 Sleep affecting performance'},{v:'motivation',l:'💤 Motivation / consistency'},{v:'fat_stall',l:'⚖️ Fat loss has stalled'}]},
+    focus:{h:'Where does focus break down for you?',opts:[{v:'short_attn',l:'🎯 Short attention span'},{v:'memory',l:'🧠 Memory & recall'},{v:'mental_fat',l:'💤 Mental fatigue quickly'},{v:'decision_fat',l:'🤯 Decision fatigue'},{v:'studying',l:'📚 Heavy study / deep work'},{v:'creative',l:'💡 Creative blocks'},{v:'procrastinate',l:'⏳ Procrastination loops'},{v:'word_finding',l:'💬 Word-finding difficulties'}]},
+    mood:{h:'What resonates most right now?',opts:[{v:'anxiety',l:'😰 Anxious / worried'},{v:'low_mood',l:'😔 Low or flat mood'},{v:'burnout',l:'🔥 Burnout & exhaustion'},{v:'seasonal',l:'🌧️ Seasonal low (winter)'},{v:'irritable',l:'😤 Irritable / short fuse'},{v:'withdrawal',l:'🚪 Withdrawing socially'},{v:'stress_eat',l:'🍕 Stress eating / cravings'},{v:'overwhelm',l:'🌊 Feeling overwhelmed'}]},
+    immunity:{h:'What patterns have you noticed?',opts:[{v:'freq_ill',l:'🤧 Get sick 4+ times a year'},{v:'slow_recov',l:'⏳ Slow to recover'},{v:'slow_heal',l:'🩹 Wounds heal slowly'},{v:'run_down',l:'😴 Constantly run-down'},{v:'high_stress',l:'😤 Under a lot of stress'},{v:'poor_diet',l:'🍔 Diet is poor currently'},{v:'low_sun',l:'🌑 Very little sunlight'},{v:'travel',l:'✈️ Travel frequently'}]}
+  }[goal]||{h:'A bit more detail?',opts:[]};
+  document.getElementById('s3hl').textContent=data.h;
+  const c=document.getElementById('s3pills');c.innerHTML='';
+  data.opts.forEach(opt=>{
+    const el=document.createElement('div');
+    el.className='popt'+(S.specifics.includes(opt.v)?' sel':'');
+    el.dataset.val=opt.v;el.textContent=opt.l;
+    el.onclick=()=>togglePill(el,'specifics');
+    c.appendChild(el);
+  });
+}
+function setUnits(u){
+  S.useMetric=u==='metric';
+  document.getElementById('minputs').classList.toggle('hidden',!S.useMetric);
+  document.getElementById('iinputs').classList.toggle('hidden',S.useMetric);
+  document.getElementById('mbtn').classList.toggle('active',S.useMetric);
+  document.getElementById('ibtn').classList.toggle('active',!S.useMetric);
+  calcBMI();
+}
+function calcBMI(){
+  let hm,wkg;
+  if(S.useMetric){
+    const h=parseFloat(document.getElementById('hcm').value);
+    const w=parseFloat(document.getElementById('wkg').value);
+    if(!h||!w){document.getElementById('bmic').classList.add('hidden');return;}
+    hm=h/100;wkg=w;
+  }else{
+    const ft=parseFloat(document.getElementById('hft').value)||0;
+    const inc=parseFloat(document.getElementById('hin').value)||0;
+    const lbs=parseFloat(document.getElementById('wlbs').value);
+    if(!ft||!lbs){document.getElementById('bmic').classList.add('hidden');return;}
+    hm=(ft*12+inc)*0.0254;wkg=lbs*0.453592;
+  }
+  const bmi=wkg/(hm*hm);
+  S.bmi=parseFloat(bmi.toFixed(1));S.weight_kg=wkg;S.height_m=hm;
+  const cat=bmi<18.5?'Underweight':bmi<25?'Healthy weight':bmi<30?'Overweight':'Obese range';
+  document.getElementById('bminum').textContent=bmi.toFixed(1);
+  document.getElementById('bmicat').textContent='— '+cat;
+  document.getElementById('bmic').classList.remove('hidden');
+}
+function updSl(){
+  const v=document.getElementById('slslider').value;
+  document.getElementById('slval').textContent=v;
+  S.sleep_hours=parseFloat(v);
+  const b=document.getElementById('s7next');if(b)b.disabled=false;
+  const hints={4:'Significantly below recommended — associated with elevated cortisol, impaired immunity, and metabolic disruption.',4.5:'Very short. Most adults require 7–9 hours for full restoration.',5:'Notably short — linked to hormonal disruption and immune suppression.',5.5:'Below optimal. Even one extra hour often produces measurable improvements.',6:'Slightly under the recommended range for most adults.',6.5:'Just below optimal.',7:'Within the healthy range for most adults.',7.5:'Ideal sleep duration for many people.',8:'Excellent sleep duration.',8.5:'Common during recovery-intensive periods.',9:'Above average — normal if very active.',9.5:'Consistently this long may be worth mentioning to your GP.',10:'If involuntary, worth discussing with your doctor.'};
+  const key=Math.round(parseFloat(v)*2)/2;
+  document.getElementById('slhint').textContent=hints[key]||'';
+}
+function updSt(){
+  const v=document.getElementById('stslider').value;
+  document.getElementById('stval').textContent=v;
+  S.stress=parseInt(v);
+  const b=document.getElementById('s8next');if(b)b.disabled=false;
+}
+
+// DATABASE
+const DB={
+  vitamin_d:{n:'Vitamin D₃',icon:'☀️',tag:'Critical for immunity, mood, muscle, and nearly every cell',ev:'strong',
+    why:{fatigue:'Vitamin D receptors exist in virtually every tissue. Deficiency is one of the most common and underdiagnosed causes of persistent fatigue and low mood.',sleep:'Influences melatonin and serotonin synthesis — both central to sleep timing and quality.',mood:'Modulates serotonin production. One of the most replicated correlates of seasonal affective disorder and low mood.',immunity:'Activates innate immune defences and regulates inflammatory cytokines. Deficiency significantly increases infection susceptibility.',gym:'Supports muscle protein synthesis, type II muscle fibre development, and testosterone production.',focus:'Dense VDR receptors in brain regions governing memory and executive function. Deficiency is linked to brain fog and cognitive decline.'},
+    sci:'Acts via nuclear VDR receptors to regulate gene expression across immune cells, neurons, and muscle fibres. Supports mitochondrial calcium homeostasis.',
+    dose:'1,000–4,000 IU daily (D3, not D2) with a fatty meal. Darker skin or indoor lifestyles often need the higher end. A 25-OH vitamin D blood test is the gold standard for personalising your dose.',
+    src:'Oily fish, egg yolks, fortified foods — dietary intake alone is rarely sufficient at most latitudes.',
+    caut:'Very high doses (>10,000 IU/day long-term) can cause hypercalcaemia. Check with GP if taking calcium supplements or if you have kidney disease.'},
+  magnesium:{n:'Magnesium',icon:'🌿',tag:'Cofactor in 300+ reactions — deficiency is extremely common',ev:'strong',
+    why:{fatigue:'Essential for ATP synthesis. Deficiency — widespread in Western diets — directly impairs mitochondrial energy production.',sleep:'Activates GABA receptors, lowering nervous system arousal and cortisol. Glycinate and threonate forms are most effective for sleep.',mood:'Regulates the HPA stress axis and NMDA glutamate receptors. Low magnesium is strongly associated with anxiety and depression.',gym:'Required for muscle contraction, relaxation, and protein synthesis. Athletes lose significant magnesium through sweat.',focus:'Magnesium L-threonate crosses the blood-brain barrier and has shown improvements in working memory and synaptic plasticity in clinical trials.',immunity:'Cofactor for immune cell activation and anti-inflammatory cytokine regulation.'},
+    sci:'Cofactor for ATP synthase, DNA/RNA polymerase, and glutathione synthesis. Regulates NMDA receptors and GABA activity.',
+    dose:'200–400 mg elemental magnesium daily. Form matters: glycinate (sleep/anxiety), L-threonate (cognition), malate (energy), citrate (general). Avoid oxide — poor absorption. Take with food.',
+    src:'Dark leafy greens, almonds, pumpkin seeds, dark chocolate, legumes.',
+    caut:'High doses may cause loose stools — start low. Caution with kidney disease. May reduce absorption of some antibiotics.'},
+  omega3:{n:'Omega-3 (EPA + DHA)',icon:'🐟',tag:'Anti-inflammatory essential fats — most people are severely under-consumed',ev:'strong',
+    why:{mood:'EPA reduces neuroinflammation and modulates serotonergic pathways. Meta-analyses support ≥1g EPA/day for mood.',focus:'DHA is a structural component of neuronal membranes — ~30% of brain grey matter. Optimal DHA correlates with processing speed and memory.',immunity:'EPA/DHA-derived resolvins actively terminate inflammation and support immune resolution after infection.',gym:'Reduces muscle soreness markers post-exercise, shortens recovery, and supports muscle protein synthesis.',fatigue:'May improve mitochondrial membrane fluidity, affecting cellular energy efficiency.',sleep:'DHA is involved in melatonin synthesis. Higher omega-3 status is associated with longer sleep duration.'},
+    sci:'EPA and DHA incorporate into phospholipid membranes, modulating eicosanoid production and inflammatory cascades. EPA gives rise to anti-inflammatory resolvins and protectins.',
+    dose:'1,000–3,000 mg combined EPA+DHA daily. For mood, target ≥1,000 mg EPA specifically. Algae-based omega-3 for vegans/vegetarians. Take with a fatty meal.',
+    src:'Oily fish (sardines, mackerel, salmon, anchovies). Plant ALA converts to EPA/DHA at <10% efficiency — direct supplementation is superior.',
+    caut:'Mild antiplatelet effect — discuss with your doctor if on anticoagulants. Ensure product is tested for heavy metals.'},
+  b12:{n:'Vitamin B12',icon:'⚡',tag:'Essential for nerve function, red blood cells, and methylation',ev:'strong',
+    why:{fatigue:'B12 deficiency causes megaloblastic anaemia and neurological fatigue. Vegans without supplementation almost universally develop deficiency over time.',mood:'Required for SAMe synthesis — the primary methyl donor in serotonin and dopamine production.',focus:'Myelin sheath maintenance depends on B12. Deficiency causes brain fog, memory impairment, and peripheral neuropathy.'},
+    sci:'Coenzyme for methylmalonyl-CoA to succinyl-CoA conversion (energy metabolism) and remethylation of homocysteine to methionine (DNA methylation, neurotransmitter synthesis).',
+    dose:'500–2,000 mcg methylcobalamin daily (sublingual or oral — sublingual bypasses absorption issues). Vegans: supplement consistently without exception.',
+    src:'Meat, fish, dairy, eggs. Essentially absent from plant foods.',
+    caut:'Extremely safe — water-soluble, excess excreted. Those on metformin should check B12 levels regularly.'},
+  creatine:{n:'Creatine Monohydrate',icon:'💪',tag:'The most researched performance supplement in existence',ev:'strong',
+    why:{gym:'Increases phosphocreatine stores for rapid ATP resynthesis during high-intensity effort. Consistently shown to increase strength, power, and muscle mass across hundreds of trials.',focus:'Creatine kinase is active in neurons. Research shows improved working memory and reduced mental fatigue — especially in vegetarians with lower baseline stores.',fatigue:'Reduces physical fatigue markers and may improve cellular energy availability.'},
+    sci:'Elevates intramuscular and cerebral phosphocreatine pools, enabling faster ATP resynthesis. Emerging neuroprotective and mitochondrial evidence.',
+    dose:'3–5 g per day consistently. No loading phase needed. Monohydrate is as effective as any fancy form at a fraction of the cost.',
+    src:'Red meat and fish contain some creatine, but cooking destroys much of it. Vegans/vegetarians have significantly lower baseline stores.',
+    caut:'Extremely safe — decades of research. Minor initial water retention is normal. Avoid in active kidney disease.'},
+  ashwagandha:{n:'Ashwagandha (KSM-66)',icon:'🌱',tag:'Adaptogen with strongest clinical evidence for stress and cortisol',ev:'moderate',evNote:'Most RCTs are 8–12 weeks. Effect sizes are real but modest. Not a substitute for addressing root causes of stress.',
+    why:{mood:'Multiple RCTs with KSM-66 or Sensoril show significant reductions in perceived stress and anxiety, likely by blunting cortisol reactivity.',fatigue:'May support energy in chronically stressed individuals by normalising the cortisol diurnal rhythm.',gym:'Several trials show modest improvements in testosterone in men and marginal strength gains.',sleep:'One well-designed RCT found improved sleep quality and morning alertness — possibly via GABAergic and anti-cortisol mechanisms.'},
+    sci:'Withanolides modulate the HPA axis, reducing cortisol peaks. Anti-inflammatory with possible thyroid-stimulating effects at higher doses.',
+    dose:'300–600 mg/day of standardised KSM-66 or Sensoril extract. Allow 4–8 weeks for meaningful effect.',
+    src:'Ayurvedic herb root — supplement form only.',
+    caut:'Avoid in pregnancy and autoimmune conditions. May interact with thyroid medication and immunosuppressants. Take with food.'},
+  zinc:{n:'Zinc',icon:'🔬',tag:'Immune-critical mineral — commonly depleted by stress and training',ev:'strong',
+    why:{immunity:'Essential for T-cell maturation, NK cell activity, and inflammatory resolution. Deficiency significantly impairs immune response.',gym:'Involved in testosterone synthesis and GH release. Deficiency is common in athletes due to sweat losses.',mood:'Modulates glutamate/GABA signalling — lower serum zinc is associated with depression.',fatigue:'Sub-optimal zinc impairs immune function and cellular energy metabolism.'},
+    sci:'Structural component of 300+ enzymes. Regulates thymic hormone production, lymphocyte proliferation, and cytokine release.',
+    dose:'15–25 mg elemental zinc daily. Picolinate or bisglycinate forms are better absorbed than zinc oxide. Do not exceed 40 mg/day long-term.',
+    src:'Oysters (highest source), red meat, pumpkin seeds, legumes.',
+    caut:'Long-term supplementation depletes copper — consider taking copper alongside (10:1 ratio). May cause nausea on an empty stomach.'},
+  vitamin_c:{n:'Vitamin C',icon:'🍊',tag:'Immune cornerstone and collagen synthesis cofactor',ev:'strong',
+    why:{immunity:'Concentrates in immune cells at 80x plasma levels. Enhances neutrophil function and supports epithelial barrier integrity.',gym:'Essential for collagen production — critical for tendon, cartilage, and joint integrity.',mood:'Cofactor in noradrenaline and serotonin synthesis. Deficiency is associated with fatigue and low mood.'},
+    sci:'Potent reducing agent. Regenerates vitamin E, enhances non-haem iron absorption, and is essential for collagen hydroxylation.',
+    dose:'200–1,000 mg daily, split across the day for better retention. Liposomal forms may offer superior absorption at higher doses.',
+    src:'Kiwi, red bell peppers, citrus, broccoli, strawberries, blackcurrants.',
+    caut:'Very high doses (>2,000 mg/day) may cause GI upset and increase kidney stone risk in predisposed individuals.'},
+  melatonin:{n:'Melatonin',icon:'🌙',tag:'The circadian signal — not a sedative',ev:'strong',evNote:'Very strong evidence for circadian phase-shifting and sleep onset. Weaker for non-circadian sleep disorders.',
+    why:{sleep:'Signals the SCN that night has arrived. Most effective for sleep onset delay, jet lag, irregular schedules, and blue-light-disrupted melatonin production.'},
+    sci:'Synthesised from serotonin in the pineal gland. Binds MT1/MT2 receptors in the SCN to shift circadian phase and lower core body temperature.',
+    dose:'Start at 0.5–1 mg, 30–60 min before intended sleep. Most users over-dose — 5 mg is rarely more effective than 1 mg and increases next-day grogginess.',
+    src:'Tart cherry juice contains trace amounts but at sub-therapeutic concentrations.',
+    caut:'Avoid in autoimmune conditions. Not recommended for children without medical supervision. May interact with anticoagulants.'},
+  l_theanine:{n:'L-Theanine',icon:'🍵',tag:'Calm focus — the amino acid in green tea',ev:'moderate',evNote:'Well-evidenced combined with caffeine. Standalone effects are modest but consistent.',
+    why:{focus:'Paired with caffeine, consistently improves sustained attention and accuracy while reducing jitteriness. One of the best-evidenced nootropic combinations.',mood:'Promotes alpha brain wave activity — associated with relaxed alertness without sedation.',sleep:'Some evidence for reducing pre-sleep anxiety and improving sleep quality without next-day grogginess.'},
+    sci:'Crosses the blood-brain barrier. Modulates GABA, glutamate, and dopamine. Increases alpha-wave oscillations associated with calm, focused states.',
+    dose:'100–200 mg. Best with caffeine (1:2 ratio — 100mg caffeine + 200mg theanine). For sleep, 200 mg alone 30 min before bed.',
+    src:'Green tea and matcha contain natural L-theanine at lower concentrations.',
+    caut:'Very safe. Mild blood-pressure-lowering effect — note if on antihypertensives.'},
+  b_complex:{n:'B Vitamin Complex',icon:'🔶',tag:'Every energy pathway runs on B vitamins as cofactors',ev:'strong',
+    why:{fatigue:'B1, B2, B3, and B5 are direct coenzymes in the Krebs cycle and electron transport chain — converting food into usable cellular energy.',mood:'B6 is required for serotonin, dopamine, and GABA synthesis. B9 and B12 drive the methylation cycle critical for neurotransmitter balance.',focus:'The entire one-carbon methylation cycle — underpinning neurotransmitter production and myelin maintenance — requires B vitamins as cofactors.'},
+    sci:'Thiamine (B1), riboflavin (B2), niacin (B3), pantothenic acid (B5) are Krebs cycle coenzymes. B6, B9, B12 drive one-carbon metabolism.',
+    dose:'A quality B complex once daily with food. Prioritise methylated forms (methylfolate, methylcobalamin). Avoid mega-dose B6 (>100 mg/day) long-term.',
+    src:'Wholegrains, meat, fish, eggs, legumes, leafy greens.',
+    caut:'Water-soluble — excess excreted. Exception: chronic high-dose B6 (>200 mg/day) causes peripheral neuropathy.'},
+  coq10:{n:'CoQ10 (Ubiquinol)',icon:'⚡',tag:'Mitochondrial electron carrier — declines sharply after 40',ev:'moderate',evNote:'Strong evidence in statin users and heart failure. More modest evidence in otherwise healthy adults.',
+    why:{fatigue:'Shuttles electrons in the mitochondrial inner membrane. Levels decline with age — supplementation may restore mitochondrial efficiency in older adults or statin users.',gym:'Some evidence for reduced exercise-induced oxidative stress and marginal improvements in peak power output.'},
+    sci:'Shuttles electrons between Complex I/II and Complex III in the electron transport chain, enabling ATP synthesis. Fat-soluble antioxidant in mitochondrial membranes.',
+    dose:'100–300 mg ubiquinol daily (the reduced, active form — better absorbed than ubiquinone) with a fatty meal. Essential if on statin medication.',
+    src:'Organ meats, beef, sardines, spinach, broccoli — at much lower concentrations than therapeutic doses.',
+    caut:'May mildly lower blood pressure. Monitor INR if on warfarin.'},
+  probiotics:{n:'Probiotics',icon:'🦠',tag:'70–80% of immune cells live in your gut',ev:'moderate',evNote:'Gut-brain axis research is compelling but early-stage. Strain specificity matters enormously.',
+    why:{immunity:'Lactobacillus and Bifidobacterium strains support secretory IgA, competitive exclusion of pathogens, and mucosal barrier integrity.',mood:"The gut produces ~90% of the body's serotonin. Emerging research links microbiome diversity to mood and stress resilience via the vagal gut-brain axis."},
+    sci:'Colonise the gut, produce short-chain fatty acids (butyrate), and signal the immune system via pattern recognition receptors.',
+    dose:'5–50 billion CFU/day with food. Evidence-based strains: L. acidophilus, B. longum, or Saccharomyces boulardii for immune support.',
+    src:'Yoghurt, kefir, sauerkraut, kimchi, tempeh, miso.',
+    caut:'Very safe in healthy individuals. Avoid in severely immunocompromised states without medical clearance.'},
+  iron:{n:'Iron (Test First)',icon:'🔴',tag:'Most common deficiency globally — but dangerous to self-supplement',ev:'strong',
+    why:{fatigue:'Iron deficiency anaemia is one of the most common reversible causes of persistent fatigue. Even sub-clinical low ferritin causes fatigue before anaemia develops.'},
+    sci:'Core of haemoglobin and myoglobin — responsible for oxygen transport. Cofactor for mitochondrial Complex IV.',
+    dose:'DO NOT supplement without a confirmed blood test. Ferritin + full blood count first. If deficient, 15–65 mg elemental iron daily under GP guidance.',
+    src:'Red meat (haem iron — best absorbed), lentils, spinach, tofu (pair with vitamin C for better absorption).',
+    caut:'⚠️ Do not self-supplement without confirmed deficiency. Excess iron causes oxidative damage. A GP must be involved.'},
+  protein:{n:'Protein (Foundation First)',icon:'🥩',tag:'Before any supplement, hit your protein targets',ev:'strong',
+    why:{gym:'Most people who plateau in the gym are under-consuming protein. No supplement compensates for this gap. Muscle protein synthesis requires consistent daily protein intake.'},
+    sci:'Muscle protein synthesis requires a leucine threshold (~2.5–3g per meal). Daily protein drives net muscle gain. Whey, casein, or plant blends all work if leucine content is matched.',
+    dose:'Target ~1.6–2.2g protein per kg bodyweight per day. A quality protein powder can bridge gaps.',
+    src:'Chicken, fish, eggs, Greek yoghurt, cottage cheese, lentils, tofu, tempeh.',
+    caut:'Safe for healthy individuals at these ranges. Those with kidney disease should consult their GP before significantly increasing protein.'}
+};
+
+// ENGINE
+function sc(db,id,pts){if(!db[id])db[id]=0;db[id]+=pts;}
+function buildRecs(){
+  const scores={};
+  const g=S.goal||'fatigue';
+  const f=S.feelings||[];const sp=S.specifics||[];const gg=S.gym_goals||[];
+  const isPlant=S.diet==='vegan'||S.diet==='veg';
+  const cond=(S.conditions||'').toLowerCase();
+  const curr=(S.curr_supps||'').toLowerCase();
+
+  if(g==='fatigue'||f.includes('tired')){
+    sc(scores,'magnesium',5);sc(scores,'b_complex',5);sc(scores,'vitamin_d',4);
+    sc(scores,'coq10',3);sc(scores,'iron',3);sc(scores,'omega3',2);
+    if(sp.includes('brain_fog')){sc(scores,'omega3',3);sc(scores,'magnesium',2);}
+    if(sp.includes('feel_cold')||sp.includes('breathless'))sc(scores,'iron',4);
+    if(sp.includes('post_illness')){sc(scores,'zinc',3);sc(scores,'vitamin_c',2);}
+  }
+  if(g==='sleep'||f.includes('sleep_bad')){
+    sc(scores,'magnesium',5);sc(scores,'melatonin',4);sc(scores,'l_theanine',3);
+    sc(scores,'vitamin_d',3);sc(scores,'ashwagandha',2);
+    if(sp.includes('racing_mind')){sc(scores,'ashwagandha',3);sc(scores,'l_theanine',2);}
+    if(sp.includes('screen_time'))sc(scores,'melatonin',2);
+    if(S.bedtime==='after12')sc(scores,'melatonin',2);
+  }
+  if(g==='gym'||f.includes('gym')){
+    sc(scores,'creatine',6);sc(scores,'magnesium',4);sc(scores,'omega3',3);
+    sc(scores,'vitamin_d',3);sc(scores,'zinc',2);sc(scores,'vitamin_c',2);
+    if(gg.includes('muscle')||gg.includes('strength'))sc(scores,'protein',5);
+    if(gg.includes('endurance')){sc(scores,'coq10',2);sc(scores,'b_complex',2);}
+    if(gg.includes('recovery')||sp.includes('slow_recov')){sc(scores,'omega3',3);sc(scores,'magnesium',2);}
+    if(gg.includes('injury_prev')||sp.includes('joint_pain')||f.includes('joint')){sc(scores,'omega3',4);sc(scores,'vitamin_c',3);}
+  }
+  if(g==='focus'||f.includes('focus_poor')||f.includes('foggy')){
+    sc(scores,'omega3',5);sc(scores,'l_theanine',4);sc(scores,'magnesium',3);
+    sc(scores,'creatine',3);sc(scores,'b_complex',3);sc(scores,'vitamin_d',2);
+    if(sp.includes('memory')||sp.includes('word_finding')){sc(scores,'omega3',2);sc(scores,'b12',2);}
+    if(sp.includes('mental_fat')||sp.includes('decision_fat')){sc(scores,'coq10',2);sc(scores,'b_complex',2);}
+  }
+  if(g==='mood'||f.includes('mood_low')||f.includes('stressed')){
+    sc(scores,'omega3',5);sc(scores,'vitamin_d',4);sc(scores,'magnesium',4);
+    sc(scores,'ashwagandha',4);sc(scores,'b_complex',3);sc(scores,'zinc',2);sc(scores,'l_theanine',2);
+    if(sp.includes('seasonal'))sc(scores,'vitamin_d',3);
+    if(sp.includes('anxiety')){sc(scores,'ashwagandha',3);sc(scores,'magnesium',2);}
+    if(sp.includes('burnout')){sc(scores,'ashwagandha',2);sc(scores,'magnesium',2);}
+  }
+  if(g==='immunity'||f.includes('sick_often')){
+    sc(scores,'vitamin_d',5);sc(scores,'zinc',5);sc(scores,'vitamin_c',4);
+    sc(scores,'omega3',3);sc(scores,'probiotics',4);
+    if(sp.includes('low_sun'))sc(scores,'vitamin_d',3);
+    if(sp.includes('freq_ill')){sc(scores,'zinc',2);sc(scores,'vitamin_c',2);}
+  }
+  if(f.includes('gut')||['bloating','irregular','ibs'].includes(S.gut_health)){
+    sc(scores,'probiotics',4);sc(scores,'omega3',2);
+  }
+  if(isPlant){sc(scores,'b12',9);sc(scores,'omega3',4);sc(scores,'zinc',3);sc(scores,'iron',3);sc(scores,'vitamin_d',2);sc(scores,'creatine',3);}
+  if(S.meat_freq==='rarely'||S.meat_freq==='1-2'){sc(scores,'iron',2);sc(scores,'zinc',2);sc(scores,'b12',2);sc(scores,'creatine',2);}
+  if(S.greens_freq==='rarely'||S.greens_freq==='1-2'){sc(scores,'magnesium',2);sc(scores,'vitamin_c',2);sc(scores,'b_complex',2);}
+  if(S.dairy_freq==='never')sc(scores,'vitamin_d',2);
+  if(S.ultra_proc==='high'){sc(scores,'b_complex',3);sc(scores,'magnesium',2);sc(scores,'zinc',2);sc(scores,'probiotics',2);}
+  if(['south_asian','black','middle_eastern'].includes(S.ethnicity)||S.sunlight==='low')sc(scores,'vitamin_d',4);
+  if(S.age==='50s'||S.age==='60plus'){sc(scores,'vitamin_d',2);sc(scores,'coq10',3);sc(scores,'omega3',2);sc(scores,'b12',2);sc(scores,'magnesium',1);}
+  if(S.sex==='female'){sc(scores,'iron',3);sc(scores,'magnesium',2);}
+  if(S.sex==='male'&&(S.age==='30s'||S.age==='40s'||S.age==='50s')){sc(scores,'zinc',2);sc(scores,'vitamin_d',1);}
+  if(S.sleep_hours<6.5)sc(scores,'magnesium',2);
+  if(S.stress>7){sc(scores,'ashwagandha',3);sc(scores,'magnesium',2);}
+  if(S.activity==='very'){sc(scores,'magnesium',2);sc(scores,'zinc',1);sc(scores,'coq10',1);}
+  if(S.bmi&&S.bmi<18.5){sc(scores,'b_complex',2);sc(scores,'iron',2);}
+  if(S.bmi&&S.bmi>30){sc(scores,'vitamin_d',2);sc(scores,'omega3',2);}
+  Object.keys(DB).forEach(id=>{
+    const name=DB[id].n.toLowerCase().split(' ')[0];
+    if(curr.includes(name)||curr.includes(id.replace(/_/g,' '))){if(scores[id])scores[id]=Math.max(0,scores[id]-6);}
+  });
+  let picks=Object.entries(scores).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([id])=>id);
+  if(isPlant&&!picks.includes('b12')){picks.splice(4,1,'b12');}
+  return picks;
+}
+function parseFlags(){
+  const c=(S.conditions||'').toLowerCase();const flags=new Set();
+  if(/pregnan/.test(c))flags.add('pregnant');
+  if(/diabetes|diabetic/.test(c))flags.add('diabetes');
+  if(/warfarin|blood.thin|anticoagul/.test(c))flags.add('blood_thinner');
+  if(/cancer|oncolog|chemo/.test(c))flags.add('cancer');
+  if(/ssri|antidepressant|sertraline|fluoxetine|citalopram|escitalopram/.test(c))flags.add('ssri');
+  if(/thyroid|hypothyroid|levothyroxine/.test(c))flags.add('thyroid');
+  if(/kidney|renal/.test(c))flags.add('kidney');
+  return flags;
+}
+function getCauts(id,flags){
+  const cauts=[];
+  if(flags.has('pregnant')){
+    if(['ashwagandha','melatonin'].includes(id))cauts.push({r:true,t:'⚠️ This supplement should NOT be used during pregnancy without specific medical clearance. Please consult your obstetrician or midwife.'});
+    else cauts.push({r:false,t:'🔶 You\'ve indicated pregnancy — please confirm any supplement with your midwife or GP before starting.'});
+  }
+  if(flags.has('kidney')&&['magnesium','vitamin_d'].includes(id))cauts.push({r:true,t:'⚠️ Kidney conditions require medical supervision for this supplement.'});
+  if(flags.has('blood_thinner')&&id==='omega3')cauts.push({r:false,t:'🔶 Omega-3 has mild antiplatelet effects. Discuss the dose with your physician if you take anticoagulants.'});
+  if(flags.has('ssri')&&id==='ashwagandha')cauts.push({r:false,t:'🔶 Ashwagandha may interact with SSRIs via serotonergic pathways. Discuss with your prescribing doctor first.'});
+  if(flags.has('thyroid')&&id==='ashwagandha')cauts.push({r:false,t:'🔶 Ashwagandha may affect thyroid hormone levels. Consult your GP or endocrinologist if you take levothyroxine.'});
+  if(flags.has('cancer')&&id==='probiotics')cauts.push({r:true,t:'⚠️ Probiotics require oncology team approval during cancer treatment.'});
+  return cauts;
+}
+function getInteracts(picks){
+  const notes=[];
+  if(picks.includes('magnesium')&&picks.includes('zinc'))notes.push('Take <strong>Magnesium</strong> and <strong>Zinc</strong> at different times — they compete for absorption at high doses.');
+  if(picks.includes('iron')&&picks.includes('zinc'))notes.push('<strong>Iron</strong> and <strong>Zinc</strong> compete for absorption. Separate them by at least 2 hours.');
+  if(picks.includes('iron')&&picks.includes('vitamin_c'))notes.push('✅ <strong>Vitamin C</strong> significantly enhances non-haem iron absorption — take these together.');
+  if(picks.includes('omega3')&&picks.includes('vitamin_d'))notes.push('✅ Both <strong>Vitamin D3</strong> and <strong>Omega-3</strong> are fat-soluble — take both with your fattiest meal for best absorption.');
+  return notes;
+}
+
+function showResults(){
+  saveTxt('condinput','conditions');
+  if(S.weight_kg&&DB.protein){
+    DB.protein.dose='Target ~1.6–2.2g protein per kg bodyweight per day. For your weight (~'+Math.round(S.weight_kg)+'kg), that\'s roughly '+Math.round(S.weight_kg*1.6)+'–'+Math.round(S.weight_kg*2.2)+'g daily. A quality protein powder can bridge gaps.';
+  }
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('ptrack').classList.add('hidden');
+  document.getElementById('pbarStrip').style.display='none';
+  document.getElementById('nlabel').textContent='';
+  const picks=buildRecs();
+  const flags=parseFlags();
+  const interacts=getInteracts(picks);
+  const gLabels={fatigue:'energy & fatigue',sleep:'sleep quality',gym:'training & performance',focus:'focus & cognition',mood:'mood & stress',immunity:'immune resilience'};
+  const gLabel=gLabels[S.goal]||'your health';
+  const tags=[];
+  if(S.goal)tags.push({fatigue:'⚡ Energy',sleep:'🌙 Sleep',gym:'💪 Athletic',focus:'🧠 Focus',mood:'🌿 Mood',immunity:'🛡️ Immunity'}[S.goal]);
+  if(S.diet)tags.push({omni:'🥩 Omnivore',pesce:'🐟 Pescatarian',veg:'🥛 Vegetarian',vegan:'🌱 Vegan'}[S.diet]);
+  if(S.age)tags.push('👤 '+S.age.replace('plus','+'));
+  if(S.sex&&S.sex!=='skip')tags.push({male:'♂ Male',female:'♀ Female'}[S.sex]);
+  if(S.bmi)tags.push('📊 BMI '+S.bmi);
+  if(S.activity)tags.push({sedentary:'🪑 Sedentary',light:'🚶 Light',moderate:'🏃 Moderate',very:'🏋️ Very active'}[S.activity]);
+  if(S.sleep_hours)tags.push('🌙 '+S.sleep_hours+'h sleep');
+  const rankLabels=['Top pick','2nd','3rd','4th','5th'];
+  let html='<div class="r-hero"><div class="r-eye">Your personalised results</div><h2 class="r-hl">Here\'s what the science says<br>for <em>'+gLabel+'</em></h2><p class="r-sub">Ranked by relevance to your specific answers. Evidence quality shown on each card. Expand any card for full detail.</p></div>';
+  html+='<div class="pstrip">'+tags.filter(Boolean).map(t=>'<div class="ptag">'+t+'</div>').join('')+'</div>';
+  if(flags.size>0)html+='<div class="rbanner">⚠️ <strong>You\'ve mentioned a health condition or medication.</strong> Each relevant supplement below includes specific cautions. Please discuss these with your GP or specialist before starting anything.</div>';
+  if(interacts.length>0)html+='<div class="icard"><strong>📝 Notes on combining these supplements:</strong>'+interacts.map(n=>'<div style="margin-top:5px">• '+n+'</div>').join('')+'</div>';
+  picks.forEach((id,i)=>{
+    const d=DB[id];if(!d)return;
+    const cauts=getCauts(id,flags);
+    const whyText=(d.why&&d.why[S.goal])||'Relevant to your overall wellness profile based on your answers.';
+    html+='<div class="scard" style="animation-delay:'+i*0.08+'s">';
+    html+='<div class="shdr" onclick="togCard(this)">';
+    html+='<div class="sico">'+d.icon+'</div>';
+    html+='<div class="smeta"><div class="srank">'+rankLabels[i]+'</div><div class="sname">'+d.n+'</div><div class="stag">'+d.tag+'</div><div class="etog"><span class="eico">↓</span> <span class="etxt">View details</span></div></div>';
+    html+='<div class="ebadge '+d.ev+'">'+(d.ev==='strong'?'✓ Strong':'~ Moderate')+'</div>';
+    html+='</div>';
+    html+='<div class="sbody" id="sb'+i+'">';
+    html+='<div class="wbox"><strong>Why this is relevant to you</strong>'+whyText+'</div>';
+    html+='<div class="sci">'+d.sci+'</div>';
+    if(d.evNote)html+='<div class="evn">📌 Evidence note: '+d.evNote+'</div>';
+    html+='<div class="drow"><div class="dc"><div class="dl">Suggested range</div><div class="dv">'+d.dose+'</div></div><div class="dc"><div class="dl">Food sources</div><div class="dv">'+d.src+'</div></div></div>';
+    if(d.caut)html+='<div class="sc">⚠️ '+d.caut+'</div>';
+    html+=cauts.map(c=>'<div class="sc '+(c.r?'red':'')+'">'+c.t+'</div>').join('');
+    html+='</div></div>';
+  });
+  html+='<div class="doc-sec"><h3>🩺 Talk to your doctor</h3><p>Generate a plain-English summary to bring to your GP — so they can advise on what\'s genuinely right for your situation.</p><button class="btn-doc" onclick="openModal()">Generate doctor summary</button><button class="btn-restart" onclick="restartQuiz()">↩ Start over</button></div>';
+  const rs=document.getElementById('rscreen');
+  rs.innerHTML=html;rs.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function togCard(hdr){
+  const body=hdr.nextElementSibling;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  const ico=hdr.querySelector('.eico');
+  const txt=hdr.querySelector('.etxt');
+  ico.style.transform=isOpen?'':'rotate(180deg)';
+  txt.textContent=isOpen?'View details':'Hide details';
+}
+function openModal(){
+  const picks=buildRecs();
+  let txt='Wellness Supplement Assessment Summary\n'+'─'.repeat(40)+'\nFor personal use. Not a medical recommendation.\n\n';
+  txt+='PRIMARY GOAL: '+({fatigue:'Energy & fatigue',sleep:'Sleep quality',gym:'Training & performance',focus:'Focus & cognition',mood:'Mood & stress',immunity:'Immune health'}[S.goal]||S.goal)+'\n\n';
+  txt+='MY PROFILE:\n';
+  if(S.diet)txt+='• Diet: '+({omni:'Omnivore',pesce:'Pescatarian',veg:'Vegetarian',vegan:'Vegan'}[S.diet]||S.diet)+'\n';
+  if(S.age)txt+='• Age group: '+S.age.replace('plus','+')+'\n';
+  if(S.sex&&S.sex!=='skip')txt+='• Biological sex: '+S.sex+'\n';
+  if(S.bmi)txt+='• BMI: '+S.bmi+'\n';
+  if(S.activity)txt+='• Activity level: '+({sedentary:'Sedentary',light:'Lightly active',moderate:'Moderately active',very:'Very active'}[S.activity]||S.activity)+'\n';
+  if(S.sleep_hours)txt+='• Average sleep: '+S.sleep_hours+' hours\n';
+  if(S.stress)txt+='• Self-rated stress: '+S.stress+'/10\n';
+  if(S.conditions)txt+='• Conditions / medications: '+S.conditions+'\n';
+  if(S.curr_supps)txt+='• Currently taking: '+S.curr_supps+'\n';
+  txt+='\nSUPPLEMENTS TO DISCUSS:\n\n';
+  picks.forEach((id,i)=>{
+    const d=DB[id];if(!d)return;
+    txt+=(i+1)+'. '+d.n+'\n';
+    const why=(d.why&&d.why[S.goal])||'General wellness';
+    txt+='   Why: '+why.slice(0,120)+(why.length>120?'...':'')+'\n';
+    txt+='   Range: '+d.dose.split('.')[0]+'.\n\n';
+  });
+  txt+='─'.repeat(40)+'\nI would appreciate your guidance on which of these are appropriate for my situation, particularly in light of any conditions or medications. This list was generated by a general wellness information tool and does not constitute medical advice.';
+  document.getElementById('mtxt').textContent=txt;
+  document.getElementById('mov').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('mov').classList.add('hidden');}
+function copyModal(){
+  navigator.clipboard.writeText(document.getElementById('mtxt').textContent).then(()=>{
+    const b=document.querySelector('.btn-mcp');const o=b.textContent;
+    b.textContent='✓ Copied!';setTimeout(()=>b.textContent=o,2200);
+  });
+}
+function restartQuiz(){
+  Object.keys(S).forEach(k=>{if(Array.isArray(S[k]))S[k]=[];else if(typeof S[k]==='number')S[k]=k==='sleep_hours'?7:k==='stress'?5:null;else S[k]=null;});
+  S.useMetric=true;
+  document.getElementById('rscreen').classList.remove('active');document.getElementById('rscreen').innerHTML='';
+  document.getElementById('intro').style.display='';document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('pbarStrip').style.display='none';
+  window.scrollTo({top:0});
+}
+window.addEventListener('scroll',()=>{document.getElementById('topnav').classList.toggle('scrolled',window.scrollY>8);});
+updSl();
+// Workbench nav dropdowns
+function toggleWBDD(e,id){e.stopPropagation();const el=document.getElementById(id),m=el.querySelector('.wbdd-menu'),w=m.style.opacity==='1';document.querySelectorAll('.wbdd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'});if(!w){m.style.opacity='1';m.style.visibility='visible';m.style.transform='translateY(0) scale(1)';m.style.pointerEvents='auto'}}
+document.addEventListener('click',e=>{if(!e.target.closest('.wbnav-dd'))document.querySelectorAll('.wbdd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'})});
+</script>
+</body>
+</html>
