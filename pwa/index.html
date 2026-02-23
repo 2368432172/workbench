@@ -60,28 +60,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── NAV ────────────────────────────────────── */
-.nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 28px;
-  border-bottom: 1px solid var(--border-soft);
-  background: var(--bg);
-  position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(8px);
-}
-.nav-logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px; color: var(--text); text-decoration: none;
-}
-.nav-back {
-  font-size: 15px; font-weight: 500; color: var(--text-2);
-  text-decoration: none; display: flex; align-items: center; gap: 5px;
-  transition: color .18s;
-}
-.nav-back:hover { color: var(--text); }
-
 /* ─── LAYOUT ─────────────────────────────────── */
-.main { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+.main { max-width: 680px; margin: 0 auto; padding: 28px 20px 80px; }
 
 /* ─── PAGE HEADER ────────────────────────────── */
 .page-header { margin-bottom: 32px; }
@@ -434,30 +414,6 @@ footer { text-align: center; font-size: 14px; color: var(--text-3); padding: 32p
 </head>
 <body>
 
-<nav class="nav" style="font-family:'Plus Jakarta Sans',-apple-system,sans-serif;">
-  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
-    <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
-    <span style="font-family:'Source Serif 4',serif;font-size:1.2rem;font-weight:500;color:var(--text);">Alex's Workbench</span>
-  </a>
-  <div style="display:flex;align-items:center;gap:.35rem;">
-    <div class="nav-dd" id="toolboxDropdown" style="position:relative;">
-      <button onclick="toggleDD(event,'toolboxDropdown')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Toolbox <span class="dd-arrow" style="font-size:.55rem;opacity:.45;transition:transform .25s;">▼</span></button>
-      <div class="dd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
-        <a href="index.html#gadgets" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#2d857210;color:#2d8572;">⚡</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Gadgets</span><span style="font-size:.76rem;color:#908a80;">Mini tools and apps I've built</span></span></a>
-        <a href="index.html#gadgets-calculator" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#3872b810;color:#3872b8;">🧮</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">Calculators</span><span style="font-size:.76rem;color:#908a80;">Number crunching made easy</span></span></a>
-      </div>
-    </div>
-    <div class="nav-dd" id="resourcesDropdown" style="position:relative;">
-      <button onclick="toggleDD(event,'resourcesDropdown')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Resources <span class="dd-arrow" style="font-size:.55rem;opacity:.45;transition:transform .25s;">▼</span></button>
-      <div class="dd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
-        <a href="index.html#resources" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#7a5aad10;color:#7a5aad;">📚</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Resources</span><span style="font-size:.76rem;color:#908a80;">Checklists, guides, and frameworks</span></span></a>
-      </div>
-    </div>
-    <a href="index.html#books" style="padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);text-decoration:none;border-radius:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Books</a>
-    <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="padding:.55rem 1rem;font-size:.9rem;font-weight:600;color:#0a66c2;text-decoration:none;border-radius:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">LinkedIn</a>
-  </div>
-</nav>
-
 <div id="toastEl" class="toast"></div>
 
 <main class="main">
@@ -637,17 +593,36 @@ const STORAGE='moneyclock_v3';
 
 // ═══════════════════════════════════════
 //  AUDIO  (Web Audio API — no files)
+//  iOS fix: AudioContext must be created
+//  AND resumed inside a user gesture.
 // ═══════════════════════════════════════
 let actx=null;
 function ac(){
   if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
   return actx;
 }
-function tone(f,type,vol,dur,delay){
+// Unlock audio on ANY touch/click (iOS requirement)
+function unlockAudio(){
+  try{
+    const ctx=ac();
+    if(ctx.state==='suspended') ctx.resume();
+    // Play a silent buffer to fully unlock on iOS
+    const buf=ctx.createBuffer(1,1,22050);
+    const src=ctx.createBufferSource();
+    src.buffer=buf; src.connect(ctx.destination); src.start(0);
+  }catch(e){}
+}
+document.addEventListener('touchstart', unlockAudio, {once:false, passive:true});
+document.addEventListener('click',      unlockAudio, {once:false, passive:true});
+
+async function tone(f,type,vol,dur,delay){
   if(!soundEnabled) return;
   delay=delay||0;
   try{
-    const c=ac(),o=c.createOscillator(),g=c.createGain();
+    const c=ac();
+    // Resume suspended context (iOS Safari always starts suspended)
+    if(c.state==='suspended') await c.resume();
+    const o=c.createOscillator(),g=c.createGain();
     o.connect(g); g.connect(c.destination);
     o.type=type;
     const t=c.currentTime+delay;
@@ -661,7 +636,6 @@ const playCoin=()=>{ tone(880,'sine',.11,.18); tone(1320,'sine',.06,.12,.07); };
 const playTick=()=>  tone(1100,'triangle',.04,.07);
 const playChime=()=> [523,659,784,1047].forEach((f,i)=>tone(f,'sine',.09,.32,i*.1));
 const playWin=()=>   [523,659,784,1047,1319].forEach((f,i)=>tone(f,'sine',.14,.28,i*.11));
-document.addEventListener('click',()=>{ try{ac().resume();}catch(e){} },{passive:true});
 
 // ═══════════════════════════════════════
 //  PARTICLES
@@ -1093,9 +1067,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-// NAV DROPDOWNS
-function toggleDD(e,id){e.stopPropagation();const el=document.getElementById(id),m=el.querySelector('.dd-menu'),w=m.style.opacity==='1';document.querySelectorAll('.dd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'});if(!w){m.style.opacity='1';m.style.visibility='visible';m.style.transform='translateY(0) scale(1)';m.style.pointerEvents='auto'}}
-document.addEventListener('click',e=>{if(!e.target.closest('.nav-dd'))document.querySelectorAll('.dd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'})});
 </script>
 <script>
 // Service Worker Registration
