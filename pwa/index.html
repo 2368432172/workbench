@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- PWA Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Money Clock">
+<meta name="theme-color" content="#d42a2a">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<title>💰 Money Clock — Alex's Workbench</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── PWA SAFE AREA ─────────────────────────── */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── TOKENS ─────────────────────────────────── */
+:root {
+  --bg:           #fffcf4;
+  --surface:      #ffffff;
+  --surface-warm: #fff8ea;
+  --border:       #edd89a;
+  --border-soft:  #f5e8bc;
+  --text:         #241a00;
+  --text-2:       #7a6030;
+  --text-3:       #b89d5a;
+  --red:          #d42a2a;
+  --red-dark:     #a01f1f;
+  --red-glow:     rgba(212,42,42,.28);
+  --gold:         #f0a010;
+  --gold-light:   #fff3d0;
+  --gold-glow:    rgba(240,160,16,.22);
+  --green:        #1a8a4a;
+  --r:            14px;
+  --r-sm:         10px;
+  --shadow-sm:    0 1px 4px rgba(120,70,0,.07);
+  --shadow:       0 3px 16px rgba(120,70,0,.09);
+  --shadow-lg:    0 8px 36px rgba(120,60,0,.14);
+}
+
+/* ─── RESET ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ────────────────────────────────────── */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(8px);
+}
+.nav-logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--text); text-decoration: none;
+}
+.nav-back {
+  font-size: 15px; font-weight: 500; color: var(--text-2);
+  text-decoration: none; display: flex; align-items: center; gap: 5px;
+  transition: color .18s;
+}
+.nav-back:hover { color: var(--text); }
+
+/* ─── LAYOUT ─────────────────────────────────── */
+.main { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+
+/* ─── PAGE HEADER ────────────────────────────── */
+.page-header { margin-bottom: 32px; }
+.page-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(34px, 6vw, 50px);
+  line-height: 1.08; margin-bottom: 8px;
+}
+.page-subtitle { font-size: 16px; color: var(--text-2); line-height: 1.6; }
+
+/* ─── SETUP CARD ─────────────────────────────── */
+.setup-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px 28px 24px;
+  box-shadow: var(--shadow);
+}
+.setup-section-label {
+  font-size: 13px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 14px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+@media(max-width:480px){ .form-grid { grid-template-columns: 1fr; } }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 15px; font-weight: 600; color: var(--text-2); }
+.form-group input, .form-group select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px; padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--bg); color: var(--text);
+  outline: none; transition: border-color .18s, box-shadow .18s;
+  width: 100%; appearance: none; -webkit-appearance: none;
+}
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+.input-wrap { position: relative; }
+.input-prefix-sym {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px; color: var(--text-3); pointer-events: none;
+}
+.input-wrap input { padding-left: 26px; }
+
+.divider { height: 1px; background: var(--border-soft); margin: 20px 0; }
+
+.time-presets { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.preset-btn {
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 9px 20px; border: 1.5px solid var(--border);
+  border-radius: 20px; background: transparent;
+  color: var(--text-2); cursor: pointer; transition: all .18s;
+  white-space: nowrap;
+}
+.preset-btn:hover, .preset-btn.active {
+  border-color: var(--gold); color: #7a4a00;
+  background: var(--gold-light);
+}
+
+.btn-start {
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700;
+  padding: 15px; background: var(--red); color: #fff;
+  border: none; border-radius: var(--r-sm);
+  cursor: pointer; transition: all .2s; width: 100%;
+  box-shadow: 0 4px 20px var(--red-glow);
+  margin-top: 4px;
+}
+.btn-start:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 6px 24px var(--red-glow); }
+.btn-start:active { transform: none; }
+
+/* Previous sessions on setup */
+.prev-sessions { margin-top: 24px; }
+.prev-sessions-label { font-size: 14px; font-weight: 600; color: var(--text-3); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .06em; }
+
+/* ─── TRACKER ────────────────────────────────── */
+#tracker { display: none; }
+#tracker.visible { display: flex; flex-direction: column; gap: 12px; }
+
+/* ─── TOP META ROW ───────────────────────────── */
+.meta-row {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 15px; color: var(--text-2);
+}
+.meta-dot { display: inline-block; width: 7px; height: 7px; background: var(--gold); border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} }
+.meta-edit { font-size: 15px; font-weight: 600; color: var(--gold); cursor: pointer; text-decoration: none; }
+.meta-edit:hover { color: var(--red); }
+
+/* ─── MOTIVATION STRIP ───────────────────────── */
+.motivation-strip {
+  background: var(--gold-light);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 11px 18px;
+  text-align: center;
+}
+.motivation-strip p {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 17px;
+  color: #7a4a00;
+}
+
+/* ─── HERO ───────────────────────────────────── */
+.hero {
+  background: linear-gradient(145deg, #d42a2a 0%, #a81f1f 55%, #7a1212 100%);
+  border-radius: var(--r);
+  padding: 40px 28px 32px;
+  text-align: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 10px 40px var(--red-glow);
+  color: #fff;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='16' fill='none' stroke='%23f0a010' stroke-width='1.5' opacity='.45'/%3E%3Ccircle cx='18' cy='18' r='13' fill='%23f4bc1c'/%3E%3Ccircle cx='18' cy='18' r='13' fill='url(%23g)'/%3E%3Ccircle cx='18' cy='18' r='13' fill='none' stroke='%23b07000' stroke-width='1.2'/%3E%3Ccircle cx='18' cy='18' r='10.5' fill='none' stroke='%23b07000' stroke-width='.6' opacity='.5'/%3E%3Ctext x='18' y='23.5' text-anchor='middle' font-family='Georgia%2Cserif' font-weight='bold' font-size='15' fill='%236a3800'%3E%24%3C%2Ftext%3E%3Cpolygon points='29%2C6 29.9%2C8.5 32.5%2C8.5 30.5%2C10 31.3%2C12.5 29%2C11 26.7%2C12.5 27.5%2C10 25.5%2C8.5 28.1%2C8.5' fill='%23fff5a0' opacity='.95'/%3E%3Cdefs%3E%3CradialGradient id='g' cx='36%25' cy='32%25' r='58%25'%3E%3Cstop offset='0%25' stop-color='%23ffe46a' stop-opacity='.75'/%3E%3Cstop offset='100%25' stop-color='%23f4bc1c' stop-opacity='0'/%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E") 18 18, crosshair;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -40%; right: -5%;
+  width: 50%; height: 190%;
+  background: radial-gradient(ellipse, rgba(255,210,60,.16) 0%, transparent 62%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '💰';
+  position: absolute; bottom: -8px; right: 16px;
+  font-size: 90px; opacity: .06; pointer-events: none;
+  transform: rotate(-18deg);
+}
+.hero-label {
+  font-size: 14px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; opacity: .6; margin-bottom: 8px;
+}
+.hero-amount {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(56px, 14vw, 96px);
+  line-height: 1; position: relative; z-index: 1;
+  margin-bottom: 4px;
+}
+.hero-amount.bump { animation: bump .32s ease; }
+@keyframes bump { 50% { transform: scale(1.05); color: #ffd870; } }
+.hero-dollar { font-size: .42em; vertical-align: super; opacity: .7; }
+.hero-rate { font-size: 15px; opacity: .5; margin-bottom: 22px; }
+
+/* time-view tabs */
+.view-tabs { display: inline-flex; gap: 2px; background: rgba(0,0,0,.22); padding: 3px; border-radius: 9px; }
+.view-tab {
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 5px 14px; border: none; border-radius: 6px;
+  background: transparent; color: rgba(255,255,255,.48);
+  cursor: pointer; transition: all .18s;
+}
+.view-tab.active { background: rgba(255,255,255,.22); color: #fff; }
+.view-tab:hover:not(.active) { color: rgba(255,255,255,.72); }
+
+/* session under hero */
+.session-chip {
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px; font-size: 15px; color: var(--text-2);
+  padding: 6px 0 2px;
+}
+.session-chip strong { color: var(--text); font-weight: 700; }
+
+/* ─── COUNTDOWN ROW ──────────────────────────── */
+.cd-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media(max-width:480px){ .cd-row { grid-template-columns: 1fr 1fr; } }
+
+.cd-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 18px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px;
+}
+.cd-card.hi {
+  background: #fff3f3;
+  border-color: #f5b8b8;
+}
+.cd-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px; line-height: 1;
+  color: var(--red);
+}
+.cd-label {
+  font-size: 13px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--text-3);
+  line-height: 1.3;
+}
+
+/* ─── STATS ROW ──────────────────────────────── */
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+@media(max-width:480px){ .stats-row { grid-template-columns: 1fr 1fr; } }
+
+.stat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 18px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px;
+}
+.stat-label {
+  font-size: 13px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--text-3);
+}
+.stat-val {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--text);
+}
+
+/* ─── PROGRESS CARD ──────────────────────────── */
+.progress-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.progress-title { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.progress-pct { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold); }
+.progress-bar { height: 8px; background: var(--surface-warm); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width .9s ease; }
+.progress-ends { display: flex; justify-content: space-between; margin-top: 6px; font-size: 14px; color: var(--text-3); }
+
+/* finish banner */
+.finish-row {
+  margin-top: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--gold-light);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  gap: 12px;
+}
+.finish-left { flex: 1; }
+.finish-label { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px; }
+.finish-sub { font-size: 15px; color: var(--text-2); }
+.finish-time { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--red); }
+.finish-badge {
+  font-size: 14px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--red); color: #fff; white-space: nowrap;
+}
+.finish-badge.done { background: var(--green); }
+
+/* ─── HISTORY ────────────────────────────────── */
+.history-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.history-header {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--text-3);
+}
+.history-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-soft);
+  transition: background .15s;
+}
+.history-row:last-child { border-bottom: none; }
+.history-row:hover { background: var(--surface-warm); }
+.history-date { font-size: 16px; font-weight: 600; }
+.history-hrs { font-size: 14px; color: var(--text-3); margin-top: 2px; }
+.history-amt { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--red); }
+.history-empty { padding: 20px; text-align: center; font-size: 15px; color: var(--text-3); font-style: italic; }
+
+/* ─── CONTROL BAR ────────────────────────────── */
+.control-bar {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.ctrl-btn {
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  padding: 9px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface); color: var(--text);
+  cursor: pointer; transition: all .18s;
+  display: flex; align-items: center; gap: 6px;
+}
+.ctrl-btn:hover { border-color: var(--gold); background: var(--gold-light); color: #7a4a00; }
+.ctrl-btn.on { background: var(--gold-light); border-color: var(--gold); color: #7a4a00; }
+.ctrl-btn.reset { margin-left: auto; }
+.ctrl-btn.reset:hover { border-color: var(--red) !important; background: #fff3f3 !important; color: var(--red) !important; }
+
+/* ─── PARTICLES ──────────────────────────────── */
+.particle {
+  position: fixed; pointer-events: none; font-size: 22px; z-index: 500;
+  animation: floatUp 2s ease-out forwards;
+}
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateY(0) scale(.5) rotate(-12deg); }
+  55%  { opacity: 1; transform: translateY(-95px) scale(1.2) rotate(10deg); }
+  100% { opacity: 0; transform: translateY(-175px) scale(.8) rotate(24deg); }
+}
+.coin-rain {
+  position: fixed; pointer-events: none; z-index: 500;
+  animation: coinFall linear forwards;
+}
+@keyframes coinFall {
+  0%   { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+}
+
+/* ─── MILESTONE TOAST ────────────────────────── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(90px);
+  background: var(--red); color: #fff;
+  padding: 13px 24px; border-radius: 40px;
+  font-size: 16px; font-weight: 700;
+  box-shadow: 0 6px 28px var(--red-glow);
+  z-index: 600; opacity: 0; white-space: nowrap;
+  transition: transform .38s cubic-bezier(.34,1.56,.64,1), opacity .38s;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ─── GOLD SPARKLE TRAIL ────────────────────── */
+.gold-spark {
+  position: fixed;
+  pointer-events: none;
+  z-index: 900;
+  font-size: 14px;
+  animation: sparkOut .65s ease-out forwards;
+  transform-origin: center;
+}
+@keyframes sparkOut {
+  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.2) rotate(var(--dr)); }
+}
+
+@keyframes heroFlash { 40% { filter: brightness(1.2); } }
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer { text-align: center; font-size: 14px; color: var(--text-3); padding: 32px 20px; border-top: 1px solid var(--border-soft); margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<nav class="nav" style="font-family:'Plus Jakarta Sans',-apple-system,sans-serif;">
+  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
+    <span style="font-family:'Source Serif 4',serif;font-size:1.2rem;font-weight:500;color:var(--text);">Alex's Workbench</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:.35rem;">
+    <div class="nav-dd" id="toolboxDropdown" style="position:relative;">
+      <button onclick="toggleDD(event,'toolboxDropdown')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Toolbox <span class="dd-arrow" style="font-size:.55rem;opacity:.45;transition:transform .25s;">▼</span></button>
+      <div class="dd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
+        <a href="index.html#gadgets" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#2d857210;color:#2d8572;">⚡</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Gadgets</span><span style="font-size:.76rem;color:#908a80;">Mini tools and apps I've built</span></span></a>
+        <a href="index.html#gadgets-calculator" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#3872b810;color:#3872b8;">🧮</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">Calculators</span><span style="font-size:.76rem;color:#908a80;">Number crunching made easy</span></span></a>
+      </div>
+    </div>
+    <div class="nav-dd" id="resourcesDropdown" style="position:relative;">
+      <button onclick="toggleDD(event,'resourcesDropdown')" style="display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);background:0 0;border:none;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Resources <span class="dd-arrow" style="font-size:.55rem;opacity:.45;transition:transform .25s;">▼</span></button>
+      <div class="dd-menu" style="position:absolute;top:calc(100% + 8px);right:0;min-width:250px;background:#fff;border:1px solid #ddd9d0;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.07);padding:.6rem;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:all .22s ease;pointer-events:none;z-index:200;">
+        <a href="index.html#resources" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:10px;text-decoration:none;color:var(--text);font-size:.88rem;transition:background .15s;font-family:'Plus Jakarta Sans',sans-serif;"><span style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:#7a5aad10;color:#7a5aad;">📚</span><span style="display:flex;flex-direction:column;"><span style="font-weight:600;font-size:.88rem;">All Resources</span><span style="font-size:.76rem;color:#908a80;">Checklists, guides, and frameworks</span></span></a>
+      </div>
+    </div>
+    <a href="index.html#books" style="padding:.55rem 1rem;font-size:.9rem;font-weight:500;color:var(--text-2);text-decoration:none;border-radius:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">Books</a>
+    <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="padding:.55rem 1rem;font-size:.9rem;font-weight:600;color:#0a66c2;text-decoration:none;border-radius:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;">LinkedIn</a>
+  </div>
+</nav>
+
+<div id="toastEl" class="toast"></div>
+
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1 class="page-title">Money Clock 💰</h1>
+    <p class="page-subtitle">Watch your earnings tick up in real time. Time is literally money.</p>
+  </div>
+
+  <!-- ══ SETUP ══════════════════════════════════ -->
+  <div class="setup-card" id="setupCard">
+    <div class="setup-section-label">Your details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Annual Salary</label>
+        <div class="input-wrap">
+          <span class="input-prefix-sym">$</span>
+          <input type="number" id="salary" value="80000" min="1000" step="any" placeholder="80000"
+            onkeydown="if(e=arguments[0],e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();var v=Math.round((parseFloat(this.value)||80000)/1000)*1000;this.value=e.key==='ArrowUp'?v+1000:Math.max(1000,v-1000);}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Work Days / Week</label>
+        <select id="workDays">
+          <option value="5" selected>5 days</option>
+          <option value="4">4 days</option>
+          <option value="6">6 days</option>
+          <option value="7">7 days</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Hours / Day</label>
+        <input type="number" id="workHours" value="8" min="1" max="24" step="0.5" placeholder="8">
+      </div>
+      <div class="form-group">
+        <label>Finish today at</label>
+        <input type="time" id="finishTime" value="18:00">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="setup-section-label" style="margin-bottom:12px;">When did you start today?</div>
+    <div class="time-presets">
+      <button class="preset-btn" onclick="setStartTime('09:00',this)">9:00 AM</button>
+      <button class="preset-btn" onclick="setStartTime('09:30',this)">9:30 AM</button>
+      <button class="preset-btn" onclick="setStartTime('10:00',this)">10:00 AM</button>
+      <button class="preset-btn active" onclick="setStartTime('now',this)">Right now</button>
+    </div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>Or pick a time</label>
+      <input type="time" id="startTime">
+    </div>
+
+    <button class="btn-start" onclick="startTracking()">Start Counting My Money 🚀</button>
+
+    <!-- Previous sessions on setup screen -->
+    <div id="historySetup" style="display:none; margin-top:24px;">
+      <div class="prev-sessions-label">Previous sessions</div>
+      <div id="historyListSetup"></div>
+    </div>
+  </div>
+
+  <!-- ══ TRACKER ════════════════════════════════ -->
+  <div id="tracker">
+
+    <!-- meta: session active + edit -->
+    <div class="meta-row">
+      <span><span class="meta-dot"></span>Session active — <strong id="sessionTime">0h 0m 0s</strong></span>
+      <a class="meta-edit" onclick="resetTracker()">✏️ Edit setup</a>
+    </div>
+
+    <!-- motivation strip -->
+    <div class="motivation-strip">
+      <p id="motivationText">Every second counts — keep going! ✨</p>
+    </div>
+
+    <!-- HERO COUNTER -->
+    <div class="hero" id="earningsHero">
+      <div class="hero-label" id="periodLabel">EARNED TODAY</div>
+      <div class="hero-amount" id="earningsDisplay">
+        <span class="hero-dollar">$</span><span id="earningsValue">0.00</span>
+      </div>
+      <div class="hero-rate" id="rateText"></div>
+      <div class="view-tabs">
+        <button class="view-tab active" onclick="setView('today',this)">Today</button>
+        <button class="view-tab" onclick="setView('week',this)">Week</button>
+        <button class="view-tab" onclick="setView('month',this)">Month</button>
+        <button class="view-tab" onclick="setView('year',this)">Year</button>
+      </div>
+    </div>
+
+    <!-- COUNTDOWN CARDS -->
+    <div class="cd-row">
+      <div class="cd-card hi">
+        <div class="cd-num" id="cdTimeLeft">—</div>
+        <div class="cd-label">Time left today</div>
+      </div>
+      <div class="cd-card">
+        <div class="cd-num" id="cdWeek">—</div>
+        <div class="cd-label">Work days left this week</div>
+      </div>
+      <div class="cd-card">
+        <div class="cd-num" id="cdMonth">—</div>
+        <div class="cd-label">Work days left this month</div>
+      </div>
+    </div>
+
+    <!-- RATE STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Per Hour</div>
+        <div class="stat-val" id="perHour">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Per Minute</div>
+        <div class="stat-val" id="perMinute">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Per Second</div>
+        <div class="stat-val" id="perSecond">—</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS + FINISH -->
+    <div class="progress-card" id="progressCard">
+      <div class="progress-top">
+        <div class="progress-title">Today's progress</div>
+        <div class="progress-pct" id="progressPct">0%</div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-ends">
+        <span id="progressStart">—</span>
+        <span id="progressEnd">—</span>
+      </div>
+      <div class="finish-row">
+        <div class="finish-left">
+          <div class="finish-label">Planned finish</div>
+          <div class="finish-sub" id="finishSub">calculating…</div>
+        </div>
+        <div class="finish-time" id="finishDisplay">—</div>
+        <span class="finish-badge" id="finishBadge">—</span>
+      </div>
+    </div>
+
+    <!-- PAST SESSIONS -->
+    <div class="history-card">
+      <div class="history-header">📅 Past Sessions</div>
+      <div id="historyList"><div class="history-empty">No previous sessions yet — keep working!</div></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="control-bar">
+      <button class="ctrl-btn on" id="soundBtn" onclick="toggleSound()">🔊 Sound On</button>
+      <button class="ctrl-btn" onclick="triggerCelebration()">🎉 Celebrate</button>
+      <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
+      <button class="ctrl-btn reset" onclick="resetTracker()">↩ Reset</button>
+    </div>
+
+  </div><!-- /tracker -->
+</main>
+
+<footer>Built by Alex · 2025</footer>
+
+<script>
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+let salary=80000, workHoursPerDay=8, workDaysPerWeek=5;
+let startTimestamp=null, finishHour=18, finishMin=0;
+let tickInterval=null, currentView='today';
+let soundEnabled=true, paused=false, pausedAt=null, totalPausedMs=0;
+let perSec=0, lastWholeSec=-1, lastMilestone=0;
+const STORAGE='moneyclock_v3';
+
+// ═══════════════════════════════════════
+//  AUDIO  (Web Audio API — no files)
+// ═══════════════════════════════════════
+let actx=null;
+function ac(){
+  if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+  return actx;
+}
+function tone(f,type,vol,dur,delay){
+  if(!soundEnabled) return;
+  delay=delay||0;
+  try{
+    const c=ac(),o=c.createOscillator(),g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type=type;
+    const t=c.currentTime+delay;
+    o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(vol,t);
+    g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.start(t); o.stop(t+dur+.01);
+  }catch(e){}
+}
+const playCoin=()=>{ tone(880,'sine',.11,.18); tone(1320,'sine',.06,.12,.07); };
+const playTick=()=>  tone(1100,'triangle',.04,.07);
+const playChime=()=> [523,659,784,1047].forEach((f,i)=>tone(f,'sine',.09,.32,i*.1));
+const playWin=()=>   [523,659,784,1047,1319].forEach((f,i)=>tone(f,'sine',.14,.28,i*.11));
+document.addEventListener('click',()=>{ try{ac().resume();}catch(e){} },{passive:true});
+
+// ═══════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════
+const EMOJIS=['💰','🪙','💵','🧧','✨','💎','💸','⭐'];
+const COINS=['🪙','💰','💵','🧧','💸'];
+
+function particle(x,y,emoji){
+  const el=document.createElement('div');
+  el.className='particle';
+  el.textContent=emoji||EMOJIS[Math.random()*EMOJIS.length|0];
+  el.style.cssText=`left:${x??Math.random()*innerWidth}px;top:${y??Math.random()*innerHeight*.65}px;animation-duration:${1.4+Math.random()*.8}s`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2700);
+}
+function coinRain(n=12){
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    const el=document.createElement('div');
+    el.className='coin-rain';
+    el.textContent=COINS[Math.random()*COINS.length|0];
+    el.style.cssText=`left:${Math.random()*innerWidth}px;font-size:${15+Math.random()*12}px;animation-duration:${1.5+Math.random()*2}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3800);
+  },i*70);
+}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+window.addEventListener('load',()=>{
+  const n=new Date();
+  document.getElementById('startTime').value=pad(n.getHours())+':'+pad(n.getMinutes());
+  loadHistorySetup();
+});
+
+function setStartTime(val,btn){
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(val==='now'){
+    const n=new Date();
+    document.getElementById('startTime').value=pad(n.getHours())+':'+pad(n.getMinutes());
+  } else {
+    document.getElementById('startTime').value=val;
+  }
+}
+
+// ═══════════════════════════════════════
+//  START
+// ═══════════════════════════════════════
+function startTracking(){
+  salary      = parseFloat(document.getElementById('salary').value)||80000;
+  workHoursPerDay  = parseFloat(document.getElementById('workHours').value)||8;
+  workDaysPerWeek  = parseInt(document.getElementById('workDays').value)||5;
+
+  const ftv=document.getElementById('finishTime').value||'18:00';
+  [finishHour,finishMin]=ftv.split(':').map(Number);
+
+  const stv=document.getElementById('startTime').value;
+  let st;
+  if(stv){
+    const[h,m]=stv.split(':').map(Number);
+    st=new Date(); st.setHours(h,m,0,0);
+    if(st>new Date()) st.setDate(st.getDate()-1);
+  } else { st=new Date(); }
+  startTimestamp=st.getTime();
+  totalPausedMs=0; paused=false; lastMilestone=0; lastWholeSec=-1;
+
+  const hoursPerYear=workDaysPerWeek*52*workHoursPerDay;
+  perSec=salary/(hoursPerYear*3600);
+  const ph=salary/(workDaysPerWeek*52*workHoursPerDay);
+
+  // populate stats
+  document.getElementById('perHour').textContent  ='$'+fmt(ph,2);
+  document.getElementById('perMinute').textContent ='$'+fmt(ph/60,2);
+  document.getElementById('perSecond').textContent ='$'+fmt(ph/3600,4);
+  document.getElementById('rateText').textContent  ='$'+fmt(ph,2)+' / hr  ·  $'+fmt(ph/60,2)+' / min';
+
+  // progress endpoints
+  const sh=st.getHours()+st.getMinutes()/60;
+  document.getElementById('progressStart').textContent=fmtHour(sh);
+  document.getElementById('progressEnd').textContent  =fmtHour(finishHour+finishMin/60);
+  document.getElementById('finishDisplay').textContent=fmtHour(finishHour+finishMin/60);
+
+  updateCountdowns();
+
+  document.getElementById('setupCard').style.display='none';
+  document.getElementById('tracker').classList.add('visible');
+
+  if(tickInterval) clearInterval(tickInterval);
+  tickInterval=setInterval(tick,200);
+  playChime();
+  coinRain(8);
+  renderHistory();
+}
+
+// ═══════════════════════════════════════
+//  MOTIVATIONS
+// ═══════════════════════════════════════
+const MOTIVATIONS=[
+  "Every second counts — keep going! ✨",
+  "You're literally printing money right now. 💸",
+  "Stack it up. One second at a time. 🏆",
+  "This is why you show up every day. 🌟",
+  "Ka-ching! Keep the momentum going. 🎯",
+  "Your future self is grateful. 🙏",
+  "Small seconds, big payoffs. Don't stop. 🚀",
+  "The grind is real. So are the gains. 💪",
+  "Look at that number grow! 📈",
+  "You've earned every single cent. 🥇",
+];
+
+// ═══════════════════════════════════════
+//  TICK  (200ms)
+// ═══════════════════════════════════════
+function tick(){
+  if(paused) return;
+  const now=Date.now();
+  const elapsedMs=now-startTimestamp-totalPausedMs;
+  const elapsedSec=Math.max(0,elapsedMs/1000);
+
+  updateSessionTimer(elapsedSec);
+  updateFinishCountdown();
+
+  // compute earned for active view
+  let earned;
+  switch(currentView){
+    case 'today':
+      earned=elapsedSec*perSec;
+      document.getElementById('periodLabel').textContent='EARNED TODAY';
+      break;
+    case 'week':{
+      const dow=new Date().getDay();
+      const daysIdx=dow===0?0:Math.min(dow,workDaysPerWeek);
+      earned=((daysIdx-1)*workHoursPerDay*3600+elapsedSec)*perSec;
+      document.getElementById('periodLabel').textContent='EARNED THIS WEEK';
+      break;
+    }
+    case 'month':{
+      const dom=new Date().getDate();
+      const wdPassed=Math.round((dom-1)*workDaysPerWeek/7);
+      earned=(wdPassed*workHoursPerDay*3600+elapsedSec)*perSec;
+      document.getElementById('periodLabel').textContent='EARNED THIS MONTH';
+      break;
+    }
+    case 'year':{
+      const d2=new Date(),yr=new Date(d2.getFullYear(),0,1);
+      const doy=Math.floor((d2-yr)/86400000);
+      const wdPassed=Math.round(doy*workDaysPerWeek/7);
+      earned=(wdPassed*workHoursPerDay*3600+elapsedSec)*perSec;
+      document.getElementById('periodLabel').textContent='EARNED THIS YEAR';
+      break;
+    }
+  }
+  if(earned==null) earned=0;
+
+  const dec=currentView==='today'?(earned<10?4:earned<100?3:2):2;
+  document.getElementById('earningsValue').textContent=fmt(earned,dec);
+
+  if(currentView==='today'){
+    const pct=Math.min(100,elapsedSec/(workHoursPerDay*3600)*100);
+    document.getElementById('progressFill').style.width=pct+'%';
+    document.getElementById('progressPct').textContent=pct.toFixed(1)+'%';
+  }
+
+  const ws=Math.floor(elapsedSec);
+  if(ws!==lastWholeSec){
+    lastWholeSec=ws;
+    if(ws>0){
+      if(ws%10===0){
+        playCoin();
+        const h=document.getElementById('earningsHero');
+        h.style.animation='none';
+        requestAnimationFrame(()=>{ h.style.animation='heroFlash .45s ease'; });
+        const ea=document.getElementById('earningsDisplay');
+        ea.classList.remove('bump'); void ea.offsetWidth; ea.classList.add('bump');
+      } else if(ws%3===0){ playTick(); }
+
+      if(ws%6===0){
+        const r=document.getElementById('earningsHero').getBoundingClientRect();
+        particle(r.left+Math.random()*r.width, r.top+Math.random()*r.height, COINS[Math.random()*COINS.length|0]);
+      }
+      if(ws%30===0){
+        document.getElementById('motivationText').textContent=MOTIVATIONS[Math.floor(Math.random()*MOTIVATIONS.length)];
+      }
+    }
+  }
+  if(currentView==='today') checkMilestone(earned);
+}
+
+// ═══════════════════════════════════════
+//  SESSION TIMER
+// ═══════════════════════════════════════
+function updateSessionTimer(sec){
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);
+  document.getElementById('sessionTime').textContent=(h>0?h+'h ':'')+m+'m '+s+'s';
+}
+
+// ═══════════════════════════════════════
+//  FINISH COUNTDOWN
+// ═══════════════════════════════════════
+function updateFinishCountdown(){
+  const now=new Date(), fin=new Date();
+  fin.setHours(finishHour,finishMin,0,0);
+  const diff=fin-now;
+  const badge=document.getElementById('finishBadge');
+  const sub=document.getElementById('finishSub');
+
+  if(diff<=0){
+    badge.textContent='✅ Done!'; badge.className='finish-badge done';
+    sub.textContent='Great work today!';
+    document.getElementById('cdTimeLeft').textContent='0h';
+  } else {
+    const h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+    badge.textContent=(h>0?h+'h '+m+'m':m+'m '+s+'s')+' left';
+    badge.className='finish-badge';
+    sub.textContent=h>0?'Hang in there — '+h+'h '+m+'m to go!':'Almost there — '+m+'m left!';
+    document.getElementById('cdTimeLeft').textContent=h>0?h+'h '+m+'m':m+'m';
+  }
+}
+
+// ═══════════════════════════════════════
+//  COUNTDOWN CARDS
+// ═══════════════════════════════════════
+function updateCountdowns(){
+  const d=new Date(), dow=d.getDay();
+  const todayIdx=dow===0?7:dow;
+  const daysLeftWeek=workDaysPerWeek>=7?0:Math.max(0,workDaysPerWeek-todayIdx+1);
+
+  const year=d.getFullYear(),month=d.getMonth(),today=d.getDate();
+  const dim=new Date(year,month+1,0).getDate();
+  let wdLeft=0;
+  for(let dd=today;dd<=dim;dd++){
+    const dw=new Date(year,month,dd).getDay();
+    if(workDaysPerWeek>=6||(dw!==0&&dw!==6)) wdLeft++;
+  }
+  document.getElementById('cdWeek').textContent=daysLeftWeek;
+  document.getElementById('cdMonth').textContent=wdLeft;
+}
+
+// ═══════════════════════════════════════
+//  MILESTONES
+// ═══════════════════════════════════════
+const MILESTONES=[
+  {a:1,  t:'🎉 First dollar! The journey begins.'},
+  {a:5,  t:'☕ That\'s a coffee right there!'},
+  {a:10, t:'💵 $10 in the bag!'},
+  {a:20, t:'🍜 Lunch is covered!'},
+  {a:50, t:'🎯 $50 — you\'re on a roll!'},
+  {a:100,t:'💯 Triple digits! Keep going!'},
+  {a:200,t:'🚀 $200! You\'re crushing it!'},
+  {a:500,t:'🏆 Half a grand! Legendary!'},
+];
+function checkMilestone(earned){
+  const hit=MILESTONES.filter(m=>m.a<=earned&&m.a>lastMilestone);
+  if(hit.length){
+    const m=hit[hit.length-1];
+    lastMilestone=m.a;
+    toast(m.t); playWin(); coinRain(22);
+  }
+}
+function toast(text){
+  const el=document.getElementById('toastEl');
+  el.textContent=text; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ═══════════════════════════════════════
+//  VIEW TABS
+// ═══════════════════════════════════════
+function setView(view,btn){
+  currentView=view;
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  lastMilestone=0;
+  document.getElementById('progressCard').style.display=view==='today'?'':'none';
+}
+
+// ═══════════════════════════════════════
+//  CONTROLS
+// ═══════════════════════════════════════
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  const btn=document.getElementById('soundBtn');
+  btn.textContent=soundEnabled?'🔊 Sound On':'🔇 Sound Off';
+  btn.classList.toggle('on',soundEnabled);
+  if(soundEnabled) playTick();
+}
+
+function togglePause(){
+  paused=!paused;
+  const btn=document.getElementById('pauseBtn');
+  if(paused){
+    pausedAt=Date.now();
+    btn.textContent='▶ Resume'; btn.classList.add('on');
+    saveSession(false);
+  } else {
+    totalPausedMs+=Date.now()-pausedAt;
+    btn.textContent='⏸ Pause'; btn.classList.remove('on');
+    playTick();
+  }
+}
+
+function triggerCelebration(){
+  playWin(); coinRain(28);
+  for(let i=0;i<18;i++) setTimeout(()=>particle(Math.random()*innerWidth,Math.random()*innerHeight*.6),i*45);
+}
+
+function resetTracker(){
+  if(startTimestamp) saveSession(true);
+  clearInterval(tickInterval); tickInterval=null;
+  document.getElementById('tracker').classList.remove('visible');
+  document.getElementById('setupCard').style.display='';
+  startTimestamp=null; lastMilestone=0; lastWholeSec=-1;
+  totalPausedMs=0; paused=false; currentView='today';
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('progressPct').textContent='0%';
+  document.getElementById('pauseBtn').textContent='⏸ Pause';
+  document.getElementById('pauseBtn').classList.remove('on');
+  document.querySelectorAll('.view-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  loadHistorySetup();
+}
+
+// ═══════════════════════════════════════
+//  LOCALSTORAGE
+// ═══════════════════════════════════════
+function getHistory(){ try{ return JSON.parse(localStorage.getItem(STORAGE))||[]; }catch(e){ return []; } }
+
+function saveSession(ended){
+  if(!startTimestamp) return;
+  const now=Date.now();
+  const elapsedSec=Math.max(0,(now-startTimestamp-totalPausedMs)/1000);
+  if(elapsedSec<60) return;
+  const earned=elapsedSec*perSec;
+  const hist=getHistory();
+  const key=new Date().toISOString().slice(0,10);
+  const idx=hist.findIndex(s=>s.date===key);
+  const sess={date:key,salary,earned:parseFloat(earned.toFixed(2)),hours:parseFloat((elapsedSec/3600).toFixed(2)),ended,ts:now};
+  if(idx>=0) hist[idx]=sess; else hist.unshift(sess);
+  if(hist.length>30) hist.length=30;
+  try{ localStorage.setItem(STORAGE,JSON.stringify(hist)); }catch(e){}
+}
+setInterval(()=>{ if(startTimestamp&&!paused) saveSession(false); },60000);
+
+function renderHistory(){
+  const hist=getHistory();
+  const el=document.getElementById('historyList');
+  if(!hist.length){ el.innerHTML='<div class="history-empty">No previous sessions yet.</div>'; return; }
+  el.innerHTML=hist.slice(0,7).map(s=>`
+    <div class="history-row">
+      <div><div class="history-date">${fmtDate(new Date(s.date))}</div><div class="history-hrs">${s.hours.toFixed(1)} hrs worked</div></div>
+      <div class="history-amt">$${fmt(s.earned,2)}</div>
+    </div>`).join('');
+}
+
+function loadHistorySetup(){
+  const hist=getHistory();
+  const wrap=document.getElementById('historySetup');
+  if(!hist.length){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  document.getElementById('historyListSetup').innerHTML=hist.slice(0,5).map(s=>`
+    <div class="history-row">
+      <div><div class="history-date">${fmtDate(new Date(s.date))}</div><div class="history-hrs">${s.hours.toFixed(1)} hrs</div></div>
+      <div class="history-amt">$${fmt(s.earned,2)}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════
+function fmt(n,dec){
+  if(isNaN(n)||n<0) n=0;
+  return n.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+}
+function fmtHour(h){
+  const hh=Math.floor(h)%24,mm=Math.round((h%1)*60);
+  return (hh>12?hh-12:hh||12)+':'+pad(mm)+' '+(hh>=12?'PM':'AM');
+}
+function fmtDate(d){
+  const t=new Date(),y=new Date(t); y.setDate(y.getDate()-1);
+  if(d.toDateString()===t.toDateString()) return 'Today';
+  if(d.toDateString()===y.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+function pad(n){ return String(n).padStart(2,'0'); }
+
+// ═══════════════════════════════════════
+//  GOLD SPARKLE TRAIL  (hero mousemove)
+// ═══════════════════════════════════════
+const SPARK_GLYPHS = ['✦','✧','⋆','✺','❋','◈','⬡','✴','⁂','💛','🌟','💫','✨'];
+let lastSparkTime = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hero = document.getElementById('earningsHero');
+  if (!hero) return;
+
+  hero.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkTime < 45) return; // throttle ~22fps
+    lastSparkTime = now;
+
+    const count = 2 + Math.floor(Math.random() * 2); // 2-3 sparks per move
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'gold-spark';
+      el.textContent = SPARK_GLYPHS[Math.floor(Math.random() * SPARK_GLYPHS.length)];
+
+      // slight scatter from cursor
+      const jx = (Math.random() - .5) * 18;
+      const jy = (Math.random() - .5) * 18;
+      el.style.left = (e.clientX + jx) + 'px';
+      el.style.top  = (e.clientY + jy) + 'px';
+
+      // random fly-out direction
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 24 + Math.random() * 32;
+      el.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+      el.style.setProperty('--dy', (Math.sin(angle) * dist - 20) + 'px'); // bias upward
+      el.style.setProperty('--dr', (Math.random() * 360 - 180) + 'deg');
+
+      // gold tones
+      const goldTones = ['#f4bc1c','#ffe46a','#ffd700','#fff5a0','#f0a010'];
+      el.style.color = goldTones[Math.floor(Math.random() * goldTones.length)];
+      el.style.fontSize = (11 + Math.random() * 10) + 'px';
+      el.style.animationDuration = (.45 + Math.random() * .35) + 's';
+      el.style.textShadow = '0 0 6px rgba(255,200,0,.8)';
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    }
+  });
+});
+// NAV DROPDOWNS
+function toggleDD(e,id){e.stopPropagation();const el=document.getElementById(id),m=el.querySelector('.dd-menu'),w=m.style.opacity==='1';document.querySelectorAll('.dd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'});if(!w){m.style.opacity='1';m.style.visibility='visible';m.style.transform='translateY(0) scale(1)';m.style.pointerEvents='auto'}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-dd'))document.querySelectorAll('.dd-menu').forEach(d=>{d.style.opacity='0';d.style.visibility='hidden';d.style.transform='translateY(-10px) scale(.98)';d.style.pointerEvents='none'})});
+</script>
+<script>
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+      .catch(err => console.error('[PWA] SW registration failed:', err));
+  });
+}
+
+// Detect if running as installed PWA
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+  || window.navigator.standalone === true;
+
+if (isStandalone) {
+  document.documentElement.classList.add('pwa-standalone');
+  console.log('[PWA] Running in standalone mode');
+}
+</script>
+</body>
+</html>
