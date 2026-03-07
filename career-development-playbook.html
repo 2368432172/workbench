@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Career Development Playbook — Alex's Workbench</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f6f1;
+      --bg-warm: #f2efe8;
+      --surface: #ffffff;
+      --border: #ddd9d0;
+      --border-light: #eae6de;
+      --text: #1e1e1e;
+      --text-mid: #505050;
+      --text-muted: #908a80;
+      --accent: #c2943a;
+      --accent-soft: #c2943a12;
+      --accent-border: #c2943a30;
+      --example-bg: #f4f1eb;
+      --section-num: #c2943a;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-md: 0 6px 24px rgba(0,0,0,0.06), 0 1px 5px rgba(0,0,0,0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: 0.01em;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 3rem;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(248, 246, 241, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .nav-logo:hover { opacity: 0.75; }
+
+    .nav-logo-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .nav-back {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+
+    .nav-back:hover {
+      background: var(--bg-warm);
+      color: var(--text);
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.35rem; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-trigger {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); background: transparent; border: none;
+      border-radius: var(--radius-sm); cursor: pointer;
+      transition: all 0.2s; font-family: inherit; letter-spacing: 0.01em;
+    }
+    .nav-dropdown-trigger:hover { background: var(--bg-warm); color: var(--text); }
+    .nav-dropdown-trigger .arrow { font-size: 0.55rem; transition: transform 0.25s; opacity: 0.45; }
+    .nav-dropdown.open .arrow { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute; top: calc(100% + 8px); right: 0; min-width: 250px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: 0 16px 48px rgba(0,0,0,0.07), 0 3px 12px rgba(0,0,0,0.04);
+      padding: 0.6rem; opacity: 0; visibility: hidden;
+      transform: translateY(-10px) scale(0.98); transition: all 0.22s ease; pointer-events: none;
+    }
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;
+    }
+    .dropdown-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 0.85rem; border-radius: var(--radius-sm);
+      text-decoration: none; color: var(--text); font-size: 0.88rem;
+      transition: background 0.15s; cursor: pointer;
+    }
+    .dropdown-item:hover { background: var(--bg); }
+    .dropdown-item .item-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .dropdown-item .item-text { display: flex; flex-direction: column; }
+    .dropdown-item .item-label { font-weight: 600; line-height: 1.35; font-size: 0.88rem; }
+    .dropdown-item .item-desc { font-size: 0.76rem; color: var(--text-muted); line-height: 1.35; }
+    .nav-link-simple {
+      padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); text-decoration: none;
+      border-radius: var(--radius-sm); transition: all 0.2s;
+    }
+    .nav-link-simple:hover { background: var(--bg-warm); color: var(--text); }
+
+    /* Article container — wider */
+    .article {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 8.5rem 2.5rem 5rem;
+    }
+
+    /* Article header */
+    .article-tag {
+      display: inline-flex;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 500;
+      background: #3872b810;
+      color: #3872b8;
+      border: 1px solid #3872b825;
+      margin-bottom: 1.5rem;
+    }
+
+    .article h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3rem);
+      line-height: 1.25;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    .article-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding-bottom: 2.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Intro section */
+    .article-intro {
+      margin-bottom: 2.75rem;
+    }
+
+    .article-intro p {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Table of contents */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .toc-title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc-counter;
+    }
+
+    .toc li {
+      counter-increment: toc-counter;
+      margin-bottom: 0.5rem;
+    }
+
+    .toc li a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      color: var(--text-mid);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.3rem 0;
+      transition: color 0.2s;
+    }
+
+    .toc li a:hover { color: var(--text); }
+
+    .toc li a::before {
+      content: counter(toc-counter);
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 1.2rem;
+    }
+
+    /* Section headings */
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 3.5rem;
+      margin-bottom: 1.75rem;
+      padding-top: 1rem;
+    }
+
+    .section-number {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 2rem;
+      line-height: 1;
+    }
+
+    .section-heading h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    /* Sub-section heading with numbering */
+    .skill-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--accent);
+      min-width: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    .skill-heading h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    /* Body paragraphs */
+    .article p {
+      font-size: 1.08rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* Example boxes */
+    .example-box {
+      background: var(--example-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0 1.75rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    .example-box strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .example-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Context/intro boxes */
+    .context-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Why-it-matters boxes */
+    .why-box {
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.5rem;
+      margin: 0.75rem 0 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    /* Question items (section 7) */
+    .question-item {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* Sub-group heading (section 7) */
+    .subgroup-heading {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 2.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* Closing quote box */
+    .closing-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    .closing-box em {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Download CTA */
+    .download-section {
+      margin-top: 4rem;
+      padding: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .download-section h3 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+
+    .download-section p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .download-btn:hover {
+      background: #333;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .download-note {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 2.5rem;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--text-mid);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 0.85rem;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 999;
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.5rem; height: 66px; }
+      .article { padding: 7.5rem 1.5rem 4rem; }
+      .toc { padding: 1.5rem 1.75rem; }
+      .example-box, .why-box { padding: 1rem 1.25rem; }
+      .download-section { padding: 2rem 1.5rem; }
+      .article-meta { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .skill-heading { flex-direction: column; gap: 0.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="#1e1e1e"/><path d="M11 12.5C11 11.672 11.672 11 12.5 11H16.5C17.328 11 18 11.672 18 12.5V14H11V12.5Z" fill="#c2943a" opacity="0.9"/><rect x="9" y="14" width="16" height="3" rx="0.75" fill="#f8f6f1"/><rect x="10" y="17" width="14" height="7" rx="1" fill="#f8f6f1" opacity="0.88"/><rect x="12.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.7"/><rect x="16" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.5"/><rect x="19.5" y="19" width="2" height="3.5" rx="0.5" fill="#c2943a" opacity="0.35"/><circle cx="24" cy="12" r="3.5" fill="none" stroke="#f8f6f1" stroke-width="1.5" opacity="0.7"/><line x1="22" y1="14.2" x2="20" y2="16.2" stroke="#f8f6f1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>
+      <span class="nav-logo-text">Alex's Workbench</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-dropdown" id="toolboxDropdown">
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'toolboxDropdown')">Toolbox <span class="arrow">▼</span></button>
+        <div class="nav-dropdown-menu">
+          <a class="dropdown-item" href="index.html#gadgets"><span class="item-icon" style="background:var(--gadget-bg);color:var(--gadget);">⚡</span><span class="item-text"><span class="item-label">All Gadgets</span><span class="item-desc">Mini tools and apps I've built</span></span></a>
+          <a class="dropdown-item" href="index.html#gadgets-calculator"><span class="item-icon" style="background:var(--calc-bg);color:var(--calc-color);">🧮</span><span class="item-text"><span class="item-label">Calculators</span><span class="item-desc">Number crunching made easy</span></span></a>
+          <a class="dropdown-item" href="index.html#gadgets-tool"><span class="item-icon" style="background:var(--tool-bg);color:var(--tool-color);">🔧</span><span class="item-text"><span class="item-label">Utilities</span><span class="item-desc">Handy tools for everyday tasks</span></span></a>
+        </div>
+      </div>
+      <div class="nav-dropdown" id="resourcesDropdown">
+        <button class="nav-dropdown-trigger" onclick="toggleDropdown(event,'resourcesDropdown')">Resources <span class="arrow">▼</span></button>
+        <div class="nav-dropdown-menu">
+          <a class="dropdown-item" href="index.html#resources"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📚</span><span class="item-text"><span class="item-label">All Resources</span><span class="item-desc">Checklists, guides, and frameworks</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-checklist"><span class="item-icon" style="background:var(--check-bg);color:var(--check-color);">✅</span><span class="item-text"><span class="item-label">Checklists</span><span class="item-desc">Step-by-step action lists</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-framework"><span class="item-icon" style="background:var(--frame-bg);color:var(--frame-color);">🧠</span><span class="item-text"><span class="item-label">Frameworks</span><span class="item-desc">Mental models and thinking tools</span></span></a>
+          <a class="dropdown-item" href="index.html#resources-template"><span class="item-icon" style="background:var(--template-bg);color:var(--template-color);">📝</span><span class="item-text"><span class="item-label">Templates</span><span class="item-desc">Ready-to-use docs and sheets</span></span></a>
+        </div>
+      </div>
+      <a class="nav-link-simple" href="index.html#books">Books</a>
+      <a class="nav-link-simple" href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;font-weight:600;">LinkedIn</a>
+    </div>
+  </nav>
+
+
+  <article class="article">
+    <span class="article-tag">Framework / Guide</span>
+    <h1>The Career Development Playbook</h1>
+    <p class="article-subtitle">How to set the right goals, manage your manager, build your narrative, and consistently perform at the level that gets you top ratings and promotions — drawn from best practices in MBB consulting, investment banking, and other high-performance environments.</p>
+
+    <div class="article-meta">
+      <span>✍️ Alex</span>
+      <span>📅 2026</span>
+      <span>⏱️ 22 min read</span>
+    </div>
+
+    <!-- Intro -->
+    <div class="article-intro">
+      <p>The biggest realisation I had moving from consulting to an operating role is this: great work doesn't get you promoted. Great work that the right people know about, aligned to the right goals, with a narrative that your manager can articulate in a review committee — that gets you promoted. The skills that actually determine your trajectory aren't the analytical ones. They're the meta-skills: how you set goals, how you manage your manager, how you build your reputation, and how you create accountability around your performance.</p>
+      <p>This playbook distills everything I've learned from MBB, investment banking, and Big Tech into a practical, actionable framework. Every section includes concrete examples and scripts you can adapt to your own context.</p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#s1">Building Your Goal Portfolio</a></li>
+        <li><a href="#s2">Managing Your Manager for Performance</a></li>
+        <li><a href="#s3">Building Your Reputation Deliberately</a></li>
+        <li><a href="#s4">The Performance Habits That Separate Good from Great</a></li>
+        <li><a href="#s5">Your Review Preparation Template</a></li>
+        <li><a href="#s6">The Accountability Loop</a></li>
+        <li><a href="#s7">Common Traps to Avoid</a></li>
+        <li><a href="#s8">The 90-Day Quickstart</a></li>
+      </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-heading" id="s1">
+      <span class="section-number">1</span>
+      <h2>Building Your Goal Portfolio</h2>
+    </div>
+
+    <p>The biggest mistake people make with goal-setting is treating all goals equally. In high-performance environments, the best performers build a <strong>portfolio</strong> of goals — a deliberate mix of safe bets, core deliverables, and stretch ambitions. This lets you reliably hit your targets (which builds trust) while giving yourself room to demonstrate upside (which earns top ratings).</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.1</span>
+      <h3>The three-tier goal structure</h3>
+    </div>
+    <p>Every review cycle, you should have goals in three categories: <strong>Foundation goals</strong> (50–60% — things you must deliver well to meet baseline expectations, 100% hit rate), <strong>Growth goals</strong> (30–40% — things that stretch you and demonstrate development, 70–80% hit rate), and <strong>Moonshot goals</strong> (10–20% — ambitious targets where even partial completion shows initiative, 30–50% hit rate).</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Foundation: "Deliver all competitive pricing benchmarks on time and at a quality that requires minimal revision." Growth: "Lead the client presentation on the SMB repricing recommendation." Moonshot: "Develop a reusable pricing benchmarking template that the broader team can use across future projects."
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.2</span>
+      <h3>Why this mix matters for ratings</h3>
+    </div>
+    <p>In most review systems, hitting your baseline gets you "meets expectations." To get above that, you need evidence of going beyond. The stretch and moonshot goals provide that evidence — even if you don't fully achieve them, the attempt and partial progress demonstrate initiative and ambition.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      At BCG, the difference between "Target" (meets expectations) and "Top Box" often comes down to whether you demonstrated impact beyond your assigned workstream. Having pre-agreed stretch goals gives you and your evaluator clear evidence to point to.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">1.3</span>
+      <h3>Setting goals collaboratively with your manager</h3>
+    </div>
+    <p>Goals should never be set in isolation. Draft your goals, share them with your manager for input, and align on what "good" and "great" look like for each one. This creates shared ownership and makes evaluation predictable.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"I've drafted three categories of goals for this cycle. The foundation ones are [X, Y, Z]. The stretch goals are [A, B]. And I've got one moonshot in mind: [C]. Can we walk through these together so I can calibrate? I want to make sure we're aligned on what 'meeting expectations' versus 'exceeding' looks like for each."</strong>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-heading" id="s2">
+      <span class="section-number">2</span>
+      <h2>Managing Your Manager for Performance</h2>
+    </div>
+
+    <p>Your manager doesn't just evaluate your work — they're your primary source of information on what "good" looks like, your gateway to opportunities, and the person who advocates for you in review committees. Managing this relationship proactively is not politics — it's a professional skill.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.1</span>
+      <h3>Defining the rating criteria explicitly</h3>
+    </div>
+    <p>Don't guess at what your manager uses to evaluate you. Ask directly and early. Most managers have never been asked this, and the conversation itself sets you apart.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"I want to make sure I'm building toward the outcomes you value most. Beyond delivering quality work on time — what's something that's not common sense, that you've seen the best people in this role do, that really separates them?"</strong> Then: <strong>"What would I need to demonstrate this cycle to be tracking toward a top rating?"</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.2</span>
+      <h3>Creating a feedback loop, not a feedback event</h3>
+    </div>
+    <p>Performance should never be a surprise. Build regular check-ins where you explicitly ask how you're tracking. A brief development check-in monthly, separate from day-to-day operational updates.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Monthly: <strong>"Hey, I wanted to do a quick pulse check on how I'm going. Against the goals we set, where do you see me tracking well and where should I adjust? I'd rather course-correct now than be surprised at review time."</strong> This takes 5 minutes and prevents the single biggest failure mode: the year-end surprise.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.3</span>
+      <h3>The mid-cycle recalibration</h3>
+    </div>
+    <p>Halfway through each review cycle, explicitly revisit your goals. Things change — priorities shift, projects evolve. Updating your goals mid-cycle ensures you're evaluated against what actually matters now.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"We're halfway through the cycle and a few things have shifted — the SMB repricing project expanded in scope, and I've taken on stakeholder mapping that wasn't originally in my plan. Can we update my goals to reflect what I'm actually delivering?"</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.4</span>
+      <h3>Holding your manager accountable (gently)</h3>
+    </div>
+    <p>If your manager commits to something — giving you a stretch opportunity, providing feedback, connecting you with a stakeholder — it's your job to follow up. Most managers have good intentions but are stretched thin.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Two weeks later: <strong>"Just circling back on the cross-functional pricing project you mentioned — is there still an opportunity for me to get involved? I'd love to contribute if timing works."</strong> This is a nudge, not a demand.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">2.5</span>
+      <h3>The pre-review briefing</h3>
+    </div>
+    <p>Before every formal review, send your manager a concise summary of your contributions, impact, and growth. Don't assume they remember everything — especially a remote, senior manager overseeing multiple people.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      One week before review: <strong>"Ahead of the review, I've put together a quick summary of what I've focused on this cycle, mapped against our goals. I've flagged where I think I've exceeded expectations and one area I want to develop further."</strong> Attach a 1-page document (see Section 5).
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-heading" id="s3">
+      <span class="section-number">3</span>
+      <h2>Building Your Reputation Deliberately</h2>
+    </div>
+
+    <p>In MBB, your reputation is built by three types of people: <strong>Promoters</strong> (who actively advocate for you), <strong>Neutrals</strong> (who have no strong view), and <strong>Detractors</strong> (who have concerns). Top performers don't just do great work — they ensure the right people know about it. Your goal is to convert Neutrals into Promoters.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.1</span>
+      <h3>Mapping your stakeholders</h3>
+    </div>
+    <p>Know who evaluates you, who influences your evaluator, and who sees your work. Each one forms an impression — manage those impressions deliberately.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Draw a simple map: who are the 3–5 people whose opinion of my work matters most? For each, ask: do they see my best work regularly? Do I have a strong relationship with them? <strong>If you can't confidently answer those questions, you have a visibility gap to close.</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.2</span>
+      <h3>Creating "exposure moments"</h3>
+    </div>
+    <p>Don't rely on your manager to surface your work. Create regular touchpoints where senior people see your output and thinking directly — a well-crafted email summary, a sharp slide in a meeting, or a proactive insight shared at the right time.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      After completing an analysis: <strong>"Completed the competitive CPM benchmark. Key finding: our SMB pricing is 15–20% above Meta, which flags a repricing opportunity worth approximately $X. Full deck attached."</strong> That's a 30-second exposure moment that puts your name on a meaningful finding.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.3</span>
+      <h3>The "T-shaped" reputation</h3>
+    </div>
+    <p>You want to be known for one thing deeply (your spike) and broadly competent across everything else. Early in your career, invest in building your spike first. "Alex is the person you go to for competitive pricing analysis" is far more powerful than "Alex is generally solid."</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">3.4</span>
+      <h3>Generating feedback proactively</h3>
+    </div>
+    <p>After meaningful pieces of work, ask for feedback directly. This serves two purposes: you learn how to improve, and you create a touchpoint where someone reflects positively on your contribution.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"Now that we've wrapped this, I'd love your feedback on two things: the quality of the analysis itself, and how I communicated the findings. What's one thing I should keep doing and one thing I could sharpen?"</strong> Specific questions get specific (useful) answers.
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-heading" id="s4">
+      <span class="section-number">4</span>
+      <h2>The Performance Habits That Separate Good from Great</h2>
+    </div>
+
+    <p>Research across high-performance environments consistently surfaces a small number of habits that distinguish top performers. These aren't about working longer hours — they're about working differently.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.1</span>
+      <h3>Closing loops visibly</h3>
+    </div>
+    <p>Top performers are known for completing things. When they say they'll do something, it gets done and the right people know about it. In a world where most people drop balls, being the person who always closes the loop builds enormous trust.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"Done — the updated competitive analysis is in the shared drive and I've emailed the summary to [stakeholder]. Let me know if you need anything adjusted."</strong> This takes 10 seconds and signals reliability.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.2</span>
+      <h3>Anticipating the next question</h3>
+    </div>
+    <p>Good performers answer the question they were asked. Great performers answer the question they were asked <strong>and</strong> the two follow-up questions they know are coming. This is the consultant's instinct of "thinking one step ahead."</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Your manager asks you to look at CPM benchmarks by ad format. A good performer delivers the benchmarks. A great performer delivers the benchmarks AND: <strong>"Based on this, I think we have room to reprice in-feed ads for SMB by 10–15% without losing competitive position. Here's the analysis."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.3</span>
+      <h3>Owning the "and" — reliability plus surprise</h3>
+    </div>
+    <p>Top ratings go to people who are both <strong>dependable AND occasionally impressive</strong>. Dependability alone gets you "meets expectations." Dependability plus moments of outsized impact gets you to the top tier.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      You consistently deliver on time (dependability). Then, off your own initiative: <strong>"I was going through the retention data and noticed SMB churn is 3x higher in the first 90 days than after. This might mean our onboarding, not our pricing, is the real lever. Want me to dig deeper?"</strong> That's the "and" moment.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.4</span>
+      <h3>Managing energy, not just time</h3>
+    </div>
+    <p>The best performers don't just manage their calendars — they manage their energy. Schedule deep analytical work during your sharpest hours, batch administrative tasks, and protect recovery time so you can sustain high output over months.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.5</span>
+      <h3>Learning faster than your peers</h3>
+    </div>
+    <p>Where everyone is smart, the differentiator is learning speed. The fastest learners ask better questions, seek feedback immediately after doing something new, and document what they learn.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      Keep a simple running document: "Things I've learned." After each project or piece of feedback, add one line. <strong>"Partner prefers conclusions-first emails." "SMB data is in [location]." "Client pushes back on benchmarks without their specific market."</strong> Over 6 months, this becomes your personal operating manual.
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">4.6</span>
+      <h3>Being the person who makes others better</h3>
+    </div>
+    <p>The highest-rated junior people aren't just individually excellent — they make the team function better. They help peers, share knowledge, and contribute to a positive team dynamic.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      If a colleague is struggling with a strategic framing exercise: <strong>"Hey, I did a lot of this at BCG — want to run through the structure together? I can share a framework that might help."</strong> You're not showing off. You're being the person who lifts the team.
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section-heading" id="s5">
+      <span class="section-number">5</span>
+      <h2>Your Review Preparation Template</h2>
+    </div>
+
+    <p>Before every formal review, prepare this document and share it with your manager at least one week in advance. It gives them the material to advocate for you, ensures nothing is forgotten, and demonstrates structured self-awareness.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">5A</span>
+      <h3>Contributions & Impact</h3>
+    </div>
+    <p>List 3–5 key contributions from this cycle. For each, use the format: <strong>"I did [specific action] which led to [measurable or observable impact]."</strong></p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      "Led the competitive CPM benchmarking across 5 ad formats for the ANZ market. This analysis directly informed the team's repricing recommendation for SMB advertisers, contributing to an estimated $X revenue opportunity."
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5B</span>
+      <h3>Goals Assessment</h3>
+    </div>
+    <p>Map your original goals (foundation, growth, moonshot) and honestly assess how you tracked against each. Use a simple scale: <strong>Exceeded / Met / Partially Met / Missed</strong>. Add context where relevant.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">5C</span>
+      <h3>Development & Growth</h3>
+    </div>
+    <p>Highlight 1–2 areas where you've visibly grown. Reference specific feedback you received and how you acted on it. This shows self-awareness and coachability.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      "In the first month, feedback was that my written updates were too detailed. Since then, I've shifted to answer-first summaries and my manager has noted the improvement. I want to continue building this into my verbal communication as well."
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">5D</span>
+      <h3>Forward-Looking Development</h3>
+    </div>
+    <p>State 1–2 areas you want to develop next cycle and what support would help. This makes it easy for your manager to help you and signals proactive growth thinking.</p>
+
+    <!-- SECTION 6 -->
+    <div class="section-heading" id="s6">
+      <span class="section-number">6</span>
+      <h2>The Accountability Loop</h2>
+    </div>
+
+    <p>One of the most overlooked skills in career management: creating a two-way accountability structure with your manager. When your manager agrees on what "great" looks like and you deliver against it, you've created a situation where it's very difficult for them to rate you below what was agreed. This isn't manipulative — it's structured, transparent goal-setting.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.1</span>
+      <h3>Documenting agreements in writing</h3>
+    </div>
+    <p>After every goal-setting conversation, send a brief follow-up summarising what you agreed on. This creates a paper trail that protects you and ensures alignment.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"Thanks for the conversation today. Just to confirm, here's what we aligned on: [list of goals by tier]. You mentioned that [specific criteria] would be the key differentiator for a top rating this cycle. I'll check in at our monthly catch-ups."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.2</span>
+      <h3>Referencing the agreement at milestones</h3>
+    </div>
+    <p>When you deliver on something you agreed was important, explicitly connect it back to the conversation. This isn't bragging — it's closing the loop and building the evidence trail.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      <strong>"One of my growth goals was to lead a stakeholder presentation this cycle. I just did that for the SMB repricing work — feedback was positive. Wanted to flag it so we're tracking together."</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.3</span>
+      <h3>Addressing gaps early, not at review time</h3>
+    </div>
+    <p>If circumstances change and you won't hit a goal, raise it immediately. Managers respect transparency far more than excuses at the last minute.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">6.4</span>
+      <h3>Using the review as a goal-setting moment</h3>
+    </div>
+    <p>The end of one review cycle is the beginning of the next. Use the review conversation to immediately set your next cycle's goals. This signals forward momentum.</p>
+
+    <!-- SECTION 7 -->
+    <div class="section-heading" id="s7">
+      <span class="section-number">7</span>
+      <h2>Common Traps to Avoid</h2>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">7.1</span>
+      <h3>The "work speaks for itself" trap</h3>
+    </div>
+    <p>It doesn't. Especially with a remote manager. The best work in the world doesn't matter if nobody knows about it or remembers it at review time. <strong>Visibility is a skill, not vanity.</strong></p>
+
+    <div class="skill-heading">
+      <span class="skill-number">7.2</span>
+      <h3>The over-stretch trap</h3>
+    </div>
+    <p>Setting goals that are too ambitious is as dangerous as setting goals that are too easy. If you consistently miss your targets, you erode trust. The portfolio approach (Section 1) protects against this.</p>
+    <div class="example-box">
+      <span class="example-label">Example</span>
+      If you set 5 ambitious goals and hit 2, that's a 40% hit rate — which signals poor judgment. If you set 3 foundation goals (hit all 3), 2 growth goals (hit both), and 1 moonshot (partially hit), <strong>your narrative is strong: reliable delivery plus demonstrated ambition.</strong>
+    </div>
+
+    <div class="skill-heading">
+      <span class="skill-number">7.3</span>
+      <h3>The feedback avoidance trap</h3>
+    </div>
+    <p>Many people avoid seeking feedback because they fear negative news. But feedback is information, and information is power. Reframe it: you're not asking "am I bad?" — you're asking <strong>"what's the one thing I can do to improve?"</strong></p>
+
+    <div class="skill-heading">
+      <span class="skill-number">7.4</span>
+      <h3>The single-evaluator dependency trap</h3>
+    </div>
+    <p>If only your manager can speak to your performance, you're vulnerable to their bias, memory, or limited visibility. Build relationships with 2–3 other people who can speak credibly about your work.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">7.5</span>
+      <h3>The development-as-afterthought trap</h3>
+    </div>
+    <p>When you're busy delivering, development conversations get pushed to "later." But "later" is review time, and by then it's too late. Block 30 minutes once a month labelled "Development check-in prep" — this small ritual compounds into a completely different review experience.</p>
+
+    <!-- SECTION 8 -->
+    <div class="section-heading" id="s8">
+      <span class="section-number">8</span>
+      <h2>The 90-Day Quickstart</h2>
+    </div>
+
+    <p>Here's how to apply everything in this guide to your first 90 days in a new role.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.1</span>
+      <h3>Week 1–2: Foundation</h3>
+    </div>
+    <p>Have your first meeting with your manager. Establish communication preferences, expectations, and cadence. Ask the three key questions: what does success look like in 90 days? How do you evaluate performance? What's something non-obvious the best people in this role do? Build rapport with your peers and start your "Things I've learned" document on day one.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.2</span>
+      <h3>Week 3–4: Calibration</h3>
+    </div>
+    <p>Draft your three-tier goal portfolio and share it with your manager for input. Identify your "spike" — the one area where you'll build deep expertise fastest. Map your key stakeholders and establish your standing check-in cadence.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.3</span>
+      <h3>Month 2: Delivery + Visibility</h3>
+    </div>
+    <p>Focus on hitting your foundation goals flawlessly. Build trust through consistent, high-quality delivery. Start creating exposure moments — share one analytical finding per week via a brief async summary. Request your first piece of feedback and begin working on one growth goal.</p>
+
+    <div class="skill-heading">
+      <span class="skill-number">8.4</span>
+      <h3>Month 3: Acceleration</h3>
+    </div>
+    <p>Do your first monthly development check-in. Revisit your goals and propose any adjustments. Look for your first "and" moment — an opportunity to deliver something beyond your assigned scope. Start building your review preparation document, even if the formal review is months away.</p>
+
+    <!-- Download CTA -->
+    <div class="download-cta">
+      <h3>📥 Get the full playbook</h3>
+      <p>Download the complete Career Development Playbook with all examples, templates, and the review preparation framework.</p>
+      <a class="download-btn" href="Career_Development_Playbook.docx" download>
+        ⬇ Download Playbook (.docx)
+      </a>
+      <p class="download-note">Word document · Original formatting preserved</p>
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;padding:2rem 0;">
+      <p style="font-size:1.1rem;color:var(--text-mid);margin-bottom:0.75rem;">Thanks for reading — I hope this is useful.</p>
+      <p style="font-size:1rem;color:var(--text-muted);margin-bottom:1.5rem;">Follow me on LinkedIn for more.</p>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border-radius:100px;font-size:0.95rem;font-weight:600;background:#0a66c2;color:#fff;text-decoration:none;transition:all 0.25s;font-family:inherit;" onmouseover="this.style.background='#004182';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0a66c2';this.style.transform='none'">Follow on LinkedIn →</a>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">← Back to Workbench</a>
+      <a href="https://www.linkedin.com/in/alex-zhuang1/" target="_blank" style="color:#0a66c2;">LinkedIn</a>
+      <a href="#">GitHub</a>
+    </div>
+    <p>Built by Alex · 2025</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const article = document.querySelector('.article');
+      const rect = article.getBoundingClientRect();
+      const articleTop = window.scrollY + rect.top;
+      const articleHeight = rect.height;
+      const scrolled = window.scrollY - articleTop;
+      const progress = Math.min(Math.max(scrolled / (articleHeight - window.innerHeight), 0), 1);
+      document.getElementById('progressBar').style.width = (progress * 100) + '%';
+    });
+
+    document.querySelectorAll('.toc a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          const offset = 90;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Dropdowns
+    function toggleDropdown(event, id) {
+      event.stopPropagation();
+      const el = document.getElementById(id);
+      const wasOpen = el.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+      if (!wasOpen) el.classList.add('open');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-dropdown'))
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape')
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
