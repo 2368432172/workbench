@@ -17,6 +17,15 @@
       "date": "Live Tool",
       "action": "Try it",
       "link": "wellness-recommender.html"
+    },
+    {
+      "emoji": "🪙",
+      "tag": "gadget",
+      "title": "Head or Tail",
+      "description": "A coin flip that reads your mind. Name two paths, flip the coin, and discover what you already knew through three guided reflections.",
+      "date": "Live Tool",
+      "action": "Try it",
+      "link": "head-or-tail.html"
     }
   ],
   "resources": [
